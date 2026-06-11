@@ -1,0 +1,101 @@
+.page-hero {
+  background: var(--color-bg-alt);
+  text-align: center;
+
+  &__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__subtitle {
+    font-size: 1.0625rem;
+    color: var(--color-text-light);
+    max-width: 52ch;
+    margin-inline: auto;
+  }
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+  letter-spacing: -0.02em;
+}
+
+.about-story {
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--spacing-3xl);
+
+    @media (max-width: 768px) { grid-template-columns: 1fr; }
+  }
+
+  &__text {
+    h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: var(--spacing-lg); }
+    p { color: var(--color-text-light); line-height: 1.7; margin-bottom: var(--spacing-md); }
+    .btn { margin-top: var(--spacing-sm); }
+  }
+
+  &__visual { display: flex; justify-content: center;
+    @media (max-width: 768px) { display: none; }
+  }
+
+  &__blob {
+    width: 360px;
+    height: 360px;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    background: linear-gradient(135deg, rgba(233,69,96,0.15), rgba(22,33,62,0.08));
+    border: 2px solid rgba(233,69,96,0.2);
+  }
+}
+
+.values__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.value-card {
+  padding: var(--spacing-xl);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  text-align: center;
+
+  &__icon { font-size: 2rem; display: block; margin-bottom: var(--spacing-md); }
+  &__title { font-size: 1rem; font-weight: 600; margin-bottom: var(--spacing-sm); }
+  &__description { font-size: 0.9rem; color: var(--color-text-light); line-height: 1.6; }
+}
+
+.team__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.team-card {
+  text-align: center;
+  padding: var(--spacing-xl);
+
+  &__avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: white;
+    font-weight: 700;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-inline: auto;
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__name { font-weight: 600; margin-bottom: var(--spacing-xs); }
+  &__role { font-size: 0.875rem; color: var(--color-text-light); }
+}

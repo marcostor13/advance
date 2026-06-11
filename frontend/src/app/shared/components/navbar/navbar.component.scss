@@ -1,0 +1,277 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--header-height);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--hairline);
+  transition: background 0.3s ease, box-shadow 0.3s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &--scrolled {
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(0, 29, 58, 0.06);
+  }
+
+  &--hidden {
+    transform: translateY(-100%);
+    box-shadow: none;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 100%;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+
+  &__logo-img {
+    height: 56px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-inline-start: auto;
+    height: 100%;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    height: var(--header-height);
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(0, 29, 58, 0.7);
+    padding-inline: 0.875rem;
+    position: relative;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0.875rem;
+      right: 0.875rem;
+      height: 2px;
+      background: var(--crimson);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    &:hover,
+    &--active {
+      color: var(--deep-blue);
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  &__link-index {
+    display: none;
+  }
+
+  &__cta {
+    margin-inline-start: 0.75rem;
+    font-size: 0.8125rem;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &__cta-mobile {
+    display: none;
+
+    @media (max-width: 768px) {
+      display: inline-flex;
+      justify-content: center;
+    }
+  }
+
+  &__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0.5rem;
+    margin-inline-start: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+
+    span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--deep-blue);
+      border-radius: 2px;
+      transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
+    }
+
+    &--open {
+      span {
+        background: #fff;
+      }
+
+      span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      span:nth-child(2) {
+        opacity: 0;
+      }
+
+      span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+    }
+  }
+
+  // The mobile menu must escape the header: backdrop-filter turns the header
+  // into the containing block for fixed descendants, so the overlay is removed
+  // while the menu is open and sizing uses explicit viewport heights.
+  &--menu-open {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: transparent;
+    border-bottom-color: transparent;
+    box-shadow: none;
+  }
+
+  @media (max-width: 768px) {
+    &__inner {
+      gap: 1rem;
+    }
+
+    // Logo stays above the navy overlay (white logo variant swapped in via template)
+    &--menu-open &__logo {
+      position: relative;
+      z-index: 2;
+    }
+
+    // Full-screen overlay menu
+    &__nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 1;
+      background: var(--deep-blue);
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: calc(var(--header-height) + 1.5rem) 1.75rem 2.5rem;
+      gap: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+
+      &--open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+        transition: opacity 0.4s ease;
+      }
+    }
+
+    &__link {
+      height: auto;
+      width: 100%;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.625rem 0;
+      font-size: clamp(2rem, 9vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-transform: none;
+      color: #fff;
+      transform: translateY(28px);
+      opacity: 0;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
+
+      &::after {
+        display: none;
+      }
+
+      &:hover,
+      &--active {
+        color: #fff;
+      }
+
+      &:hover .navbar__link-label,
+      &--active .navbar__link-label {
+        color: var(--beige);
+        transform: translateX(8px);
+      }
+    }
+
+    &__link-index {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--beige-dark);
+      flex-shrink: 0;
+    }
+
+    &__link-label {
+      display: inline-block;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+    }
+
+    &__cta-mobile {
+      margin-top: 2rem;
+      transform: translateY(28px);
+      opacity: 0;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
+    }
+
+    // Staggered entrance: 60ms per item once the overlay opens
+    &__nav--open {
+      .navbar__link,
+      .navbar__cta-mobile {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      @for $i from 1 through 5 {
+        > :nth-child(#{$i}) {
+          transition-delay: #{$i * 60}ms;
+        }
+      }
+    }
+  }
+}

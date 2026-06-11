@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Advance Factoring - Liquidez Inmediata</title>
+<!-- Google Fonts: Hanken Grotesk -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f9f9f9",
+                        "surface-dim": "#dadada",
+                        "surface-bright": "#f9f9f9",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f3f3f4",
+                        "surface-container": "#eeeeee",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-surface": "#1a1c1c",
+                        "on-surface-variant": "#43474d",
+                        "outline": "#74777e",
+                        "outline-variant": "#c4c6ce",
+                        "inverse-surface": "#2f3131",
+                        "inverse-on-surface": "#f0f1f1",
+                        "surface-tint": "#486080",
+                        "primary": "#000206",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#001d3a",
+                        "on-primary-container": "#6e86a8",
+                        "primary-fixed": "#d3e3ff",
+                        "on-primary-fixed": "#001c39",
+                        "primary-fixed-dim": "#b0c8ed",
+                        "on-primary-fixed-variant": "#304867",
+                        "inverse-primary": "#b0c8ed",
+                        "secondary": "#ba0518",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#df2b2d",
+                        "on-secondary-container": "#fffbff",
+                        "secondary-fixed": "#ffdad6",
+                        "on-secondary-fixed": "#410003",
+                        "secondary-fixed-dim": "#ffb3ac",
+                        "on-secondary-fixed-variant": "#93000f",
+                        "tertiary": "#030100",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#2a1900",
+                        "on-tertiary-container": "#a37e4b",
+                        "tertiary-fixed": "#ffddb2",
+                        "on-tertiary-fixed": "#291800",
+                        "tertiary-fixed-dim": "#eabf86",
+                        "on-tertiary-fixed-variant": "#5e4113",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "background": "#f9f9f9",
+                        "on-background": "#1a1c1c",
+                        "success-green": "#22C15E",
+                        "blanco-transparencia": "#FFFFFF",
+                        "slate-gray": "#7A7A7A",
+                        "rojo-capital": "#B70016",
+                        "azul-respaldo": "#001D3A",
+                        "beige-prestige": "#FCD095"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "section-gap": "80px",
+                        "unit": "8px",
+                        "container-max": "1280px",
+                        "margin-desktop": "40px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Hanken Grotesk"],
+                        "title-md": ["Hanken Grotesk"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "headline-xxl": ["Hanken Grotesk"],
+                        "label-bold": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "title-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-xxl": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-bold": ["14px", { "lineHeight": "20px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface font-body-md text-on-surface selection:bg-secondary selection:text-on-secondary antialiased">
+<!-- Header -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 max-w-container-max mx-auto bg-surface/90 backdrop-blur-md border-b border-surface-variant transition-all duration-300">
+<div class="flex items-center gap-4">
+<img alt="Advance Factoring Logo" class="h-8 md:h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-C5nZxCcxgArkpTYcDxySjf5bWEQKL8gaixvoktNQrwubvQ_KZJ8c13D9kY-nAaIOPMw604AVvx6u9Gwt5_i89_SLsRmNoLiJ5_aX71KY1SJHiq-ZAHVpGbKds1qNdML93jkc2Tus8FJQnwPOZdaxNMqzyy9ZvMgw_BF4URM1yXgdqcoGFB1UWllzKb7mCGiP0ekrjLxNz-Wfoeevpc89828H5YCNSvtLv22uN7_c9Qkj65iPa0cW1xu2HXMY1oaXVbavt_ttF8M"/>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-bold text-label-bold text-on-surface hover:text-primary transition-colors" href="#">Home</a>
+<a class="font-label-bold text-label-bold text-primary border-b-2 border-primary pb-1" href="#">Factoring</a>
+<a class="font-label-bold text-label-bold text-on-surface hover:text-primary transition-colors" href="#">Capital</a>
+<a class="font-label-bold text-label-bold text-on-surface hover:text-primary transition-colors" href="#">Expertise</a>
+<a class="font-label-bold text-label-bold text-on-surface hover:text-primary transition-colors" href="#">Trust</a>
+</nav>
+<a class="hidden md:flex bg-primary text-on-primary font-label-bold text-label-bold px-6 py-2 rounded-full hover:bg-primary/90 transition-colors" href="#contact">
+            Contact Us
+        </a>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative w-full min-h-[85vh] flex items-center bg-surface overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A striking wide-angle shot of a modern, high-end corporate architectural exterior in a bustling financial district, emphasizing structural stability and upward growth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB1lrxEyIwJNPRrKjZBx7_UXta8rNKaa44wUqOST63TmkxFmg4pRU8TxlNpC9BkFEbkdInksL8w8PGkuvjB1ZY5f8Qol6_YBJ08E8OjH6Ib-1oI5Q0sL6ppKuOVn4uMO-yPNIJahYrVcqNc8CP3SsBMTAM2QldHNBSVUE2C6WGzeW1HCvJ67b30uzysqp6Xb2gbtlbINd-i1Kqz4zz5npaoOUs3i1YH1NQJWiAhN6LEyFSt_WwaKnWCxuaFFtNCWr89kaihrAS5AE"/>
+<div class="absolute inset-0 bg-primary/40 mix-blend-multiply"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/90 to-transparent"></div>
+</div>
+<div class="relative z-10 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-12 gap-gutter">
+<div class="col-span-12 md:col-span-8 lg:col-span-6 flex flex-col gap-6">
+<span class="font-label-bold text-label-bold text-secondary tracking-widest uppercase">Soluciones Estructurales</span>
+<h1 class="font-headline-xxl text-headline-xxl text-on-surface">Liquidez Inmediata para su Crecimiento.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                        Transformamos sus cuentas por cobrar en capital de trabajo al instante. Diseñado para corporaciones que exigen agilidad, transparencia y solidez institucional.
+                    </p>
+<div class="pt-4 flex flex-wrap gap-4">
+<a class="bg-primary text-on-primary font-label-bold text-label-bold px-8 py-4 rounded-full hover:bg-primary/90 transition-colors inline-flex items-center gap-2" href="#contact">
+                            Solicitar Asesoría
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Regulatory Info Section (Brevon Style) -->
+<section class="w-full bg-surface-container-lowest py-16 px-margin-mobile md:px-margin-desktop border-b border-surface-variant">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
+<div class="flex items-center gap-6 w-full md:w-1/2">
+<div class="w-16 h-16 rounded-full bg-primary/5 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[32px]">verified_user</span>
+</div>
+<div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-2">Respaldo Institucional</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Operamos bajo los más altos estándares regulatorios del mercado financiero peruano.</p>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-8 w-full md:w-1/2 justify-end">
+<div class="bg-surface p-6 rounded-DEFAULT border border-surface-variant flex-1 flex flex-col items-start gap-2 shadow-sm">
+<span class="material-symbols-outlined text-secondary">account_balance</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Registro SBS</span>
+<span class="font-title-md text-title-md text-on-surface">Resolución N° 00029814</span>
+</div>
+<div class="bg-surface p-6 rounded-DEFAULT border border-surface-variant flex-1 flex flex-col items-start gap-2 shadow-sm">
+<span class="material-symbols-outlined text-secondary">domain_verification</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Registro CAVALI</span>
+<span class="font-title-md text-title-md text-on-surface">Matriz 937</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Services Grid -->
+<section class="bg-surface py-section-gap px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<div class="mb-16 text-center max-w-2xl mx-auto">
+<span class="font-label-bold text-label-bold text-secondary tracking-widest uppercase mb-4 block">Servicios</span>
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-4">Soluciones de Liquidez</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Herramientas financieras diseñadas para optimizar su flujo de caja con la máxima seguridad y eficiencia.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Service 1 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-surface-variant hover:border-primary/30 hover:shadow-lg transition-all duration-300 group">
+<div class="w-14 h-14 bg-primary/5 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors text-primary">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface mb-3">Factoring Tradicional</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                            Adelante el cobro de sus facturas por cobrar. Proveemos liquidez inmediata evaluando el riesgo de su cliente, liberando su línea de crédito bancaria.
+                        </p>
+<a class="inline-flex items-center gap-2 font-label-bold text-label-bold text-primary group-hover:text-secondary transition-colors" href="#">
+                            Learn More <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Service 2 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-primary/20 hover:border-primary/40 hover:shadow-lg transition-all duration-300 group relative overflow-hidden">
+<div class="absolute top-4 right-4 bg-secondary/10 text-secondary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                            100% Digital
+                        </div>
+<div class="w-14 h-14 bg-primary/5 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors text-primary">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface mb-3">Factoring Electrónico</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                            Gestión automatizada a través de CAVALI. Proceso ágil, seguro y completamente digitalizado para la negociación de facturas negociables electrónicas.
+                        </p>
+<a class="inline-flex items-center gap-2 font-label-bold text-label-bold text-primary group-hover:text-secondary transition-colors" href="#">
+                            Learn More <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<!-- Service 3 -->
+<div class="bg-surface-container-lowest p-8 rounded-xl border border-surface-variant hover:border-primary/30 hover:shadow-lg transition-all duration-300 group">
+<div class="w-14 h-14 bg-primary/5 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-on-primary transition-colors text-primary">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<h3 class="font-title-md text-title-md text-on-surface mb-3">Soluciones Estructuradas</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                            Diseño de esquemas de financiamiento a medida para necesidades de capital complejas, involucrando garantías estructuradas y flujos futuros.
+                        </p>
+<a class="inline-flex items-center gap-2 font-label-bold text-label-bold text-primary group-hover:text-secondary transition-colors" href="#">
+                            Learn More <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Process Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface-container-low border-y border-surface-variant">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<span class="font-label-bold text-label-bold text-secondary tracking-widest uppercase mb-4 block">Cómo Funciona</span>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Un Proceso Eficiente y Transparente</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+<!-- Connecting Line -->
+<div class="hidden md:block absolute top-10 left-[12%] right-[12%] h-0.5 bg-surface-variant z-0"></div>
+<!-- Step 1 -->
+<div class="relative z-10 flex flex-col items-center text-center group">
+<div class="w-20 h-20 bg-surface-container-lowest border-2 border-primary rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-primary group-hover:text-on-primary transition-colors duration-300">
+<span class="font-headline-lg text-headline-lg text-primary group-hover:text-on-primary">1</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mb-3">Evaluación</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Análisis rápido de su cartera de clientes y facturas.</p>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center text-center group">
+<div class="w-20 h-20 bg-surface-container-lowest border-2 border-primary rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-primary group-hover:text-on-primary transition-colors duration-300">
+<span class="font-headline-lg text-headline-lg text-primary group-hover:text-on-primary">2</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mb-3">Aprobación</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Validación ágil de la línea crediticia del deudor.</p>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center text-center group">
+<div class="w-20 h-20 bg-surface-container-lowest border-2 border-primary rounded-full flex items-center justify-center mb-6 shadow-sm group-hover:bg-primary group-hover:text-on-primary transition-colors duration-300">
+<span class="font-headline-lg text-headline-lg text-primary group-hover:text-on-primary">3</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mb-3">Cesión</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Transferencia de derechos vía plataforma electrónica (CAVALI).</p>
+</div>
+<!-- Step 4 -->
+<div class="relative z-10 flex flex-col items-center text-center group">
+<div class="w-20 h-20 bg-primary text-on-primary rounded-full flex items-center justify-center mb-6 shadow-md transform group-hover:scale-105 transition-transform duration-300">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<h4 class="font-title-md text-title-md text-on-surface mb-3">Desembolso</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Liquidez transferida a sus cuentas de manera inmediata.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop bg-surface" id="contact">
+<div class="max-w-4xl mx-auto bg-surface-container-lowest border border-surface-variant p-8 md:p-16 rounded-2xl shadow-xl">
+<div class="text-center mb-12">
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-4">Inicie su Operación</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Complete el formulario y un asesor especializado de nuestro equipo institucional se contactará con usted a la brevedad.</p>
+</div>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="col-span-1 md:col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wide">RUC de la Empresa</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg py-4 px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-body-md" placeholder="Ej. 20123456789" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wide">Nombre Completo</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg py-4 px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-body-md" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wide">Cargo</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg py-4 px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-body-md" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wide">Correo Corporativo</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg py-4 px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-body-md" type="email"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-wide">Monto Estimado (S/ o USD)</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg py-4 px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-colors text-body-md" type="text"/>
+</div>
+<div class="col-span-1 md:col-span-2 mt-6 text-center">
+<button class="w-full md:w-auto bg-primary text-on-primary font-label-bold text-label-bold px-12 py-4 rounded-full hover:bg-primary/90 transition-colors shadow-lg hover:shadow-xl" type="button">
+                            Enviar Solicitud
+                        </button>
+</div>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 px-margin-mobile md:px-margin-desktop bg-primary text-on-primary border-t border-primary-container">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="flex flex-col gap-6 max-w-sm">
+<img alt="Advance Factoring Logo" class="h-10 object-contain brightness-0 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-C5nZxCcxgArkpTYcDxySjf5bWEQKL8gaixvoktNQrwubvQ_KZJ8c13D9kY-nAaIOPMw604AVvx6u9Gwt5_i89_SLsRmNoLiJ5_aX71KY1SJHiq-ZAHVpGbKds1qNdML93jkc2Tus8FJQnwPOZdaxNMqzyy9ZvMgw_BF4URM1yXgdqcoGFB1UWllzKb7mCGiP0ekrjLxNz-Wfoeevpc89828H5YCNSvtLv22uN7_c9Qkj65iPa0cW1xu2HXMY1oaXVbavt_ttF8M"/>
+<p class="font-body-sm text-body-sm text-on-primary/70">
+                    © 2024 Advance Group. Regulated by SBS and CAVALI. All rights reserved.
+                </p>
+</div>
+<div class="flex flex-col sm:flex-row gap-16">
+<div class="flex flex-col gap-4">
+<span class="font-title-sm text-title-sm font-bold text-on-primary mb-2">Legal &amp; Compliance</span>
+<a class="font-body-sm text-body-sm text-on-primary/70 hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-primary/70 hover:text-secondary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-primary/70 hover:text-secondary transition-colors" href="#">Regulatory Compliance</a>
+<a class="font-body-sm text-body-sm text-on-primary/70 hover:text-secondary transition-colors" href="#">SBS Registration</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-title-sm text-title-sm font-bold text-on-primary mb-2">Connect</span>
+<a class="font-body-sm text-body-sm text-on-primary/70 hover:text-secondary transition-colors" href="#">Contact Support</a>
+<a class="font-body-sm text-body-sm text-on-primary/70 hover:text-secondary transition-colors" href="#">LinkedIn</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

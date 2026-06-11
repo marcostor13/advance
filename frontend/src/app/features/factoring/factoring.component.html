@@ -1,0 +1,309 @@
+<!-- 1 · HERO -->
+<section class="af-hero">
+  <div class="af-hero__bg" aria-hidden="true">
+    <div class="af-hero__glow" [appParallax]="-0.18"></div>
+    <div class="af-hero__grid"></div>
+  </div>
+
+  <div class="container af-hero__inner">
+    <div class="af-hero__top" appScrollAnimate animType="fade">
+      <div class="af-hero__badges">
+        <span class="badge badge--white">SBS N° 00029814</span>
+        <span class="badge badge--white">CAVALI · Matriz 937</span>
+      </div>
+      <img src="/logo-factoring-white.png" alt="Advance Factoring" class="af-hero__logo" width="2161" height="1197" />
+    </div>
+
+    <h1 class="af-hero__title display-xl">
+      <span class="af-hero__line" appTextReveal>Sus facturas,</span>
+      <span class="af-hero__line" appTextReveal revealDelay="120ms">
+        <span class="outline-text">liquidez</span>
+      </span>
+      <span class="af-hero__line" appTextReveal revealDelay="240ms">inmediata.</span>
+    </h1>
+
+    <div class="af-hero__bottom" appScrollAnimate animType="up" animDelay="0.35s">
+      <p class="af-hero__subtitle">
+        +20 años convirtiendo facturas en capital de trabajo para empresas peruanas,
+        con operaciones de factoring y confirming reguladas por la SBS.
+      </p>
+      <div class="af-hero__actions">
+        <a href="#cotizador" class="btn btn--primary btn--lg" appMagnetic (click)="goToCotizador($event)">Cotizar mi factura</a>
+        <a
+          href="https://wa.me/51932499073"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-arrow link-arrow--light"
+        >
+          Escríbanos por WhatsApp
+          <app-icon name="arrow-right" [size]="16" />
+        </a>
+      </div>
+    </div>
+
+    <div class="af-hero__stats" appScrollAnimate animType="up" animDelay="0.5s">
+      <div class="af-hero__stat">
+        <span class="af-hero__stat-value" [appCountUp]="20" countSuffix="+"></span>
+        <span class="af-hero__stat-label">Años de experiencia</span>
+      </div>
+      <div class="af-hero__stat">
+        <span class="af-hero__stat-value">2</span>
+        <span class="af-hero__stat-label">Servicios</span>
+      </div>
+      <div class="af-hero__stat">
+        <span class="af-hero__stat-value">3</span>
+        <span class="af-hero__stat-label">Oficinas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="af-hero__scroll" aria-hidden="true">
+    <span class="af-hero__scroll-mouse"><span class="af-hero__scroll-dot"></span></span>
+    <span class="af-hero__scroll-label">Scroll</span>
+  </div>
+</section>
+
+<!-- 2 · MARQUEE -->
+<app-marquee [dark]="true" [items]="marqueeItems" />
+
+<!-- 3 · SERVICES — editorial index -->
+<section class="af-services section">
+  <div class="container">
+    <div class="af-services__layout">
+      <div class="af-services__intro">
+        <div class="section-header section-header--left" appScrollAnimate animType="up">
+          <span class="section-header__eyebrow">Nuestros servicios</span>
+          <h2 class="section-header__title">Soluciones de liquidez</h2>
+          <p class="section-header__desc">
+            Productos diseñados para mejorar el flujo de caja de su empresa con rapidez y seguridad.
+          </p>
+        </div>
+        <a routerLink="/contacto" class="link-arrow af-services__link" appScrollAnimate animType="up" animDelay="0.15s">
+          Solicitar una propuesta
+          <app-icon name="arrow-right" [size]="16" />
+        </a>
+      </div>
+
+      <div class="af-services__index">
+        @for (service of services; track service.id) {
+          <a
+            routerLink="/contacto"
+            class="service-row"
+            data-cursor
+            appScrollAnimate
+            animType="up"
+            [animDelay]="($index * 0.12) + 's'"
+          >
+            <span class="service-row__num">0{{ $index + 1 }}</span>
+            <span class="service-row__icon">
+              <app-icon [name]="service.icon" [size]="22" />
+            </span>
+            <span class="service-row__body">
+              <h3 class="service-row__title">{{ service.title }}</h3>
+              <span class="service-row__tagline">{{ service.tagline }}</span>
+              <span class="service-row__benefits">{{ service.benefits.join(' · ') }}</span>
+            </span>
+            <span class="service-row__arrow">
+              <app-icon name="arrow-up-right" [size]="28" />
+            </span>
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COTIZADOR -->
+<app-factoring-quoter id="cotizador" />
+
+<!-- 4 · COUNTERS BAND -->
+<section class="af-counters">
+  <div class="container">
+    <div class="af-counters__grid" [appParallax]="-0.05">
+      @for (counter of counters; track counter.label) {
+        <div class="af-counters__item" appScrollAnimate animType="up" [animDelay]="($index * 0.1) + 's'">
+          <span class="af-counters__value" [appCountUp]="counter.value" [countSuffix]="counter.suffix"></span>
+          <span class="af-counters__label">{{ counter.label }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- 5 · DIFFERENTIATORS — sticky deck -->
+<section class="af-diff section">
+  <div class="container">
+    <div class="section-header section-header--left" appScrollAnimate animType="up">
+      <span class="section-header__eyebrow">Por qué elegirnos</span>
+      <h2 class="section-header__title">Ventajas que marcan la diferencia</h2>
+      <p class="section-header__desc">
+        Combinamos experiencia, tecnología y respaldo regulatorio para brindar un servicio de excelencia.
+      </p>
+    </div>
+
+    <div class="diff-deck">
+      @for (item of differentiators; track item.title) {
+        <article
+          class="diff-deck__card"
+          [class.diff-deck__card--navy]="$index % 2 === 1"
+          [style.top]="'calc(var(--header-height) + 4.5rem + ' + $index * 1.25 + 'rem)'"
+        >
+          <span
+            class="diff-deck__num"
+            [class.outline-text]="$index % 2 === 1"
+            [class.outline-text--navy]="$index % 2 === 0"
+            aria-hidden="true"
+          >0{{ $index + 1 }}</span>
+          <div class="diff-deck__content">
+            <span class="diff-deck__icon">
+              <app-icon [name]="item.icon" [size]="24" />
+            </span>
+            <h3 class="diff-deck__title">{{ item.title }}</h3>
+            <p class="diff-deck__desc">{{ item.desc }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- 6 · SECTORS -->
+<section class="af-sectors section">
+  <div class="container">
+    <div class="section-header section-header--light" appScrollAnimate animType="up">
+      <span class="section-header__eyebrow">Sectores que atendemos</span>
+      <h2 class="section-header__title">Presentes en los sectores clave de la economía peruana</h2>
+    </div>
+    <div class="sectors-grid">
+      @for (sector of sectors; track sector.name) {
+        <div class="sector-card" appScrollAnimate animType="up" [animDelay]="($index * 0.08) + 's'">
+          <span class="sector-card__icon">
+            <app-icon [name]="sector.icon" [size]="24" />
+          </span>
+          <span class="sector-card__name">{{ sector.name }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- 7 · TEAM -->
+<section class="af-team section">
+  <div class="container">
+    <div class="af-team__header" appScrollAnimate animType="up">
+      <div class="section-header section-header--left">
+        <span class="section-header__eyebrow">Nuestro equipo</span>
+        <h2 class="section-header__title">Líderes con trayectoria comprobada</h2>
+        <p class="section-header__desc">
+          Décadas de experiencia en banca, factoring y finanzas corporativas al servicio de su empresa.
+        </p>
+      </div>
+    </div>
+    <div class="team-grid">
+      @for (member of team; track member.name) {
+        <article class="team-card" appScrollAnimate animType="up" [animDelay]="($index * 0.12) + 's'">
+          <div class="team-card__head">
+            <div class="team-card__avatar">{{ member.initials }}</div>
+            <div class="team-card__identity">
+              <h3 class="team-card__name">{{ member.name }}</h3>
+              <p class="team-card__role">{{ member.role }}</p>
+            </div>
+          </div>
+          <span class="team-card__experience">{{ member.experience }} de experiencia</span>
+          <p class="team-card__bio">{{ member.bio }}</p>
+          <p class="team-card__degree">{{ member.degree }}</p>
+          <p class="team-card__specialties">{{ member.specialties.join(' · ') }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- 8 · OFFICES -->
+<section class="af-offices section">
+  <div class="container">
+    <div class="section-header" appScrollAnimate animType="up">
+      <span class="section-header__eyebrow">Nuestras oficinas</span>
+      <h2 class="section-header__title">Presencia nacional</h2>
+      <p class="section-header__desc">
+        Estamos donde su empresa nos necesita, con oficinas en las principales ciudades del Perú.
+      </p>
+    </div>
+    <div class="offices-grid">
+      @for (office of offices; track office.city) {
+        <div
+          class="office-card"
+          [class.office-card--main]="office.isMain"
+          appScrollAnimate
+          animType="up"
+          [animDelay]="($index * 0.1) + 's'"
+        >
+          <div class="office-card__head">
+            <app-icon name="map-pin" [size]="18" />
+            <p class="office-card__city">
+              {{ office.city }}
+              @if (office.isMain) {
+                <span class="office-card__main-tag">Principal</span>
+              }
+            </p>
+          </div>
+          <p class="office-card__address">{{ office.address }}</p>
+          <p class="office-card__district">{{ office.district }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- 9 · FINAL CTA -->
+<section class="af-cta">
+  <div class="container af-cta__inner">
+    <span class="af-cta__eyebrow" appScrollAnimate animType="fade">Hablemos</span>
+    <a
+      href="mailto:contacto@advance-factoring.com"
+      class="af-cta__title display-xl"
+      appTextReveal
+      revealDelay="120ms"
+    >
+      Convierta sus facturas en liquidez
+    </a>
+
+    <div class="af-cta__contacts" appScrollAnimate animType="up" animDelay="0.15s">
+      <div class="af-cta__contact">
+        <span class="af-cta__contact-label">Correo</span>
+        <span class="af-cta__contact-value">
+          <app-icon name="mail" [size]="18" />
+          contacto&#64;advance-factoring.com
+        </span>
+      </div>
+      <div class="af-cta__contact">
+        <span class="af-cta__contact-label">Teléfono</span>
+        <span class="af-cta__contact-value">
+          <app-icon name="phone" [size]="18" />
+          +51 932 499 073
+        </span>
+      </div>
+      <div class="af-cta__contact">
+        <span class="af-cta__contact-label">WhatsApp</span>
+        <span class="af-cta__contact-value">
+          <app-icon name="message-circle" [size]="18" />
+          +51 952 493 810
+        </span>
+      </div>
+    </div>
+
+    <div class="af-cta__actions" appScrollAnimate animType="up" animDelay="0.25s">
+      <a href="mailto:contacto@advance-factoring.com" class="btn btn--white btn--lg" appMagnetic>Escríbanos</a>
+      <a
+        href="https://wa.me/51952493810"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn--outline btn--lg"
+        appMagnetic
+      >
+        WhatsApp
+      </a>
+    </div>
+    <p class="af-cta__schedule">Lun–Vie 9am–6pm · Sáb 8am–1pm</p>
+  </div>
+</section>

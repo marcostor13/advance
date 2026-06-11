@@ -1,0 +1,59 @@
+<section class="page-hero section">
+  <div class="container">
+    <h1 class="page-hero__title">Sobre Advance Group</h1>
+    <p class="page-hero__subtitle">
+      Somos un equipo de expertos apasionados por ayudar a las empresas a alcanzar su máximo potencial
+    </p>
+  </div>
+</section>
+
+<section class="about-story section">
+  <div class="container about-story__inner">
+    <div class="about-story__text">
+      <h2>Nuestra historia</h2>
+      <p>
+        Advance Group nació con una misión clara: democratizar el acceso a consultoría y
+        tecnología de calidad para empresas de todos los tamaños. Desde nuestros inicios,
+        hemos trabajado con más de 200 organizaciones en toda la región.
+      </p>
+      <p>
+        Combinamos el rigor de las grandes consultoras con la agilidad de las startups
+        para entregar resultados reales en plazos razonables.
+      </p>
+      <a routerLink="/contacto" class="btn btn--primary">Trabajar con nosotros</a>
+    </div>
+    <div class="about-story__visual" aria-hidden="true">
+      <div class="about-story__blob"></div>
+    </div>
+  </div>
+</section>
+
+<section class="values section">
+  <div class="container">
+    <h2 class="section-title">Nuestros valores</h2>
+    <div class="values__grid">
+      @for (value of values; track value.title) {
+        <div class="value-card">
+          <span class="value-card__icon" aria-hidden="true">{{ value.icon }}</span>
+          <h3 class="value-card__title">{{ value.title }}</h3>
+          <p class="value-card__description">{{ value.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="team section">
+  <div class="container">
+    <h2 class="section-title">Nuestro equipo</h2>
+    <div class="team__grid">
+      @for (member of team; track member.name) {
+        <div class="team-card">
+          <div class="team-card__avatar" aria-hidden="true">{{ member.initials }}</div>
+          <h3 class="team-card__name">{{ member.name }}</h3>
+          <p class="team-card__role">{{ member.role }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

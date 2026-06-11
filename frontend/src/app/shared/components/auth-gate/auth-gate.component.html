@@ -1,0 +1,95 @@
+<div class="auth-gate">
+  <div class="auth-gate__tabs">
+    <button
+      type="button"
+      class="auth-gate__tab"
+      [class.auth-gate__tab--active]="mode() === 'register'"
+      (click)="setMode('register')"
+    >
+      Crear cuenta
+    </button>
+    <button
+      type="button"
+      class="auth-gate__tab"
+      [class.auth-gate__tab--active]="mode() === 'login'"
+      (click)="setMode('login')"
+    >
+      Ya tengo cuenta
+    </button>
+  </div>
+
+  @if (mode() === 'register') {
+    <form class="auth-gate__form" [formGroup]="registerForm" (ngSubmit)="submitRegister()">
+      <div class="auth-gate__row">
+        <div class="auth-gate__field">
+          <label for="ag-name">Nombre completo</label>
+          <input id="ag-name" type="text" formControlName="name" autocomplete="name" />
+          @if (invalid('register', 'name')) {
+            <span class="auth-gate__error">Ingrese su nombre</span>
+          }
+        </div>
+        <div class="auth-gate__field">
+          <label for="ag-company">Empresa (opcional)</label>
+          <input id="ag-company" type="text" formControlName="company" autocomplete="organization" />
+        </div>
+      </div>
+      <div class="auth-gate__row">
+        <div class="auth-gate__field">
+          <label for="ag-email">Correo electrónico</label>
+          <input id="ag-email" type="email" formControlName="email" autocomplete="email" />
+          @if (invalid('register', 'email')) {
+            <span class="auth-gate__error">Correo inválido</span>
+          }
+        </div>
+        <div class="auth-gate__field">
+          <label for="ag-phone">Teléfono</label>
+          <input id="ag-phone" type="tel" formControlName="phone" autocomplete="tel" />
+          @if (invalid('register', 'phone')) {
+            <span class="auth-gate__error">Ingrese un teléfono válido</span>
+          }
+        </div>
+      </div>
+      <div class="auth-gate__field">
+        <label for="ag-password">Contraseña</label>
+        <input id="ag-password" type="password" formControlName="password" autocomplete="new-password" />
+        @if (invalid('register', 'password')) {
+          <span class="auth-gate__error">Mínimo 8 caracteres</span>
+        }
+      </div>
+
+      @if (error()) {
+        <p class="auth-gate__alert">{{ error() }}</p>
+      }
+
+      <button type="submit" class="btn btn--primary auth-gate__submit" [disabled]="loading()">
+        {{ loading() ? 'Creando cuenta…' : 'Crear cuenta y continuar' }}
+      </button>
+      <p class="auth-gate__note">Sus datos se usan únicamente para enviarle su cotización y que un asesor pueda contactarlo.</p>
+    </form>
+  } @else {
+    <form class="auth-gate__form" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+      <div class="auth-gate__field">
+        <label for="ag-login-email">Correo electrónico</label>
+        <input id="ag-login-email" type="email" formControlName="email" autocomplete="email" />
+        @if (invalid('login', 'email')) {
+          <span class="auth-gate__error">Correo inválido</span>
+        }
+      </div>
+      <div class="auth-gate__field">
+        <label for="ag-login-password">Contraseña</label>
+        <input id="ag-login-password" type="password" formControlName="password" autocomplete="current-password" />
+        @if (invalid('login', 'password')) {
+          <span class="auth-gate__error">Ingrese su contraseña</span>
+        }
+      </div>
+
+      @if (error()) {
+        <p class="auth-gate__alert">{{ error() }}</p>
+      }
+
+      <button type="submit" class="btn btn--primary auth-gate__submit" [disabled]="loading()">
+        {{ loading() ? 'Ingresando…' : 'Ingresar y continuar' }}
+      </button>
+    </form>
+  }
+</div>

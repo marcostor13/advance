@@ -1,0 +1,112 @@
+.auth-gate {
+  &__tabs {
+    display: flex;
+    border-bottom: 1px solid var(--hairline);
+    margin-bottom: 1.75rem;
+  }
+
+  &__tab {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+    padding: 0.875rem 1.25rem;
+    position: relative;
+    transition: color 0.2s ease;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--crimson);
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+    }
+
+    &--active {
+      color: var(--deep-blue);
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+
+    label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--gray-600);
+    }
+
+    input {
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      color: var(--deep-blue);
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      width: 100%;
+
+      &:focus {
+        outline: none;
+        border-color: var(--deep-blue);
+        box-shadow: 0 0 0 3px rgba(0, 29, 58, 0.08);
+      }
+    }
+  }
+
+  &__error {
+    font-size: 0.75rem;
+    color: var(--crimson);
+  }
+
+  &__alert {
+    font-size: 0.875rem;
+    color: var(--crimson);
+    background: rgba(183, 0, 22, 0.06);
+    border: 1px solid rgba(183, 0, 22, 0.2);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+  }
+
+  &__submit {
+    align-self: flex-start;
+  }
+
+  &__note {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+    line-height: 1.6;
+  }
+}

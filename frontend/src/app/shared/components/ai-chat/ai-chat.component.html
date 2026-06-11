@@ -1,0 +1,102 @@
+<!-- ── Floating trigger ───────────────────────────────────── -->
+<button
+  class="aic__trigger"
+  [class.aic__trigger--open]="isOpen()"
+  (click)="toggle()"
+  [attr.aria-label]="isOpen() ? 'Cerrar asistente' : 'Abrir asistente virtual'"
+  [attr.aria-expanded]="isOpen()"
+>
+  @if (hasNewMessage()) {
+    <span class="aic__badge" aria-hidden="true"></span>
+  }
+  @if (isOpen()) {
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  } @else {
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  }
+</button>
+
+<!-- ── Chat panel ─────────────────────────────────────────── -->
+@if (isOpen()) {
+  <div class="aic__panel" role="dialog" aria-label="Asistente virtual Advance Group" aria-modal="true">
+
+    <!-- Header -->
+    <header class="aic__header">
+      <div class="aic__header-left">
+        <div class="aic__avatar" aria-hidden="true">
+          <span>AG</span>
+        </div>
+        <div class="aic__header-info">
+          <span class="aic__header-name">Advance Group</span>
+          <span class="aic__header-status">
+            <span class="aic__status-dot" aria-hidden="true"></span>
+            Asistente Virtual
+          </span>
+        </div>
+      </div>
+      <button class="aic__close" (click)="close()" aria-label="Cerrar chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Messages -->
+    <div class="aic__messages" #msgList role="log" aria-live="polite" aria-label="Mensajes">
+      @for (msg of messages(); track msg.ts) {
+        <div class="aic__msg" [class.aic__msg--user]="msg.role === 'user'" [class.aic__msg--ai]="msg.role === 'assistant'">
+          @if (msg.role === 'assistant') {
+            <div class="aic__msg-avatar" aria-hidden="true">AG</div>
+          }
+          <div class="aic__bubble">
+            <p class="aic__bubble-text">{{ msg.content }}</p>
+            <time class="aic__bubble-time" [attr.datetime]="msg.ts.toISOString()">{{ fmt(msg.ts) }}</time>
+          </div>
+        </div>
+      }
+
+      @if (loading()) {
+        <div class="aic__msg aic__msg--ai">
+          <div class="aic__msg-avatar" aria-hidden="true">AG</div>
+          <div class="aic__bubble aic__bubble--typing" aria-label="Escribiendo...">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Error -->
+    @if (error()) {
+      <p class="aic__error" role="alert">{{ error() }}</p>
+    }
+
+    <!-- Input -->
+    <div class="aic__footer">
+      <textarea
+        class="aic__input"
+        [(ngModel)]="inputText"
+        (keydown)="onKeydown($event)"
+        placeholder="Escriba su consulta..."
+        rows="1"
+        [disabled]="loading()"
+        aria-label="Mensaje al asistente"
+      ></textarea>
+      <button
+        class="aic__send"
+        (click)="send()"
+        [disabled]="!inputText.trim() || loading()"
+        aria-label="Enviar mensaje"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+}

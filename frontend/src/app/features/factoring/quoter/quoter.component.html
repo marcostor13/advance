@@ -1,0 +1,280 @@
+<section class="fq">
+  <div class="container">
+
+    <!-- Step indicator -->
+    <nav class="fq__steps" aria-label="Pasos del cotizador">
+      @for (s of stepsMeta; track s.num; let i = $index) {
+        <div class="fq__step"
+             [class.fq__step--active]="step() === i + 1"
+             [class.fq__step--done]="step() > i + 1">
+          <div class="fq__step-circle" [attr.aria-current]="step() === i + 1 ? 'step' : null">
+            @if (step() > i + 1) {
+              <app-icon name="check" [size]="14" />
+            } @else {
+              <span>{{ s.num }}</span>
+            }
+          </div>
+          <span class="fq__step-label">{{ s.label }}</span>
+        </div>
+        @if (i < stepsMeta.length - 1) {
+          <div class="fq__step-line" aria-hidden="true"></div>
+        }
+      }
+    </nav>
+
+    <!-- ── Step 1: Invoice data ── -->
+    @if (step() === 1) {
+      <div class="fq__panel" appScrollAnimate animType="up">
+        <div class="fq__body">
+
+          <!-- Left: form -->
+          <div class="fq__form">
+            <header class="fq__header">
+              <span class="fq__eyebrow">Factoring</span>
+              <h2 class="fq__title">Cotice su factura</h2>
+              <p class="fq__subtitle">
+                Obtenga en segundos el anticipo y costo de su operación de factoring
+              </p>
+            </header>
+
+            <!-- Currency toggle -->
+            <fieldset class="fq__field">
+              <legend class="fq__label">Moneda</legend>
+              <div class="fq__toggle" role="group" aria-label="Seleccionar moneda">
+                <button
+                  type="button"
+                  class="fq__toggle-btn"
+                  [class.fq__toggle-btn--active]="currency() === 'PEN'"
+                  (click)="setCurrency('PEN')"
+                  [attr.aria-pressed]="currency() === 'PEN'">
+                  S/ &nbsp;PEN
+                </button>
+                <button
+                  type="button"
+                  class="fq__toggle-btn"
+                  [class.fq__toggle-btn--active]="currency() === 'USD'"
+                  (click)="setCurrency('USD')"
+                  [attr.aria-pressed]="currency() === 'USD'">
+                  $ &nbsp;USD
+                </button>
+              </div>
+            </fieldset>
+
+            <!-- Amount input -->
+            <fieldset class="fq__field">
+              <legend class="fq__label">Monto de la factura</legend>
+              <div class="fq__amount-wrap">
+                <span class="fq__amount-symbol">{{ currencySymbol() }}</span>
+                <input
+                  class="fq__amount-input"
+                  type="text"
+                  inputmode="numeric"
+                  [value]="amountDisplay()"
+                  (input)="onAmountInput($event)"
+                  placeholder="100,000"
+                  aria-label="Monto de la factura"
+                  [attr.aria-invalid]="!amountValid() && amount() > 0" />
+              </div>
+              <input
+                class="fq__slider"
+                type="range"
+                [min]="minAmount"
+                [max]="sliderMax"
+                step="1000"
+                [value]="sliderValue()"
+                (input)="onSliderInput($event)"
+                aria-label="Ajustar monto con deslizador" />
+              <div class="fq__slider-range">
+                <span>{{ format(minAmount) }}</span>
+                <span>{{ format(sliderMax) }}</span>
+              </div>
+              @if (!amountValid() && amount() > 0) {
+                <p class="fq__error" role="alert">
+                  @if (amount() < minAmount) {
+                    El monto mínimo es {{ format(minAmount) }}
+                  } @else {
+                    El monto máximo es {{ format(maxAmount) }}
+                  }
+                </p>
+              }
+            </fieldset>
+
+            <!-- Term selection -->
+            <fieldset class="fq__field">
+              <legend class="fq__label">Plazo</legend>
+              <div class="fq__terms" role="group" aria-label="Seleccionar plazo en días">
+                @for (t of terms; track t) {
+                  <button
+                    type="button"
+                    class="fq__term-btn"
+                    [class.fq__term-btn--active]="termDays() === t"
+                    (click)="setTerm(t)"
+                    [attr.aria-pressed]="termDays() === t">
+                    {{ t }}d
+                  </button>
+                }
+              </div>
+            </fieldset>
+
+            <!-- CTA -->
+            @if (error()) {
+              <p class="fq__error fq__error--banner" role="alert">{{ error() }}</p>
+            }
+            <button
+              type="button"
+              class="btn btn--primary btn--lg fq__cta"
+              [disabled]="!amountValid() || loading()"
+              (click)="requestQuote()">
+              @if (loading()) {
+                Procesando…
+              } @else {
+                Ver cotización exacta
+                <app-icon name="arrow-right" [size]="18" class="btn__arrow" />
+              }
+            </button>
+          </div>
+
+          <!-- Right: live preview -->
+          <aside class="fq__preview" aria-label="Vista previa de la cotización" appScrollAnimate animType="scale" animDelay="100ms">
+            <p class="fq__preview-label">Anticipo estimado</p>
+            <p class="fq__preview-amount">{{ format(advancePreview()) }}</p>
+
+            <div class="fq__preview-divider"></div>
+
+            <div class="fq__preview-row">
+              <span class="fq__preview-row-label">
+                <app-icon name="percent" [size]="16" />
+                Tasa mensual
+              </span>
+              <strong class="fq__preview-row-val">{{ monthlyRate() }}%</strong>
+            </div>
+            <div class="fq__preview-row">
+              <span class="fq__preview-row-label">
+                <app-icon name="calendar" [size]="16" />
+                Plazo
+              </span>
+              <strong class="fq__preview-row-val">{{ termDays() }} días</strong>
+            </div>
+            <div class="fq__preview-row">
+              <span class="fq__preview-row-label">
+                <app-icon name="trending-up" [size]="16" />
+                Porcentaje anticipo
+              </span>
+              <strong class="fq__preview-row-val">90%</strong>
+            </div>
+
+            <p class="fq__preview-note">
+              Resultado referencial — cotización exacta requiere validación
+            </p>
+          </aside>
+
+        </div>
+      </div>
+    }
+
+    <!-- ── Step 2: Auth gate ── -->
+    @if (step() === 2) {
+      <div class="fq__panel fq__panel--auth" appScrollAnimate animType="up">
+        <header class="fq__header fq__header--center">
+          <span class="fq__eyebrow">Acceso seguro</span>
+          <h2 class="fq__title">Cree su cuenta para recibir su cotización</h2>
+          <p class="fq__subtitle">
+            Su cotización se guardará y un asesor la revisará
+          </p>
+        </header>
+
+        <app-auth-gate (authed)="onAuthed()" />
+
+        <button type="button" class="fq__back" (click)="goBack()">
+          <app-icon name="arrow-right" [size]="16" class="fq__back-icon" />
+          Volver
+        </button>
+      </div>
+    }
+
+    <!-- ── Step 3: Results ── -->
+    @if (step() === 3) {
+      <div class="fq__panel fq__panel--results" appScrollAnimate animType="up">
+
+        @if (loading()) {
+          <div class="fq__loading" role="status" aria-live="polite">
+            <app-icon name="refresh-cw" [size]="24" class="fq__loading-icon" />
+            <p>Generando su cotización…</p>
+          </div>
+        }
+
+        @if (error() && !loading()) {
+          <div class="fq__error-banner" role="alert">
+            <app-icon name="zap" [size]="18" />
+            <p>{{ error() }}</p>
+          </div>
+        }
+
+        @if (quote() && !loading()) {
+          <header class="fq__header fq__header--center">
+            <span class="fq__eyebrow">
+              <app-icon name="check-circle" [size]="14" />
+              Cotización generada
+            </span>
+            <h2 class="fq__title">Su cotización de factoring</h2>
+          </header>
+
+          <div class="fq__results">
+            <table class="fq__table" aria-label="Detalle de la cotización">
+              <caption class="sr-only">Desglose de la cotización de factoring</caption>
+              <tbody>
+                <tr class="fq__table-row">
+                  <td class="fq__table-concept">Valor nominal de la factura</td>
+                  <td class="fq__table-amount">{{ format(quote()!.amount, quote()!.currency) }}</td>
+                </tr>
+                <tr class="fq__table-row">
+                  <td class="fq__table-concept">Porcentaje de anticipo</td>
+                  <td class="fq__table-amount">{{ quote()!.advancePct * 100 }}%</td>
+                </tr>
+                <tr class="fq__table-row">
+                  <td class="fq__table-concept">Monto del anticipo</td>
+                  <td class="fq__table-amount">{{ format(quote()!.advanceAmount, quote()!.currency) }}</td>
+                </tr>
+                <tr class="fq__table-row">
+                  <td class="fq__table-concept">Descuento (tasa mensual)</td>
+                  <td class="fq__table-amount">{{ format(quote()!.discount, quote()!.currency) }}</td>
+                </tr>
+                <tr class="fq__table-row">
+                  <td class="fq__table-concept">Comisión</td>
+                  <td class="fq__table-amount">{{ format(quote()!.commission, quote()!.currency) }}</td>
+                </tr>
+                <tr class="fq__table-row fq__table-row--total">
+                  <td class="fq__table-concept">
+                    <strong>Desembolso neto</strong>
+                  </td>
+                  <td class="fq__table-amount">
+                    <strong>{{ format(quote()!.netDisbursement, quote()!.currency) }}</strong>
+                  </td>
+                </tr>
+                <tr class="fq__table-row">
+                  <td class="fq__table-concept">Retención</td>
+                  <td class="fq__table-amount">{{ format(quote()!.retention, quote()!.currency) }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p class="fq__results-note">
+              <app-icon name="message-circle" [size]="16" />
+              Un asesor se comunicará con usted para confirmar la operación
+            </p>
+
+            <button
+              type="button"
+              class="btn btn--outline-dark fq__reset"
+              (click)="reset()">
+              <app-icon name="refresh-cw" [size]="16" />
+              Generar nueva cotización
+            </button>
+          </div>
+        }
+
+      </div>
+    }
+
+  </div>
+</section>

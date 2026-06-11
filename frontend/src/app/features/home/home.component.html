@@ -1,0 +1,168 @@
+<!-- ======= 1. HERO — full-viewport editorial ======= -->
+<section class="hero">
+  <div class="hero__deco" aria-hidden="true">
+    <div class="hero__deco-glow" [appParallax]="-0.18"></div>
+    <div class="hero__deco-grid"></div>
+  </div>
+
+  <div class="container container--wide hero__inner">
+    <h1 class="hero__title display-xl">
+      <span class="hero__line" appTextReveal>Impulsamos</span>
+      <span class="hero__line" appTextReveal revealDelay="120ms">el <span class="outline-text">crecimiento</span></span>
+      <span class="hero__line" appTextReveal revealDelay="240ms">de su empresa.</span>
+    </h1>
+
+    <div class="hero__bottom">
+      <p class="hero__subtitle" appScrollAnimate animType="fade" animDelay="0.5s">
+        Liquidez e inversión con más de 20 años de experiencia en el mercado financiero peruano. Regulados por la SBS y registrados en CAVALI.
+      </p>
+
+      <div class="hero__actions" appScrollAnimate animType="fade" animDelay="0.6s">
+        <a routerLink="/factoring" class="btn btn--primary btn--lg" appMagnetic>Conocer Factoring</a>
+        <a routerLink="/capital" class="link-arrow link-arrow--light">
+          Conocer Capital
+          <app-icon name="arrow-right" [size]="16" />
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__stats" appScrollAnimate animType="fade" animDelay="0.7s">
+      <div class="hero__stat">
+        <span class="hero__stat-value"><span [appCountUp]="20" countSuffix="+"></span></span>
+        <span class="hero__stat-label">Años de experiencia</span>
+      </div>
+      <div class="hero__stat">
+        <span class="hero__stat-value">SBS · CAVALI</span>
+        <span class="hero__stat-label">Regulados</span>
+      </div>
+      <div class="hero__stat">
+        <span class="hero__stat-value">3</span>
+        <span class="hero__stat-label">Oficinas en el Perú</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <span class="hero__scroll-mouse"><span class="hero__scroll-dot"></span></span>
+  </div>
+</section>
+
+<!-- ======= 2. MARQUEE ======= -->
+<app-marquee [items]="sectors" />
+
+<!-- ======= 3. COMPANIES — editorial split, sticky header ======= -->
+<section id="companies" class="companies section">
+  <div class="container companies__grid">
+    <div class="companies__intro">
+      <div class="section-header section-header--left companies__header" appScrollAnimate animType="up">
+        <span class="section-header__eyebrow">Nuestras empresas</span>
+        <h2 class="section-header__title">Un grupo, dos especialidades</h2>
+        <p class="section-header__desc">Dos empresas especializadas que trabajan juntas para ofrecer soluciones financieras integrales para el crecimiento de su negocio.</p>
+      </div>
+      <a routerLink="/contacto" class="link-arrow companies__cta">
+        Conversemos
+        <app-icon name="arrow-right" [size]="16" />
+      </a>
+      <ul class="companies__facts">
+        @for (fact of facts; track fact) {
+          <li class="companies__fact">
+            <app-icon name="check" [size]="16" />
+            <span>{{ fact }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div class="companies__cards">
+      @for (company of companies; track company.id; let i = $index) {
+        <article class="company-card" appScrollAnimate animType="up" [animDelay]="(i * 0.1) + 's'">
+          <span class="company-card__index">0{{ i + 1 }}</span>
+          <span class="company-card__logos">
+            <img class="company-card__logo" [src]="company.logo" [alt]="company.title" height="52">
+            <img class="company-card__logo company-card__logo--white" [src]="company.logoWhite" [alt]="company.title" height="52" aria-hidden="true">
+          </span>
+          <span class="company-card__label">{{ company.label }}</span>
+          <h3 class="company-card__title">{{ company.title }}</h3>
+          <p class="company-card__tagline">{{ company.tagline }}</p>
+          <ul class="company-card__features">
+            @for (feature of company.features; track feature) {
+              <li class="company-card__feature">
+                <app-icon name="check" [size]="16" />
+                <span>{{ feature }}</span>
+              </li>
+            }
+          </ul>
+          <a [routerLink]="company.link" class="link-arrow company-card__link">
+            Conocer más
+            <app-icon name="arrow-right" [size]="16" />
+          </a>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ======= 4. COUNTERS — navy band ======= -->
+<section class="stats">
+  <div class="container">
+    <div class="stats__grid" [appParallax]="-0.05">
+      @for (counter of counters; track counter.label; let i = $index) {
+        <div class="stat-item" appScrollAnimate animType="up" [animDelay]="(i * 0.1) + 's'">
+          <div class="stat-item__value">
+            <span [appCountUp]="counter.value" [countSuffix]="counter.suffix"></span>
+          </div>
+          <div class="stat-item__label">{{ counter.label }}</div>
+          <div class="stat-item__desc">{{ counter.desc }}</div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ======= 5. PILLARS — sticky stacked deck ======= -->
+<section class="pillars section">
+  <div class="container">
+    <div class="section-header" appScrollAnimate animType="up">
+      <span class="section-header__eyebrow">Nuestra esencia</span>
+      <h2 class="section-header__title">Los pilares de Advance Group</h2>
+      <p class="section-header__desc">Todo lo que hacemos está fundamentado en tres valores que nos definen y diferencian en el mercado financiero peruano.</p>
+    </div>
+
+    <div class="deck">
+      @for (pillar of pillars; track pillar.title; let i = $index) {
+        <article class="deck__card" [class.deck__card--dark]="i === 1">
+          <div class="deck__top">
+            <div class="deck__icon">
+              <app-icon [name]="pillar.icon" [size]="22" />
+            </div>
+            <span class="deck__index" [class.outline-text]="i === 1" [class.outline-text--navy]="i !== 1">0{{ i + 1 }}</span>
+          </div>
+          <h3 class="deck__title">{{ pillar.title }}</h3>
+          <p class="deck__desc">{{ pillar.desc }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- ======= 6. CTA FINAL — giant editorial link ======= -->
+<section class="cta">
+  <div class="container">
+    <div class="cta__inner">
+      <span class="cta__eyebrow" appScrollAnimate animType="fade">Hablemos</span>
+      <a routerLink="/contacto" class="cta__link">
+        <h2 class="cta__title display-xl">
+          <span class="cta__line" appTextReveal>Converse con</span>
+          <span class="cta__line" appTextReveal revealDelay="120ms">nuestros expertos</span>
+        </h2>
+      </a>
+      <div class="cta__actions" appScrollAnimate animType="fade" animDelay="0.3s">
+        <a routerLink="/contacto" class="btn btn--white btn--lg" appMagnetic>Contáctanos</a>
+        <a href="https://wa.me/51932499073" target="_blank" rel="noopener noreferrer" class="btn btn--outline btn--lg">
+          <app-icon name="message-circle" [size]="18" />
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

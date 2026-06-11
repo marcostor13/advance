@@ -1,0 +1,55 @@
+<header
+  class="navbar"
+  [class.navbar--scrolled]="isScrolled()"
+  [class.navbar--hidden]="isHidden()"
+  [class.navbar--menu-open]="isMenuOpen()"
+>
+  <div class="container container--wide navbar__inner">
+    <!-- Logo -->
+    <a routerLink="/" class="navbar__logo" (click)="closeMenu()">
+      <img
+        [src]="isMenuOpen() ? '/logo-group-white.png' : '/logo-group.png'"
+        alt="Advance Group"
+        class="navbar__logo-img"
+      />
+    </a>
+
+    <!-- Desktop nav / full-screen mobile overlay -->
+    <nav class="navbar__nav" [class.navbar__nav--open]="isMenuOpen()">
+      @for (link of links; track link.path; let i = $index) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="navbar__link--active"
+          [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+          class="navbar__link"
+          (click)="closeMenu()"
+        >
+          <span class="navbar__link-index">0{{ i + 1 }}</span>
+          <span class="navbar__link-label">{{ link.label }}</span>
+        </a>
+      }
+      <!-- Mobile-only CTA inside nav -->
+      <a routerLink="/contacto" class="btn btn--primary navbar__cta-mobile" (click)="closeMenu()">
+        Contáctanos
+      </a>
+    </nav>
+
+    <!-- Desktop CTA -->
+    <a routerLink="/contacto" class="btn btn--primary navbar__cta" appMagnetic (click)="closeMenu()">
+      Contáctanos
+    </a>
+
+    <!-- Hamburger -->
+    <button
+      class="navbar__hamburger"
+      [class.navbar__hamburger--open]="isMenuOpen()"
+      [attr.aria-expanded]="isMenuOpen()"
+      [attr.aria-label]="isMenuOpen() ? 'Cerrar menú' : 'Abrir menú'"
+      (click)="toggleMenu()"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>

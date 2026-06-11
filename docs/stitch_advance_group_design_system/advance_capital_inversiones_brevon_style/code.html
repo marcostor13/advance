@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Advance Capital - Haz crecer tu capital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "success-green": "#22C15E",
+                "on-secondary": "#ffffff",
+                "on-primary-fixed": "#001c39",
+                "tertiary-container": "#2a1900",
+                "on-primary": "#ffffff",
+                "on-tertiary-fixed-variant": "#5e4113",
+                "on-secondary-fixed-variant": "#93000f",
+                "primary-fixed": "#d3e3ff",
+                "on-error": "#ffffff",
+                "inverse-on-surface": "#f0f1f1",
+                "error": "#ba1a1a",
+                "tertiary": "#030100",
+                "on-tertiary-fixed": "#291800",
+                "surface-container-lowest": "#ffffff",
+                "on-secondary-fixed": "#410003",
+                "on-secondary-container": "#fffbff",
+                "tertiary-fixed": "#ffddb2",
+                "outline-variant": "#c4c6ce",
+                "surface-container-highest": "#e2e2e2",
+                "surface-tint": "#486080",
+                "outline": "#74777e",
+                "on-surface": "#1a1c1c",
+                "inverse-primary": "#b0c8ed",
+                "surface-variant": "#e2e2e2",
+                "inverse-surface": "#2f3131",
+                "primary": "#000206",
+                "on-primary-container": "#6e86a8",
+                "blanco-transparencia": "#FFFFFF",
+                "slate-gray": "#7A7A7A",
+                "rojo-capital": "#B70016",
+                "on-error-container": "#93000a",
+                "secondary-container": "#df2b2d",
+                "azul-respaldo": "#001D3A",
+                "on-surface-variant": "#43474d",
+                "tertiary-fixed-dim": "#eabf86",
+                "surface-container-high": "#e8e8e8",
+                "on-primary-fixed-variant": "#304867",
+                "primary-fixed-dim": "#b0c8ed",
+                "surface-container-low": "#f3f3f4",
+                "secondary-fixed": "#ffdad6",
+                "secondary-fixed-dim": "#ffb3ac",
+                "background": "#f9f9f9",
+                "on-tertiary": "#ffffff",
+                "surface-bright": "#f9f9f9",
+                "on-tertiary-container": "#a37e4b",
+                "surface-container": "#eeeeee",
+                "beige-prestige": "#FCD095",
+                "error-container": "#ffdad6",
+                "surface": "#f9f9f9",
+                "secondary": "#ba0518",
+                "surface-dim": "#dadada",
+                "primary-container": "#001d3a",
+                "on-background": "#1a1c1c"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "margin-desktop": "40px",
+                "margin-mobile": "16px",
+                "container-max": "1280px",
+                "section-gap": "80px",
+                "gutter": "24px",
+                "unit": "8px"
+        },
+        "fontFamily": {
+                "headline-xxl": [
+                        "Hanken Grotesk"
+                ],
+                "headline-lg-mobile": [
+                        "Hanken Grotesk"
+                ],
+                "headline-lg": [
+                        "Hanken Grotesk"
+                ],
+                "body-md": [
+                        "Hanken Grotesk"
+                ],
+                "body-lg": [
+                        "Hanken Grotesk"
+                ],
+                "label-sm": [
+                        "Hanken Grotesk"
+                ],
+                "title-md": [
+                        "Hanken Grotesk"
+                ],
+                "label-bold": [
+                        "Hanken Grotesk"
+                ],
+                "headline-xl": [
+                        "Hanken Grotesk"
+                ]
+        },
+        "fontSize": {
+                "headline-xxl": [
+                        "64px",
+                        {
+                                "lineHeight": "72px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "28px",
+                        {
+                                "lineHeight": "36px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "fontWeight": "500"
+                        }
+                ],
+                "title-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-bold": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #FCD095 0%, #FFFFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .pattern-bg {
+            background-image: radial-gradient(#001D3A 1px, transparent 1px);
+            background-size: 24px 24px;
+            opacity: 0.05;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pt-20">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest border-b border-outline/10 transition-colors h-20 shadow-sm">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop h-full flex justify-between items-center">
+<div class="flex-shrink-0 flex items-center h-full">
+<img alt="Advance Group Logo" class="h-10 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEVCE_RZ17QxKchR4tlpfuLBpMf-UvjD6TvCDUuY5Eeyk0NhR2UgOBUfq4iYeWkia1KMg79AIwlhefH3vljkglfOKq_CJwzg1y1Reugotoprdkb2gdw8e1dmw1aZkhT08SdUhuFMiv6Lf0996gnD_HlQP9eyZ2eOe3DkUJN0RVwVfkdIJ_vWdzdyFv9PAAa0QlkDMh0N4BZU7Q8QY_yi4Vkp9oM4AIbeamC8Uxoo_CcXe-6HpVUp_iTDDCZ5rTD3vQlLU_8gO4Nyg"/>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-on-surface/70 hover:text-azul-respaldo transition-colors font-label-bold text-label-bold py-2" href="#">Home</a>
+<a class="text-on-surface/70 hover:text-azul-respaldo transition-colors font-label-bold text-label-bold py-2" href="#">Factoring</a>
+<a class="text-azul-respaldo border-b-2 border-azul-respaldo pb-1 transition-colors font-label-bold text-label-bold py-2" href="#">Capital</a>
+<a class="text-on-surface/70 hover:text-azul-respaldo transition-colors font-label-bold text-label-bold py-2" href="#">Expertise</a>
+<a class="text-on-surface/70 hover:text-azul-respaldo transition-colors font-label-bold text-label-bold py-2" href="#">Trust</a>
+</div>
+<div class="hidden md:flex items-center h-full">
+<button class="bg-azul-respaldo text-on-primary font-label-bold text-label-bold px-6 py-3 rounded hover:bg-primary-container transition-colors duration-150 transform hover:scale-95 shadow-md">
+                    Contact Us
+                </button>
+</div>
+<div class="md:hidden flex items-center">
+<button class="text-azul-respaldo">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative bg-azul-respaldo overflow-hidden pt-16 pb-24 md:pt-32 md:pb-40">
+<div class="absolute inset-0 pattern-bg"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-azul-respaldo via-azul-respaldo/90 to-transparent z-10"></div>
+<!-- Hero Image Background -->
+<div class="absolute inset-0 z-0">
+<img alt="Corporate boardroom with modern glass architecture overlooking a city skyline, projecting trust, stability, and high-tier financial management in a crisp light mode aesthetic with deep blue tones." class="w-full h-full object-cover opacity-30 mix-blend-luminosity" data-alt="A sophisticated corporate boardroom featuring high-end glass architecture and a commanding view of a modern city skyline. The lighting is crisp and bright, establishing a premium light-mode aesthetic that conveys trust, solidity, and high-net-worth financial expertise. Deep blue and muted gray tones dominate the scene, ensuring a highly professional, serious atmosphere devoid of clutter." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVoDn9BCRKe79LUchCKzKpL61MTVPKV84YHxiwIqYCGy_nDqVD4nwf87gMqCH5aHPNCyQ40RjK3aZRkXUsJ7Nk_kfHQe9tLoSMfIweqFw2SkCBcSRyIGXj29HwdvjXctS27gckYrmiuYhDfC88-FJUNfl7JNptQvuEz8sFuf-JULvxd4HUxbiYu7kKAu1pgY_WdMWBt1Xeu8L4qDzIXe6jGPL8-K9VGbOHApAmSUrevgp39ju6zGiy5HByUn3KfTmzD5C_VCv9Yv8"/>
+</div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-20">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-8 lg:col-span-7">
+<span class="inline-block text-beige-prestige font-label-bold text-label-bold tracking-widest uppercase mb-4">Advance Capital</span>
+<h1 class="font-headline-xxl text-headline-xxl text-on-primary mb-6">
+                        Haz crecer tu capital con <span class="text-gradient">Expertos en Inversiones</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-primary/80 mb-10 max-w-2xl">
+                        Estrategias de inversión estructuradas para patrimonios exigentes. Respaldados por la trayectoria y solidez de Advance Factoring.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-rojo-capital text-on-primary font-label-bold text-label-bold px-8 py-4 rounded hover:bg-secondary-container transition-colors shadow-lg">
+                            Descubre Oportunidades
+                        </button>
+<button class="bg-surface-container-lowest/10 border border-on-primary/30 text-on-primary font-label-bold text-label-bold px-8 py-4 rounded hover:bg-on-primary/20 transition-colors flex items-center justify-center gap-2 backdrop-blur-sm">
+                            Habla con un Asesor <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Investment Products -->
+<section class="py-section-gap bg-surface relative">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16">
+<h2 class="font-headline-xl text-headline-xl text-azul-respaldo mb-4">Soluciones de Capital Estructurado</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mx-auto">Diversifique su portafolio con instrumentos financieros diseñados para ofrecer rentabilidad ajustada al riesgo, respaldados por activos reales.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest shadow-sm hover:shadow-lg border border-azul-respaldo/5 p-10 rounded-xl group transition-all duration-300 transform hover:-translate-y-1">
+<div class="w-16 h-16 bg-azul-respaldo/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-azul-respaldo group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-azul-respaldo group-hover:text-white text-3xl transition-colors">account_balance</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-azul-respaldo mb-4">Factoring Institucional</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">Inversión en cuentas por cobrar de corporaciones prime. Ofrece un flujo de caja predecible a corto plazo con bajo nivel de volatilidad.</p>
+<a class="inline-flex items-center text-rojo-capital font-label-bold text-label-bold hover:text-secondary-container transition-colors" href="#">
+                        Conocer más <span class="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Card 2 -->
+<div class="bg-azul-respaldo shadow-lg p-10 rounded-xl relative overflow-hidden group transition-all duration-300 transform hover:-translate-y-1">
+<div class="absolute top-0 right-0 bg-beige-prestige text-azul-respaldo font-label-sm text-label-sm px-4 py-1.5 rounded-bl-lg font-bold">Alta Demanda</div>
+<div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-beige-prestige transition-colors duration-300">
+<span class="material-symbols-outlined text-beige-prestige group-hover:text-azul-respaldo text-3xl transition-colors">real_estate_agent</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-white mb-4">Fideicomisos de Leasing</h3>
+<p class="font-body-md text-body-md text-white/80 mb-8">Participación en carteras de arrendamiento financiero con garantía sobre maquinaria y equipos industriales de alto valor.</p>
+<a class="inline-flex items-center text-beige-prestige font-label-bold text-label-bold hover:text-white transition-colors" href="#">
+                        Conocer más <span class="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest shadow-sm hover:shadow-lg border border-azul-respaldo/5 p-10 rounded-xl group transition-all duration-300 transform hover:-translate-y-1">
+<div class="w-16 h-16 bg-azul-respaldo/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-azul-respaldo group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-azul-respaldo group-hover:text-white text-3xl transition-colors">finance</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-azul-respaldo mb-4">Capital Estructurado</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">Notas de inversión diseñadas a medida para optimizar el binomio riesgo-retorno, orientadas a proyectos corporativos en expansión.</p>
+<a class="inline-flex items-center text-rojo-capital font-label-bold text-label-bold hover:text-secondary-container transition-colors" href="#">
+                        Conocer más <span class="material-symbols-outlined ml-1 text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Advance Capital -->
+<section class="py-section-gap bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div>
+<img alt="Confident financial advisor reviewing documents with a corporate client in a high-end office." class="rounded-xl shadow-2xl w-full object-cover h-[600px]" data-alt="A focused, professional financial advisor in a sharp suit discussing investment strategies with a high-net-worth client in a premium, modern office setting. The room features elegant furnishings, bright natural light, and subtle beige and deep blue accents. The mood is confident, secure, and entirely corporate, emphasizing trust and bespoke financial services within a crisp light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3e451lsV3Y7DNssX-Juy_RPFvOlNrtySqfkJLefI-cQWYxvIOPJe5sW5jZzB44DbqDneSfcx5pju2v4Ohx-4HhtcZ3DeAQtlngGppYsjJ2oEWcW_1ORWlwTKRk1anjw5pgHwvunJHXO6F0pMnJxpqtC-cJ_WsI1YbnFYgRuXQGTkffCHC9llEQiLYE0dngMwQjgtr_GnoSGIToWUYhFo2ha_nTg6qA8h54_uAaBZZDoDaO0fRsCFKrrft9a8eLOvongClR0n3UfM"/>
+</div>
+<div>
+<span class="inline-block text-rojo-capital font-label-bold text-label-bold tracking-widest uppercase mb-4">Nuestra Experiencia</span>
+<h2 class="font-headline-xl text-headline-xl text-azul-respaldo mb-6">El respaldo de un líder institucional</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10">
+                        Advance Capital es el brazo de inversión del Grupo Advance. Aprovechamos la infraestructura, análisis de riesgo y originación de Advance Factoring para ofrecer oportunidades de inversión exclusivas.
+                    </p>
+<div class="space-y-8">
+<div class="flex gap-6">
+<div class="flex-shrink-0 mt-1">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-rojo-capital text-2xl">verified</span>
+</div>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-azul-respaldo mb-2">+20 Años de Experiencia</h4>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Trayectoria comprobada en el mercado financiero peruano gestionando riesgo corporativo.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 mt-1">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-rojo-capital text-2xl">shield</span>
+</div>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-azul-respaldo mb-2">Solidez Estructural</h4>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Inversiones respaldadas por flujos reales y garantías tangibles, mitigando la volatilidad del mercado.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 mt-1">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-rojo-capital text-2xl">insights</span>
+</div>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-azul-respaldo mb-2">Gestión Activa de Riesgo</h4>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Comités de inversión rigurosos y monitoreo continuo de portafolios mediante tecnología propia.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Investor Profile CTA -->
+<section class="py-section-gap bg-azul-respaldo relative overflow-hidden">
+<div class="absolute inset-0 pattern-bg opacity-10"></div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10 text-center">
+<h2 class="font-headline-xl text-headline-xl text-on-primary mb-6">Inicie una conversación sobre su capital</h2>
+<p class="font-body-lg text-body-lg text-on-primary/80 max-w-2xl mx-auto mb-10">
+                Nuestros asesores están disponibles para estructurar un portafolio alineado a sus objetivos de rentabilidad y horizonte temporal.
+            </p>
+<button class="bg-beige-prestige text-azul-respaldo font-label-bold text-label-bold px-10 py-5 rounded hover:bg-white transition-all duration-300 shadow-xl transform hover:-translate-y-1">
+                Hablar con un Asesor de Inversiones
+            </button>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-section-gap px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-start gap-gutter bg-surface-container-lowest border-t border-outline/10">
+<div class="mb-8 md:mb-0">
+<img alt="Advance Group Logo" class="h-8 object-contain mb-6 filter brightness-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEVCE_RZ17QxKchR4tlpfuLBpMf-UvjD6TvCDUuY5Eeyk0NhR2UgOBUfq4iYeWkia1KMg79AIwlhefH3vljkglfOKq_CJwzg1y1Reugotoprdkb2gdw8e1dmw1aZkhT08SdUhuFMiv6Lf0996gnD_HlQP9eyZ2eOe3DkUJN0RVwVfkdIJ_vWdzdyFv9PAAa0QlkDMh0N4BZU7Q8QY_yi4Vkp9oM4AIbeamC8Uxoo_CcXe-6HpVUp_iTDDCZ5rTD3vQlLU_8gO4Nyg"/>
+<p class="font-label-sm text-label-sm text-on-surface-variant max-w-xs">
+                © 2024 Advance Group. Regulated by SBS and CAVALI. All rights reserved.
+            </p>
+</div>
+<div class="flex flex-col md:flex-row gap-6 md:gap-12">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-azul-respaldo transition-colors font-medium" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-azul-respaldo transition-colors font-medium" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-azul-respaldo transition-colors font-medium" href="#">Regulatory Compliance</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-azul-respaldo transition-colors font-medium" href="#">Contact Support</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-azul-respaldo transition-colors font-medium" href="#">SBS Registration</a>
+</div>
+</footer>
+</body></html>

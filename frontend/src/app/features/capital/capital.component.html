@@ -1,0 +1,237 @@
+<!-- 1. HERO — full-viewport editorial -->
+<section class="ac-hero">
+  <div class="ac-hero__bg" aria-hidden="true">
+    <div class="ac-hero__grid"></div>
+    <div class="ac-hero__glow" [appParallax]="-0.18"></div>
+  </div>
+
+  <div class="container ac-hero__inner">
+    <div appScrollAnimate animType="fade">
+      <span class="badge badge--beige">Advance Capital · Inversiones</span>
+    </div>
+
+    <h1 class="ac-hero__title display-xl">
+      <span class="ac-hero__line" appTextReveal>Haga crecer</span>
+      <span class="ac-hero__line" appTextReveal revealDelay="120ms">su <span class="outline-text">capital</span></span>
+      <span class="ac-hero__line" appTextReveal revealDelay="240ms">con respaldo.</span>
+    </h1>
+
+    <div class="ac-hero__bottom">
+      <p class="ac-hero__lead" appScrollAnimate animType="up" animDelay="0.35s">
+        Inversiones en factoring, leasing y capital estructurado con más de 20 años de experiencia.
+        El brazo financiero de Advance Factoring.
+      </p>
+      <div class="ac-hero__actions" appScrollAnimate animType="up" animDelay="0.45s">
+        <a href="#simulador" class="btn btn--warm btn--lg" appMagnetic (click)="goToSimulador($event)">Simular mi inversión</a>
+        <a
+          href="https://wa.me/51932499073"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-arrow link-arrow--light">
+          Hablar por WhatsApp
+          <app-icon name="arrow-up-right" [size]="16" />
+        </a>
+      </div>
+    </div>
+
+    <div class="ac-hero__stats" appScrollAnimate animType="fade" animDelay="0.55s">
+      <div class="ac-hero__stat">
+        <span class="ac-hero__stat-value"><span [appCountUp]="20" countSuffix="+"></span></span>
+        <span class="ac-hero__stat-label">Años</span>
+      </div>
+      <div class="ac-hero__stat">
+        <span class="ac-hero__stat-value">3</span>
+        <span class="ac-hero__stat-label">Instrumentos</span>
+      </div>
+      <div class="ac-hero__stat">
+        <span class="ac-hero__stat-value"><span [appCountUp]="100" countSuffix="%"></span></span>
+        <span class="ac-hero__stat-label">Respaldo</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ac-hero__scroll" aria-hidden="true">
+    <span class="ac-hero__scroll-label">Scroll</span>
+    <span class="ac-hero__scroll-track"><span class="ac-hero__scroll-dot"></span></span>
+  </div>
+</section>
+
+<!-- 2. MARQUEE -->
+<app-marquee [dark]="true" [items]="marqueeItems" />
+
+<!-- 3. PRODUCTS — editorial index rows -->
+<section class="ac-products section">
+  <div class="container">
+    <div class="ac-products__layout">
+      <div class="ac-products__intro" appScrollAnimate animType="up">
+        <div class="section-header section-header--left ac-products__header">
+          <span class="section-header__eyebrow">Nuestros productos</span>
+          <h2 class="section-header__title">Instrumentos para crecer su capital</h2>
+          <p class="section-header__desc">Tres instrumentos financieros especializados para maximizar el rendimiento de su capital con riesgo controlado.</p>
+          <a routerLink="/contacto" class="link-arrow ac-products__cta">
+            Hablar con un asesor
+            <app-icon name="arrow-right" [size]="16" />
+          </a>
+        </div>
+      </div>
+
+      <div class="ac-products__list">
+        @for (product of products; track product.id; let i = $index) {
+          <a
+            routerLink="/contacto"
+            class="ac-products__row"
+            appScrollAnimate
+            animType="up"
+            [animDelay]="(i * 0.1) + 's'"
+            [attr.aria-label]="'Solicitar información sobre ' + product.title">
+            <span class="ac-products__index">0{{ i + 1 }}</span>
+            <span class="ac-products__icon" aria-hidden="true">
+              <app-icon [name]="product.icon" [size]="20" />
+            </span>
+            <span class="ac-products__body">
+              <span class="ac-products__title">{{ product.title }}</span>
+              <span class="ac-products__tagline">{{ product.tagline }}</span>
+              <span class="ac-products__highlights">{{ product.highlights.join(' · ') }}</span>
+            </span>
+            <span class="ac-products__arrow" aria-hidden="true">
+              <app-icon name="arrow-up-right" [size]="28" />
+            </span>
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULADOR -->
+<app-capital-simulator id="simulador" />
+
+<!-- 4. GROUP DIAGRAM + ABOUT -->
+<section class="ac-about section">
+  <div class="container">
+    <div class="ac-about__grid">
+      <div class="ac-about__visual" appScrollAnimate animType="left">
+        <div class="ac-about__panel" [appParallax]="0.06">
+          <div class="ac-about__chip ac-about__chip--group">
+            <img src="/logo-group-white.png" alt="Advance Group" />
+          </div>
+          <div class="ac-about__connector" aria-hidden="true"></div>
+          <div class="ac-about__children">
+            <div class="ac-about__chip ac-about__chip--child">
+              <img src="/logo-factoring-white.png" alt="Advance Factoring" />
+            </div>
+            <div class="ac-about__chip ac-about__chip--child ac-about__chip--highlight">
+              <img src="/logo-capital-white.png" alt="Advance Capital" />
+            </div>
+          </div>
+          <p class="ac-about__caption">Brazo financiero de <strong>Advance Factoring</strong></p>
+        </div>
+      </div>
+
+      <div class="ac-about__content" appScrollAnimate animType="right" animDelay="0.15s">
+        <span class="ac-about__eyebrow">Quiénes somos</span>
+        <h2 class="ac-about__title">Respaldo de un grupo con trayectoria</h2>
+        <p class="ac-about__text">Advance Capital es el brazo de inversiones de Advance Group, impulsado por la experiencia y el respaldo regulatorio de Advance Factoring. Ofrecemos soluciones de inversión en factoring, leasing y capital estructurado.</p>
+        <p class="ac-about__text">Nuestro equipo tiene más de 20 años de experiencia en el mercado financiero peruano, lo que nos permite estructurar inversiones con retornos competitivos y riesgo controlado.</p>
+        <div class="ac-about__counters">
+          @for (stat of stats; track stat.label; let i = $index) {
+            <div class="ac-about__mini-stat" appScrollAnimate animType="up" [animDelay]="(0.25 + i * 0.1) + 's'">
+              <span class="ac-about__mini-stat-value">
+                @if (stat.count !== undefined) {
+                  <span [appCountUp]="stat.count" [countSuffix]="stat.suffix ?? ''"></span>
+                } @else {
+                  {{ stat.value }}
+                }
+              </span>
+              <span class="ac-about__mini-stat-label">{{ stat.label }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. BENEFITS — sticky stacked deck -->
+<section class="ac-benefits section">
+  <div class="container">
+    <div class="section-header" appScrollAnimate animType="up">
+      <span class="section-header__eyebrow">Por qué elegirnos</span>
+      <h2 class="section-header__title">Ventajas de invertir con Advance Capital</h2>
+    </div>
+
+    <div class="ac-benefits__deck">
+      @for (pair of benefitPairs; track $index; let i = $index) {
+        <div class="ac-benefits__card" [class.ac-benefits__card--navy]="i === 1">
+          <span
+            class="ac-benefits__card-index"
+            [class.outline-text]="i === 1"
+            [class.outline-text--navy]="i !== 1"
+            aria-hidden="true">
+            0{{ i + 1 }}
+          </span>
+          <div class="ac-benefits__card-grid">
+            @for (b of pair; track b.title) {
+              <article class="ac-benefits__item">
+                <div class="ac-benefits__icon" aria-hidden="true">
+                  <app-icon [name]="b.icon" [size]="22" />
+                </div>
+                <h3 class="ac-benefits__item-title">{{ b.title }}</h3>
+                <p class="ac-benefits__item-desc">{{ b.desc }}</p>
+              </article>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- 6. PROCESS — horizontal timeline -->
+<section class="ac-process section">
+  <div class="container">
+    <div class="section-header" appScrollAnimate animType="up">
+      <span class="section-header__eyebrow">Cómo funciona</span>
+      <h2 class="section-header__title">Proceso simple y transparente</h2>
+      <p class="section-header__desc">En cuatro pasos le acompañamos desde la consulta inicial hasta la ejecución de su inversión.</p>
+    </div>
+
+    <div class="ac-process__timeline">
+      <span class="ac-process__line" appScrollAnimate animType="fade" aria-hidden="true"></span>
+      <div class="ac-process__grid">
+        @for (step of steps; track step.number; let i = $index) {
+          <div class="ac-process__step" appScrollAnimate animType="up" [animDelay]="(i * 0.12) + 's'">
+            <span class="ac-process__number">{{ step.number }}</span>
+            <h3 class="ac-process__step-title">{{ step.title }}</h3>
+            <p class="ac-process__step-desc">{{ step.desc }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. FINAL CTA — giant editorial -->
+<section class="ac-cta">
+  <div class="container">
+    <div class="ac-cta__inner">
+      <span class="ac-cta__eyebrow" appScrollAnimate animType="fade">Hablemos</span>
+      <a routerLink="/contacto" class="ac-cta__link" aria-label="Agendar una consulta de inversión">
+        <span class="ac-cta__title display-xl" appTextReveal>¿Listo para invertir con expertos?</span>
+        <span class="ac-cta__underline" aria-hidden="true"></span>
+      </a>
+      <div class="ac-cta__actions" appScrollAnimate animType="up" animDelay="0.2s">
+        <a routerLink="/contacto" class="btn btn--warm btn--lg" appMagnetic>Agendar consulta</a>
+        <a
+          href="https://wa.me/51932499073"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn--outline btn--lg">
+          <app-icon name="message-circle" [size]="18" />
+          WhatsApp
+        </a>
+      </div>
+      <p class="ac-cta__note">Lun–Vie: 9:00am – 6:00pm · Sáb: 8:00am – 1:00pm</p>
+    </div>
+  </div>
+</section>

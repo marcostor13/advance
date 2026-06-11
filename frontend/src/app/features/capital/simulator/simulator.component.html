@@ -1,0 +1,347 @@
+<section class="cs">
+  <div class="container">
+
+    <!-- Step indicator -->
+    <div class="cs__steps" aria-label="Pasos del simulador">
+      @for (s of stepsMeta; track s.num; let i = $index) {
+        <div
+          class="cs__step"
+          [class.cs__step--active]="step() === i + 1"
+          [class.cs__step--done]="step() > i + 1"
+          aria-hidden="true"
+        >
+          <span class="cs__step-num">{{ s.num }}</span>
+          <span class="cs__step-label">{{ s.label }}</span>
+        </div>
+        @if (i < stepsMeta.length - 1) {
+          <span class="cs__step-connector" aria-hidden="true"></span>
+        }
+      }
+    </div>
+
+    <!-- ── STEP 1: Parameters ─────────────────────────────────── -->
+    @if (step() === 1) {
+      <div class="cs__layout">
+
+        <!-- Left: Controls -->
+        <div class="cs__controls">
+          <div class="cs__heading">
+            <h2 class="cs__title">Simule su inversión</h2>
+            <p class="cs__subtitle">
+              Calcule el rendimiento estimado según el instrumento y plazo que elija
+            </p>
+          </div>
+
+          <!-- Instrument selector -->
+          <fieldset class="cs__fieldset">
+            <legend class="cs__legend">Instrumento financiero</legend>
+            <div class="cs__instruments">
+              @for (inst of instruments; track inst.value) {
+                <button
+                  type="button"
+                  class="cs__instrument-card"
+                  [class.cs__instrument-card--active]="instrument() === inst.value"
+                  (click)="setInstrument(inst.value)"
+                  [attr.aria-pressed]="instrument() === inst.value"
+                >
+                  <span class="cs__instrument-icon">
+                    @if (inst.value === 'factoring') {
+                      <app-icon name="percent" [size]="22" />
+                    }
+                    @if (inst.value === 'leasing') {
+                      <app-icon name="layers" [size]="22" />
+                    }
+                    @if (inst.value === 'capital_estructurado') {
+                      <app-icon name="trending-up" [size]="22" />
+                    }
+                  </span>
+                  <span class="cs__instrument-label">{{ inst.label }}</span>
+                </button>
+              }
+            </div>
+          </fieldset>
+
+          <!-- Currency + Amount -->
+          <div class="cs__amount-block">
+            <div class="cs__currency-row">
+              <span class="cs__legend">Moneda</span>
+              <div class="cs__currency-toggle" role="group" aria-label="Moneda">
+                <button
+                  type="button"
+                  class="cs__currency-btn"
+                  [class.cs__currency-btn--active]="currency() === 'PEN'"
+                  (click)="setCurrency('PEN')"
+                  [attr.aria-pressed]="currency() === 'PEN'"
+                >
+                  S/ Soles
+                </button>
+                <button
+                  type="button"
+                  class="cs__currency-btn"
+                  [class.cs__currency-btn--active]="currency() === 'USD'"
+                  (click)="setCurrency('USD')"
+                  [attr.aria-pressed]="currency() === 'USD'"
+                >
+                  $ Dólares
+                </button>
+              </div>
+            </div>
+
+            <label class="cs__label" for="cs-amount">Monto a invertir</label>
+            <div class="cs__amount-input-wrap">
+              <span class="cs__amount-prefix">{{ currencySymbol() }}</span>
+              <input
+                id="cs-amount"
+                class="cs__amount-input"
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                [value]="amountDisplay()"
+                (input)="onAmountInput($event)"
+                aria-label="Monto a invertir"
+              />
+            </div>
+            <input
+              class="cs__slider"
+              type="range"
+              [min]="minAmount"
+              [max]="sliderMax"
+              [step]="1000"
+              [value]="sliderValue()"
+              (input)="onSliderInput($event)"
+              aria-label="Ajustar monto"
+            />
+            <div class="cs__slider-range">
+              <span>{{ currencySymbol() }} {{ formatPlain(minAmount) }}</span>
+              <span>{{ currencySymbol() }} {{ formatPlain(sliderMax) }}</span>
+            </div>
+          </div>
+
+          <!-- Term buttons -->
+          <fieldset class="cs__fieldset">
+            <legend class="cs__legend">Plazo de inversión</legend>
+            <div class="cs__terms">
+              @for (t of terms; track t) {
+                <button
+                  type="button"
+                  class="cs__term-btn"
+                  [class.cs__term-btn--active]="termMonths() === t"
+                  (click)="setTerm(t)"
+                  [attr.aria-pressed]="termMonths() === t"
+                >
+                  {{ t }}m
+                </button>
+              }
+            </div>
+          </fieldset>
+
+          <!-- Compound toggle -->
+          <div class="cs__compound-row">
+            <label class="cs__toggle-label" for="cs-compound">
+              <span class="cs__toggle-switch">
+                <input
+                  id="cs-compound"
+                  type="checkbox"
+                  class="cs__toggle-input"
+                  [checked]="compound()"
+                  (change)="setCompound($any($event.target).checked)"
+                />
+                <span class="cs__toggle-track" aria-hidden="true"></span>
+              </span>
+              <span class="cs__toggle-text">
+                <strong>Capitalización compuesta</strong>
+                <span class="cs__toggle-hint">
+                  Los intereses se reinvierten cada período. Mayor rendimiento a largo plazo.
+                </span>
+              </span>
+            </label>
+          </div>
+
+          <!-- CTA -->
+          @if (error()) {
+            <p class="cs__error" role="alert">{{ error() }}</p>
+          }
+          <button
+            type="button"
+            class="btn btn--primary cs__cta"
+            [disabled]="loading()"
+            (click)="requestSimulation()"
+          >
+            @if (loading()) {
+              Calculando...
+            } @else {
+              Simular inversión
+            }
+          </button>
+        </div>
+
+        <!-- Right: Live preview card -->
+        <aside class="cs__preview" aria-label="Estimado referencial">
+          <div class="cs__preview-card">
+            <p class="cs__preview-eyebrow">Rendimiento estimado</p>
+            <p class="cs__preview-rate">
+              <span class="cs__preview-rate-value">{{ annualRate() }}%</span>
+              <span class="cs__preview-rate-label">Tasa anual</span>
+            </p>
+
+            <div class="cs__preview-divider"></div>
+
+            <div class="cs__preview-row">
+              <span class="cs__preview-row-label">Monto invertido</span>
+              <span class="cs__preview-row-value">{{ format(amount()) }}</span>
+            </div>
+            <div class="cs__preview-row">
+              <span class="cs__preview-row-label">Interés estimado</span>
+              <span class="cs__preview-row-value cs__preview-row-value--accent">
+                + {{ format(interestPreview()) }}
+              </span>
+            </div>
+            <div class="cs__preview-divider"></div>
+            <div class="cs__preview-row cs__preview-row--total">
+              <span class="cs__preview-row-label">Monto final</span>
+              <span class="cs__preview-row-value">{{ format(finalPreview()) }}</span>
+            </div>
+
+            <p class="cs__preview-disclaimer">
+              Valores referenciales. La cotización formal requiere validación de nuestro equipo.
+            </p>
+          </div>
+        </aside>
+      </div>
+    }
+
+    <!-- ── STEP 2: Auth gate ──────────────────────────────────── -->
+    @if (step() === 2) {
+      <div class="cs__auth-wrap">
+        <div class="cs__auth-header">
+          <button type="button" class="cs__back-btn" (click)="goBack()" aria-label="Volver">
+            <app-icon name="arrow-left" [size]="18" />
+            Volver
+          </button>
+          <h2 class="cs__title">Cree su cuenta para ver su simulación</h2>
+          <p class="cs__subtitle">
+            Registre sus datos para guardar y acceder a su simulación personalizada.
+          </p>
+        </div>
+        <app-auth-gate (authed)="onAuthed()" />
+      </div>
+    }
+
+    <!-- ── STEP 3: Results ───────────────────────────────────── -->
+    @if (step() === 3) {
+      @let sim = simulation();
+      @if (sim) {
+        <div class="cs__results">
+          <div class="cs__results-header">
+            <div>
+              <p class="cs__results-eyebrow">Simulación completada</p>
+              <h2 class="cs__title">Su simulación de inversión</h2>
+            </div>
+            <button type="button" class="cs__back-btn" (click)="reset()">
+              <app-icon name="refresh-cw" [size]="16" />
+              Simular nueva inversión
+            </button>
+          </div>
+
+          <!-- Summary cards -->
+          <div class="cs__summary-grid">
+            <div class="cs__summary-card">
+              <span class="cs__summary-label">Monto invertido</span>
+              <span class="cs__summary-value">{{ format(sim.amount, sim.currency) }}</span>
+            </div>
+            <div class="cs__summary-card cs__summary-card--accent">
+              <span class="cs__summary-label">Interés ganado</span>
+              <span class="cs__summary-value">+ {{ format(sim.interestEarned, sim.currency) }}</span>
+            </div>
+            <div class="cs__summary-card cs__summary-card--final">
+              <span class="cs__summary-label">Monto final</span>
+              <span class="cs__summary-value">{{ format(sim.finalAmount, sim.currency) }}</span>
+            </div>
+          </div>
+
+          <!-- Meta details -->
+          <div class="cs__meta-row">
+            <span class="cs__meta-item">
+              <span class="cs__meta-label">Instrumento</span>
+              <span class="cs__meta-value">{{ instrumentLabel(sim.instrument) }}</span>
+            </span>
+            <span class="cs__meta-item">
+              <span class="cs__meta-label">Plazo</span>
+              <span class="cs__meta-value">{{ sim.termMonths }} meses</span>
+            </span>
+            <span class="cs__meta-item">
+              <span class="cs__meta-label">Tasa anual</span>
+              <span class="cs__meta-value">{{ sim.annualRate }}%</span>
+            </span>
+            <span class="cs__meta-item">
+              <span class="cs__meta-label">Capitalización</span>
+              <span class="cs__meta-value">{{ sim.compound ? 'Compuesta' : 'Simple' }}</span>
+            </span>
+          </div>
+
+          <!-- Bar chart -->
+          <div class="cs__chart" aria-label="Evolución del saldo">
+            <p class="cs__chart-title">Evolución del saldo</p>
+            <div class="cs__chart-body">
+              @for (entry of visibleSchedule(); track entry.month) {
+                <div class="cs__bar-row">
+                  <span class="cs__bar-month">{{ entry.month }}m</span>
+                  <div class="cs__bar-track">
+                    <div
+                      class="cs__bar-fill"
+                      [style.width.%]="barWidth(entry.balance)"
+                    ></div>
+                  </div>
+                  <span class="cs__bar-value">{{ format(entry.balance, sim.currency) }}</span>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Schedule table -->
+          <div class="cs__schedule">
+            <p class="cs__schedule-title">Cronograma de rendimientos</p>
+            <div class="cs__table-wrap">
+              <table class="cs__table" aria-label="Cronograma de rendimientos">
+                <thead>
+                  <tr>
+                    <th scope="col">Mes</th>
+                    <th scope="col">Interés del período</th>
+                    <th scope="col">Saldo acumulado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (entry of visibleSchedule(); track entry.month) {
+                    <tr>
+                      <td>{{ entry.month }}</td>
+                      <td>{{ format(entry.interest, sim.currency) }}</td>
+                      <td>{{ format(entry.balance, sim.currency) }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            @if (sim.termMonths > 12) {
+              <button type="button" class="cs__expand-btn" (click)="toggleSchedule()">
+                @if (showFullSchedule()) {
+                  <app-icon name="chevron-up" [size]="16" />
+                  Mostrar menos
+                } @else {
+                  <app-icon name="chevron-down" [size]="16" />
+                  Ver tabla completa ({{ sim.termMonths }} períodos)
+                }
+              </button>
+            }
+          </div>
+
+          <!-- Disclaimer -->
+          <p class="cs__disclaimer">
+            Una cotización formal requiere validación por nuestro equipo. Los valores mostrados
+            son referenciales y no constituyen una oferta vinculante.
+          </p>
+        </div>
+      }
+    }
+
+  </div>
+</section>

@@ -1,0 +1,37 @@
+<section class="page-hero section">
+  <div class="container">
+    <h1 class="page-hero__title">Nuestros Servicios</h1>
+    <p class="page-hero__subtitle">
+      Soluciones completas para impulsar el crecimiento y la competitividad de tu empresa
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container services-grid">
+    @for (service of services; track service.title) {
+      <article class="service-detail">
+        <span class="service-detail__icon" aria-hidden="true">{{ service.icon }}</span>
+        <div class="service-detail__body">
+          <h2 class="service-detail__title">{{ service.title }}</h2>
+          <p class="service-detail__description">{{ service.description }}</p>
+          <ul class="service-detail__bullets">
+            @for (bullet of service.bullets; track bullet) {
+              <li>{{ bullet }}</li>
+            }
+          </ul>
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+<section class="section cta-banner">
+  <div class="container cta-banner__inner">
+    <div>
+      <h2 class="cta-banner__title">¿Necesitas un servicio a medida?</h2>
+      <p class="cta-banner__subtitle">Cuéntanos tu desafío y diseñamos la solución perfecta.</p>
+    </div>
+    <a routerLink="/contacto" class="btn btn--primary cta-banner__btn">Contactar</a>
+  </div>
+</section>

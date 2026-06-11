@@ -1,0 +1,104 @@
+.page-hero {
+  background: var(--color-bg-alt);
+  text-align: center;
+
+  &__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__subtitle {
+    font-size: 1.0625rem;
+    color: var(--color-text-light);
+    max-width: 52ch;
+    margin-inline: auto;
+  }
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-xl);
+}
+
+.service-detail {
+  display: flex;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  transition: box-shadow var(--transition-base);
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  &__icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  &__description {
+    font-size: 0.9375rem;
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__bullets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+
+    li {
+      font-size: 0.875rem;
+      color: var(--color-text-light);
+      padding-left: var(--spacing-md);
+      position: relative;
+
+      &::before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: var(--color-accent);
+      }
+    }
+  }
+}
+
+.cta-banner {
+  background: linear-gradient(135deg, var(--color-accent) 0%, #c23152 100%);
+  color: white;
+  border-radius: var(--radius-xl);
+  margin-inline: var(--spacing-xl);
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  &__subtitle { opacity: 0.9; }
+
+  &__btn {
+    background: white;
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+}

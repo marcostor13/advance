@@ -1,0 +1,242 @@
+<div class="ad">
+  <!-- Header -->
+  <header class="ad__header">
+    <img src="/logo-group-white.png" alt="Advance Group" class="ad__logo" height="36" />
+    <span class="ad__header-title">Panel de Administración</span>
+    <div class="ad__header-spacer"></div>
+    <button class="ad__logout-btn" (click)="logout()" type="button">
+      <app-icon name="arrow-right" [size]="16" />
+      Cerrar sesión
+    </button>
+  </header>
+
+  <!-- Stats -->
+  <div class="ad__stats">
+    <div class="ad__stat-card">
+      <span class="ad__stat-label">Total Cotizaciones</span>
+      <span class="ad__stat-value">{{ stats()?.totalQuotes ?? '—' }}</span>
+    </div>
+    <div class="ad__stat-card">
+      <span class="ad__stat-label">Total Simulaciones</span>
+      <span class="ad__stat-value">{{ stats()?.totalSimulations ?? '—' }}</span>
+    </div>
+    <div class="ad__stat-card">
+      <span class="ad__stat-label">Leads Activos</span>
+      <span class="ad__stat-value">{{ stats()?.totalLeads ?? '—' }}</span>
+    </div>
+    <div class="ad__stat-card">
+      <span class="ad__stat-label">Nuevas</span>
+      <span class="ad__stat-value">
+        {{ (stats()?.newQuotes ?? 0) + (stats()?.newSimulations ?? 0) }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="ad__tabs">
+    <button
+      class="ad__tab"
+      [class.ad__tab--active]="activeTab() === 'quotes'"
+      (click)="loadTab('quotes')"
+      type="button"
+    >Cotizaciones</button>
+    <button
+      class="ad__tab"
+      [class.ad__tab--active]="activeTab() === 'simulations'"
+      (click)="loadTab('simulations')"
+      type="button"
+    >Simulaciones</button>
+    <button
+      class="ad__tab"
+      [class.ad__tab--active]="activeTab() === 'leads'"
+      (click)="loadTab('leads')"
+      type="button"
+    >Leads</button>
+  </div>
+
+  <!-- Content -->
+  <div class="ad__content">
+    <!-- Status filter (quotes / simulations) -->
+    @if (activeTab() !== 'leads') {
+      <div class="ad__filter-bar">
+        <label class="ad__filter-label" for="ad-status-filter">Filtrar por estado:</label>
+        <select
+          id="ad-status-filter"
+          class="ad__filter-select"
+          [value]="statusFilter()"
+          (change)="filterChange($any($event.target).value)"
+        >
+          <option value="">Todas</option>
+          @for (s of leadStatuses; track s.value) {
+            <option [value]="s.value">{{ s.label }}</option>
+          }
+        </select>
+      </div>
+    }
+
+    @if (loading()) {
+      <div class="ad__loading">Cargando...</div>
+    }
+
+    <!-- Quotes table -->
+    @if (activeTab() === 'quotes' && !loading()) {
+      <div class="ad__table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Empresa</th>
+              <th>Moneda</th>
+              <th>Monto</th>
+              <th>Plazo</th>
+              <th>Anticipo</th>
+              <th>Desembolso Neto</th>
+              <th>Estado</th>
+              <th>Notas</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (q of quotes(); track q._id) {
+              <tr>
+                <td>{{ getUserName(q.user) }}</td>
+                <td>{{ getUserCompany(q.user) }}</td>
+                <td>{{ q.currency }}</td>
+                <td>{{ format(q.amount, q.currency) }}</td>
+                <td>{{ q.termDays }}d</td>
+                <td>{{ q.advancePct }}%</td>
+                <td>{{ format(q.netDisbursement, q.currency) }}</td>
+                <td>
+                  <select
+                    class="ad__status-select"
+                    [value]="q.status"
+                    (change)="updateQuoteStatus(q._id, $any($event.target).value)"
+                  >
+                    @for (s of leadStatuses; track s.value) {
+                      <option [value]="s.value">{{ s.label }}</option>
+                    }
+                  </select>
+                  <span class="ad__badge" [class]="'badge-' + q.status">{{ q.status }}</span>
+                </td>
+                <td class="ad__notes-cell">
+                  <button
+                    class="ad__notes-btn"
+                    (click)="toggleNote(q._id, q.notes ?? '')"
+                    type="button"
+                  >
+                    <app-icon name="file-text" [size]="14" />
+                    {{ expandedNoteId() === q._id ? 'Ocultar' : 'Notas' }}
+                  </button>
+                  @if (expandedNoteId() === q._id) {
+                    <div class="ad__notes-editor">
+                      <textarea
+                        class="ad__notes-area"
+                        rows="3"
+                        [value]="editingNote()?.value ?? ''"
+                        (input)="updateEditingNote($any($event.target).value)"
+                        placeholder="Agregar nota..."
+                      ></textarea>
+                      <button
+                        class="ad__notes-save"
+                        (click)="saveNote(q._id, 'quote')"
+                        type="button"
+                      >Guardar</button>
+                    </div>
+                  }
+                </td>
+                <td>{{ q.createdAt | date : 'dd/MM/yyyy' }}</td>
+              </tr>
+            } @empty {
+              <tr><td colspan="10" class="ad__empty">Sin cotizaciones.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <!-- Simulations table -->
+    @if (activeTab() === 'simulations' && !loading()) {
+      <div class="ad__table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Instrumento</th>
+              <th>Moneda</th>
+              <th>Monto</th>
+              <th>Plazo</th>
+              <th>Tasa Anual</th>
+              <th>Rendimiento</th>
+              <th>Monto Final</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of simulations(); track s._id) {
+              <tr>
+                <td>{{ getUserName(s.user) }}</td>
+                <td>{{ instrumentLabels[s.instrument] }}</td>
+                <td>{{ s.currency }}</td>
+                <td>{{ format(s.amount, s.currency) }}</td>
+                <td>{{ s.termMonths }}m</td>
+                <td>{{ s.annualRate }}%</td>
+                <td>{{ format(s.interestEarned, s.currency) }}</td>
+                <td>{{ format(s.finalAmount, s.currency) }}</td>
+                <td>
+                  <select
+                    class="ad__status-select"
+                    [value]="s.status"
+                    (change)="updateSimStatus(s._id, $any($event.target).value)"
+                  >
+                    @for (st of leadStatuses; track st.value) {
+                      <option [value]="st.value">{{ st.label }}</option>
+                    }
+                  </select>
+                  <span class="ad__badge" [class]="'badge-' + s.status">{{ s.status }}</span>
+                </td>
+                <td>{{ s.createdAt | date : 'dd/MM/yyyy' }}</td>
+              </tr>
+            } @empty {
+              <tr><td colspan="10" class="ad__empty">Sin simulaciones.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <!-- Leads table -->
+    @if (activeTab() === 'leads' && !loading()) {
+      <div class="ad__table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Empresa</th>
+              <th>Cotizaciones</th>
+              <th>Simulaciones</th>
+              <th>Registrado</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (lead of leads(); track lead._id) {
+              <tr>
+                <td>{{ lead.name }}</td>
+                <td>{{ lead.email }}</td>
+                <td>{{ lead.phone }}</td>
+                <td>{{ lead.company ?? '—' }}</td>
+                <td>{{ lead.quotesCount }}</td>
+                <td>{{ lead.simulationsCount }}</td>
+                <td>{{ lead.createdAt | date : 'dd/MM/yyyy' }}</td>
+              </tr>
+            } @empty {
+              <tr><td colspan="7" class="ad__empty">Sin leads registrados.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>
