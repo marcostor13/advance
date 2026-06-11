@@ -1,5 +1,7 @@
 FROM node:22-alpine AS builder
 WORKDIR /app
+# Force development so npm ci installs devDependencies (rimraf, nest CLI, etc.)
+ENV NODE_ENV=development
 COPY package*.json ./
 RUN npm ci
 COPY . .

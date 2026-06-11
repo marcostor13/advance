@@ -3,10 +3,15 @@ name: Frontend CI/CD
 on:
   push:
     branches: [main, develop]
-    paths: [frontend/**]
+    paths:
+      - 'frontend/**'
+      - 'netlify.toml'
+      - '.github/workflows/frontend-ci.yml'
   pull_request:
     branches: [main]
-    paths: [frontend/**]
+    paths:
+      - 'frontend/**'
+      - 'netlify.toml'
 
 env:
   NODE_VERSION: '22'
