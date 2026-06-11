@@ -75,17 +75,20 @@ Accede al panel en `http://<tu-servidor>:8000` y completa la configuración inic
 
 ### 4.2 Crear la aplicación
 
-1. En Coolify: **New Resource → Application → Docker Image**
+1. En Coolify: **New Resource → Application → Public/Private Repository**
 2. Conectar el repositorio GitHub (vía GitHub App o Personal Access Token)
-3. En la configuración:
+3. Seleccionar rama `main`
+4. En **Build Settings**, configurar:
 
 | Campo | Valor |
 |---|---|
-| **Image** | `ghcr.io/<github-usuario>/<repo>/backend:latest` |
+| **Base Directory** | `/backend` |
+| **Build Pack** | `Dockerfile` |
+| **Dockerfile Location** | `Dockerfile` |
 | **Port** | `3000` |
 | **Healthcheck path** | `/api/health` |
 
-> La imagen se construye en GitHub Actions y se publica en GHCR (GitHub Container Registry). El repositorio de contenedores es público por defecto para repos públicos; para repos privados, configura acceso a GHCR en Coolify.
+> `Base Directory = /backend` es crítico en monorepos. Sin esto, Coolify intenta detectar el tipo de app desde la raíz del repositorio y falla (Nixpacks no encuentra una app reconocible). El Dockerfile ya está en `backend/Dockerfile` — con base `/backend` la ruta relativa queda simplemente `Dockerfile`.
 
 ### 4.3 Variables de entorno en Coolify
 
@@ -122,7 +125,7 @@ Reemplaza la URL placeholder con la URL real de tu backend en Coolify:
 ```typescript
 export const environment = {
   production: true,
-  apiUrl: 'https://<tu-dominio-coolify>/api',  // ← reemplazar con URL real
+  apiUrl: 'https://apiadvance.marcostorresalarcon.com/api',  // ← reemplazar con URL real
 };
 ```
 
@@ -194,7 +197,7 @@ git push origin main
 
 # 3. Monitorear en GitHub → Actions → Backend CI/CD
 # 4. Verificar en Coolify que la aplicación levantó correctamente
-curl https://<tu-dominio-coolify>/api/health
+curl https://apiadvance.marcostorresalarcon.com/api/health
 ```
 
 ### Frontend
