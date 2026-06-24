@@ -3,10 +3,13 @@
   <div class="ac-hero__bg" aria-hidden="true">
     <div class="ac-hero__grid"></div>
     <div class="ac-hero__glow" [appParallax]="-0.18"></div>
+    <div class="ac-hero__visual" [appParallax]="0.08">
+      <img src="/12%20(3).png" alt="" aria-hidden="true" />
+    </div>
   </div>
 
   <div class="container ac-hero__inner">
-    <div appScrollAnimate animType="fade">
+    <div class="ac-hero__brand" appScrollAnimate animType="fade">
       <span class="badge badge--beige">Advance Capital · Inversiones</span>
     </div>
 
@@ -148,6 +151,40 @@
           }
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION & MISSION -->
+<section class="ac-vm section">
+  <div class="container">
+    <div class="section-header" appScrollAnimate animType="up">
+      <span class="section-header__eyebrow ac-vm__eyebrow-accent">Nuestra identidad</span>
+      <h2 class="section-header__title ac-vm__title-light">El propósito que guía cada inversión</h2>
+    </div>
+    <div class="ac-vm__grid">
+      <article class="ac-vm__card" appScrollAnimate animType="up" animDelay="0.1s">
+        <div class="ac-vm__card-top">
+          <span class="ac-vm__num" aria-hidden="true">01</span>
+          <div class="ac-vm__icon">
+            <app-icon name="eye" [size]="20" />
+          </div>
+        </div>
+        <span class="ac-vm__label">Visión</span>
+        <h3 class="ac-vm__heading">Consolidarnos como el principal vehículo de inversión en activos financieros del mercado peruano</h3>
+        <p class="ac-vm__text">Aspiramos a ser la plataforma de inversión de referencia en el Perú, donde inversionistas institucionales y privados confíen en nosotros para hacer crecer su capital con instrumentos estructurados, riesgo controlado y retornos competitivos.</p>
+      </article>
+      <article class="ac-vm__card ac-vm__card--highlight" appScrollAnimate animType="up" animDelay="0.2s">
+        <div class="ac-vm__card-top">
+          <span class="ac-vm__num" aria-hidden="true">02</span>
+          <div class="ac-vm__icon">
+            <app-icon name="target" [size]="20" />
+          </div>
+        </div>
+        <span class="ac-vm__label">Misión</span>
+        <h3 class="ac-vm__heading">Crear valor real para nuestros inversionistas a través de instrumentos financieros con respaldo sólido</h3>
+        <p class="ac-vm__text">Ofrecemos oportunidades de inversión en factoring, leasing y capital estructurado, respaldadas por la experiencia de más de 20 años de Advance Group, con transparencia absoluta y acompañamiento cercano en cada etapa del proceso.</p>
+      </article>
     </div>
   </div>
 </section>

@@ -1,10 +1,21 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  OnDestroy,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, startWith } from 'rxjs/operators';
 import { MagneticDirective } from '../../../core/directives/magnetic.directive';
 
 interface NavLink {
   label: string;
   path: string;
+  logo?: string;
 }
 
 @Component({
@@ -16,29 +27,34 @@ interface NavLink {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent implements OnDestroy {
+  private readonly router = inject(Router);
+
   protected readonly links: NavLink[] = [
     { label: 'Inicio', path: '/' },
-    { label: 'Factoring', path: '/factoring' },
-    { label: 'Capital', path: '/capital' },
-    { label: 'Contacto', path: '/contacto' },
+    { label: 'Factoring', path: '/factoring', logo: '/logo-factoring.png' },
+    { label: 'Capital', path: '/capital', logo: '/logo-capital.png' },
   ];
 
-  protected readonly isScrolled = signal(false);
   protected readonly isMenuOpen = signal(false);
-  protected readonly isHidden = signal(false);
 
-  private lastScrollY = 0;
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map((e) => e.urlAfterRedirects),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
 
-  @HostListener('window:scroll')
-  onScroll(): void {
-    const y = window.scrollY;
-    this.isScrolled.set(y > 30);
-    // Never hide while the mobile menu overlays the page
-    if (!this.isMenuOpen()) {
-      this.isHidden.set(y > 200 && y > this.lastScrollY);
-    }
-    this.lastScrollY = y;
-  }
+  private readonly transparentRoutes = ['/', '/factoring', '/capital'];
+
+  protected readonly isTransparent = computed(
+    () => !this.isMenuOpen() && this.transparentRoutes.includes(this.currentUrl()),
+  );
+
+  protected readonly isNavyBg = computed(
+    () => !this.isMenuOpen() && this.currentUrl() === '/contacto',
+  );
 
   @HostListener('document:keydown.escape')
   onEscape(): void {
@@ -47,7 +63,6 @@ export class NavbarComponent implements OnDestroy {
 
   @HostListener('window:resize')
   onResize(): void {
-    // Leaving the mobile breakpoint with the menu open would keep body scroll locked
     if (window.innerWidth > 768) {
       this.closeMenu();
     }
@@ -59,9 +74,7 @@ export class NavbarComponent implements OnDestroy {
   }
 
   closeMenu(): void {
-    if (!this.isMenuOpen()) {
-      return;
-    }
+    if (!this.isMenuOpen()) return;
     this.isMenuOpen.set(false);
     this.syncMenuState();
   }
@@ -72,7 +85,6 @@ export class NavbarComponent implements OnDestroy {
 
   private syncMenuState(): void {
     if (this.isMenuOpen()) {
-      this.isHidden.set(false);
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';

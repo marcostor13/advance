@@ -4,7 +4,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: calc(100vh - var(--header-height));
+  // Pull up into the header area so the section fills the full viewport
+  min-height: 100vh;
+  margin-top: calc(-1 * var(--header-height));
   overflow: hidden;
   background: var(--deep-blue);
 
@@ -36,10 +38,11 @@
   &__inner {
     position: relative;
     width: 100%;
-    padding-block: 5rem 6rem;
+    // Extra top padding absorbs the navbar height so content clears it
+    padding-block: calc(var(--header-height) + 5rem) 6rem;
 
     @media (max-width: 768px) {
-      padding-block: 3.5rem 5rem;
+      padding-block: calc(var(--header-height) + 3rem) 5rem;
     }
   }
 

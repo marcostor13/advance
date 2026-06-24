@@ -1,32 +1,76 @@
 .navbar {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
   height: var(--header-height);
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--hairline);
-  transition: background 0.3s ease, box-shadow 0.3s ease,
-    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 
-  &--scrolled {
-    background: #fff;
-    box-shadow: 0 4px 24px rgba(0, 29, 58, 0.06);
+  // ── Transparent state — dark hero pages (home / factoring / capital) ─
+  &--transparent {
+    background: transparent;
+    border-bottom: none;
+
+    .navbar__link {
+      color: rgba(255, 255, 255, 0.72);
+      &::after { background: var(--beige); }
+      &:hover, &--active { color: #fff; }
+    }
+
+    .navbar__link--has-logo {
+      &:hover {
+        background: rgba(255, 255, 255, 0.09);
+        border-color: rgba(255, 255, 255, 0.18);
+      }
+      &.navbar__link--active {
+        background: rgba(255, 255, 255, 0.13);
+        border-color: rgba(255, 255, 255, 0.26);
+      }
+    }
+
+    .navbar__hamburger span { background: #fff; }
   }
 
-  &--hidden {
-    transform: translateY(-100%);
-    box-shadow: none;
+  // ── Navy state — contact page ──────────────────────────────────────
+  &--navy {
+    background: var(--deep-blue);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    .navbar__link {
+      color: rgba(255, 255, 255, 0.72);
+      &::after { background: var(--beige); }
+      &:hover, &--active { color: #fff; }
+    }
+
+    .navbar__link--has-logo {
+      &:hover {
+        background: rgba(255, 255, 255, 0.09);
+        border-color: rgba(255, 255, 255, 0.18);
+      }
+      &.navbar__link--active {
+        background: rgba(255, 255, 255, 0.13);
+        border-color: rgba(255, 255, 255, 0.26);
+      }
+    }
+
+    .navbar__hamburger span { background: #fff; }
   }
 
+  // Backdrop-filter creates a stacking context — must be removed for mobile overlay
+  &--menu-open {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: transparent;
+    border-bottom-color: transparent;
+  }
+
+  // ── Inner layout ──────────────────────────────────────────────────
   &__inner {
     display: flex;
     align-items: center;
     gap: 2rem;
     height: 100%;
+    padding-block: 10px;
   }
 
   &__logo {
@@ -37,12 +81,13 @@
   }
 
   &__logo-img {
-    height: 56px;
+    height: 104px;
     width: auto;
     object-fit: contain;
     display: block;
   }
 
+  // ── Desktop nav ───────────────────────────────────────────────────
   &__nav {
     display: flex;
     align-items: center;
@@ -64,12 +109,12 @@
     padding-inline: 0.875rem;
     position: relative;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.25s ease;
 
     &::after {
       content: '';
       position: absolute;
-      bottom: 0;
+      top: calc(50% + 0.65em);
       left: 0.875rem;
       right: 0.875rem;
       height: 2px;
@@ -82,29 +127,53 @@
     &:hover,
     &--active {
       color: var(--deep-blue);
+      &::after { transform: scaleX(1); }
+    }
 
-      &::after {
-        transform: scaleX(1);
+    // Logo-image variant — pill chip, no underline
+    &--has-logo {
+      height: auto;
+      align-self: center;
+      padding: 0.35rem 0.875rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid transparent;
+      background: transparent;
+      transition: background 0.3s ease, border-color 0.3s ease;
+
+      &::after { display: none; }
+
+      &:hover {
+        background: rgba(183, 0, 22, 0.05);
+        border-color: rgba(183, 0, 22, 0.14);
+      }
+
+      &.navbar__link--active {
+        background: rgba(183, 0, 22, 0.08);
+        border-color: rgba(183, 0, 22, 0.22);
       }
     }
   }
 
-  &__link-index {
-    display: none;
+  &__link-index { display: none; }
+
+  &__link-logo {
+    display: block;
+    height: 64px;
+    width: auto;
+    object-fit: contain;
+    flex-shrink: 0;
   }
+
+  &__link-label--mobile { display: none; }
 
   &__cta {
     margin-inline-start: 0.75rem;
     font-size: 0.8125rem;
-
-    @media (max-width: 768px) {
-      display: none;
-    }
+    @media (max-width: 768px) { display: none; }
   }
 
   &__cta-mobile {
     display: none;
-
     @media (max-width: 768px) {
       display: inline-flex;
       justify-content: center;
@@ -132,52 +201,23 @@
       transition: transform 0.25s ease, opacity 0.25s ease, background 0.25s ease;
     }
 
-    &--open {
-      span {
-        background: #fff;
-      }
+    &--open span { background: #fff; }
+    &--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    &--open span:nth-child(2) { opacity: 0; }
+    &--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-      span:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
-      }
-
-      span:nth-child(2) {
-        opacity: 0;
-      }
-
-      span:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
-      }
-    }
-
-    @media (max-width: 768px) {
-      display: flex;
-    }
+    @media (max-width: 768px) { display: flex; }
   }
 
-  // The mobile menu must escape the header: backdrop-filter turns the header
-  // into the containing block for fixed descendants, so the overlay is removed
-  // while the menu is open and sizing uses explicit viewport heights.
-  &--menu-open {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: transparent;
-    border-bottom-color: transparent;
-    box-shadow: none;
-  }
-
+  // ── Mobile (≤768px) ───────────────────────────────────────────────
   @media (max-width: 768px) {
-    &__inner {
-      gap: 1rem;
-    }
+    &__inner { gap: 1rem; }
 
-    // Logo stays above the navy overlay (white logo variant swapped in via template)
     &--menu-open &__logo {
       position: relative;
       z-index: 2;
     }
 
-    // Full-screen overlay menu
     &__nav {
       position: fixed;
       top: 0;
@@ -210,7 +250,7 @@
     &__link {
       height: auto;
       width: 100%;
-      align-items: baseline;
+      align-items: center;
       gap: 1rem;
       padding: 0.625rem 0;
       font-size: clamp(2rem, 9vw, 3.5rem);
@@ -222,19 +262,28 @@
       opacity: 0;
       transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
 
-      &::after {
-        display: none;
-      }
-
-      &:hover,
-      &--active {
-        color: #fff;
-      }
+      &::after { display: none; }
+      &:hover, &--active { color: #fff; }
 
       &:hover .navbar__link-label,
-      &--active .navbar__link-label {
+      &:hover .navbar__link-label--mobile,
+      &--active .navbar__link-label,
+      &--active .navbar__link-label--mobile {
         color: var(--beige);
         transform: translateX(8px);
+      }
+
+      &--has-logo {
+        height: auto;
+        align-self: auto;
+        padding: 0.625rem 0;
+        border-radius: 0;
+        border: none;
+        background: transparent !important;
+        gap: 1rem;
+
+        &:hover { background: transparent !important; border-color: transparent; }
+        &.navbar__link--active { background: transparent !important; border-color: transparent; }
       }
     }
 
@@ -252,6 +301,15 @@
       transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
     }
 
+    &__link-label--mobile {
+      display: inline-block;
+      font-size: clamp(2rem, 9vw, 3.5rem);
+      font-weight: 700;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
+    }
+
+    &__link-logo { height: 44px; flex-shrink: 0; }
+
     &__cta-mobile {
       margin-top: 2rem;
       transform: translateY(28px);
@@ -259,7 +317,6 @@
       transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
     }
 
-    // Staggered entrance: 60ms per item once the overlay opens
     &__nav--open {
       .navbar__link,
       .navbar__cta-mobile {
@@ -268,9 +325,7 @@
       }
 
       @for $i from 1 through 5 {
-        > :nth-child(#{$i}) {
-          transition-delay: #{$i * 60}ms;
-        }
+        > :nth-child(#{$i}) { transition-delay: #{$i * 60}ms; }
       }
     }
   }

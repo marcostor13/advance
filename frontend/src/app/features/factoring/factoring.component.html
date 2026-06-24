@@ -3,6 +3,9 @@
   <div class="af-hero__bg" aria-hidden="true">
     <div class="af-hero__glow" [appParallax]="-0.18"></div>
     <div class="af-hero__grid"></div>
+    <div class="af-hero__visual" [appParallax]="0.08">
+      <img src="/12%20(4).png" alt="" aria-hidden="true" />
+    </div>
   </div>
 
   <div class="container af-hero__inner">
@@ -11,7 +14,6 @@
         <span class="badge badge--white">SBS N° 00029814</span>
         <span class="badge badge--white">CAVALI · Matriz 937</span>
       </div>
-      <img src="/logo-factoring-white.png" alt="Advance Factoring" class="af-hero__logo" width="2161" height="1197" />
     </div>
 
     <h1 class="af-hero__title display-xl">
@@ -28,7 +30,7 @@
         con operaciones de factoring y confirming reguladas por la SBS.
       </p>
       <div class="af-hero__actions">
-        <a href="#cotizador" class="btn btn--primary btn--lg" appMagnetic (click)="goToCotizador($event)">Cotizar mi factura</a>
+        <a href="https://calendly.com/marcostor13/new-meeting" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--lg" appMagnetic>Agenda una reunión</a>
         <a
           href="https://wa.me/51932499073"
           target="_blank"
@@ -113,9 +115,6 @@
   </div>
 </section>
 
-<!-- COTIZADOR -->
-<app-factoring-quoter id="cotizador" />
-
 <!-- 4 · COUNTERS BAND -->
 <section class="af-counters">
   <div class="container">
@@ -183,6 +182,35 @@
           <span class="sector-card__name">{{ sector.name }}</span>
         </div>
       }
+    </div>
+  </div>
+</section>
+
+<!-- VISION & MISSION -->
+<section class="af-vm section">
+  <div class="container">
+    <div class="af-vm__grid">
+      <article class="af-vm__panel" appScrollAnimate animType="left">
+        <span class="af-vm__deco" aria-hidden="true">01</span>
+        <span class="af-vm__bar af-vm__bar--crimson"></span>
+        <span class="af-vm__eyebrow">Visión</span>
+        <h3 class="af-vm__heading">Ser el referente de confianza en el financiamiento de facturas a nivel nacional</h3>
+        <p class="af-vm__text">Aspiramos a liderar el mercado peruano de factoring, siendo reconocidos como el socio estratégico que las empresas eligen para convertir sus cuentas por cobrar en el motor de su crecimiento, con solidez regulatoria y servicio de excelencia.</p>
+        <div class="af-vm__icon">
+          <app-icon name="eye" [size]="20" />
+        </div>
+      </article>
+      <div class="af-vm__divider" aria-hidden="true"></div>
+      <article class="af-vm__panel" appScrollAnimate animType="right" animDelay="0.15s">
+        <span class="af-vm__deco" aria-hidden="true">02</span>
+        <span class="af-vm__bar af-vm__bar--beige"></span>
+        <span class="af-vm__eyebrow">Misión</span>
+        <h3 class="af-vm__heading">Transformar la liquidez empresarial con agilidad, seguridad y compromiso</h3>
+        <p class="af-vm__text">Proveemos operaciones de factoring y confirming reguladas por la SBS, con más de 20 años de experiencia, convirtiendo las facturas de nuestros clientes en capital de trabajo inmediato para que puedan operar, crecer y prosperar sin esperar.</p>
+        <div class="af-vm__icon">
+          <app-icon name="target" [size]="20" />
+        </div>
+      </article>
     </div>
   </div>
 </section>

@@ -8,13 +8,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: calc(100vh - var(--header-height));
+  min-height: 100vh;
+  margin-top: calc(-1 * var(--header-height));
   background: var(--deep-blue);
   overflow: hidden;
-  padding-block: 4rem 5rem;
+  padding-block: calc(var(--header-height) + 4rem) 5rem;
 
   @media (max-width: 768px) {
-    padding-block: 3rem 4rem;
+    padding-block: calc(var(--header-height) + 3rem) 4rem;
   }
 
   &__bg {
@@ -34,6 +35,34 @@
     mask-image: radial-gradient(ellipse at 50% 20%, black 0%, transparent 78%);
   }
 
+  &__visual {
+    position: absolute;
+    right: -4%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56%;
+    max-width: 700px;
+    opacity: 0.09;
+    pointer-events: none;
+    user-select: none;
+    will-change: transform;
+    mask-image: radial-gradient(ellipse 80% 80% at 60% 50%, black 20%, transparent 80%);
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      filter: blur(0.5px);
+    }
+
+    @media (max-width: 768px) {
+      width: 90%;
+      right: -10%;
+      opacity: 0.06;
+    }
+  }
+
   &__glow {
     position: absolute;
     top: -160px;
@@ -46,6 +75,25 @@
 
   &__inner {
     position: relative;
+  }
+
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__logo {
+    display: block;
+    height: clamp(80px, 10vw, 140px);
+    width: auto;
+    object-fit: contain;
+
+    @media (max-width: 480px) {
+      height: 68px;
+    }
   }
 
   &__title {
@@ -755,6 +803,115 @@
     color: rgba(255, 255, 255, 0.35);
     font-size: 0.8125rem;
     margin-top: 1.75rem;
+  }
+}
+
+// ---------------------------------------------- VISIÓN & MISIÓN
+.ac-vm {
+  background: var(--deep-blue);
+
+  .section-header {
+    margin-bottom: 3.5rem;
+  }
+
+  &__eyebrow-accent {
+    color: var(--beige) !important;
+  }
+
+  &__title-light {
+    color: var(--white) !important;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--hairline-light);
+    border-radius: var(--radius-2xl);
+    padding: 3rem 2.75rem;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    &--highlight {
+      &::before {
+        background: var(--beige);
+      }
+    }
+
+    @media (max-width: 768px) {
+      padding: 2.5rem 2rem;
+    }
+  }
+
+  &__card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+  }
+
+  &__num {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.25);
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--beige);
+  }
+
+  &__label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--beige-dark);
+    margin-bottom: 1rem;
+  }
+
+  &__heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.25rem;
+  }
+
+  &__text {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.6);
   }
 }
 

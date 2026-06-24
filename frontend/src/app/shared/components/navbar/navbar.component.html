@@ -1,14 +1,14 @@
 <header
   class="navbar"
-  [class.navbar--scrolled]="isScrolled()"
-  [class.navbar--hidden]="isHidden()"
   [class.navbar--menu-open]="isMenuOpen()"
+  [class.navbar--transparent]="isTransparent()"
+  [class.navbar--navy]="isNavyBg()"
 >
   <div class="container container--wide navbar__inner">
-    <!-- Logo -->
+    <!-- Logo mark -->
     <a routerLink="/" class="navbar__logo" (click)="closeMenu()">
       <img
-        [src]="isMenuOpen() ? '/logo-group-white.png' : '/logo-group.png'"
+        src="/logo-advance.png"
         alt="Advance Group"
         class="navbar__logo-img"
       />
@@ -22,20 +22,40 @@
           routerLinkActive="navbar__link--active"
           [routerLinkActiveOptions]="{ exact: link.path === '/' }"
           class="navbar__link"
+          [class.navbar__link--has-logo]="!!link.logo"
+          [attr.title]="link.logo ? link.label : null"
           (click)="closeMenu()"
         >
-          <span class="navbar__link-index">0{{ i + 1 }}</span>
-          <span class="navbar__link-label">{{ link.label }}</span>
+          @if (!link.logo) {
+            <span class="navbar__link-index">0{{ i + 1 }}</span>
+          }
+          @if (link.logo) {
+            <img
+              [src]="link.logo"
+              [alt]="link.label"
+              class="navbar__link-logo"
+            />
+            <span class="navbar__link-label navbar__link-label--mobile">{{ link.label }}</span>
+          } @else {
+            <span class="navbar__link-label">{{ link.label }}</span>
+          }
         </a>
       }
-      <!-- Mobile-only CTA inside nav -->
+      <!-- Mobile-only CTA -->
       <a routerLink="/contacto" class="btn btn--primary navbar__cta-mobile" (click)="closeMenu()">
         Contáctanos
       </a>
     </nav>
 
-    <!-- Desktop CTA -->
-    <a routerLink="/contacto" class="btn btn--primary navbar__cta" appMagnetic (click)="closeMenu()">
+    <!-- Desktop CTA — switches between outline (transparent) and primary (scrolled) -->
+    <a
+      routerLink="/contacto"
+      class="btn navbar__cta"
+      [class.btn--outline]="isTransparent() || isNavyBg()"
+      [class.btn--primary]="!isTransparent() && !isNavyBg()"
+      appMagnetic
+      (click)="closeMenu()"
+    >
       Contáctanos
     </a>
 
