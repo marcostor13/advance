@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter, map, startWith } from 'rxjs';
 import { MagneticDirective } from '../../../core/directives/magnetic.directive';
 import { TextRevealDirective } from '../../../core/directives/text-reveal.directive';
 
@@ -21,8 +23,21 @@ interface SocialLink {
 })
 export class FooterComponent {
   private readonly sanitizer = inject(DomSanitizer);
+  private readonly router = inject(Router);
 
   protected readonly year = new Date().getFullYear();
+
+  // The giant "Hablemos" CTA lives inside the home CTA section (over the image);
+  // hide the footer copy on home to avoid duplicating it.
+  private readonly isHome = (): boolean => this.router.url.split(/[?#]/)[0] === '/';
+  protected readonly showCta = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map(() => !this.isHome()),
+      startWith(!this.isHome()),
+    ),
+    { initialValue: !this.isHome() },
+  );
 
   protected readonly social: SocialLink[] = [
     {

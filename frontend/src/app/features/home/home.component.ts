@@ -51,10 +51,10 @@ interface Pillar {
 })
 export class HomeComponent {
   readonly counters: Counter[] = [
-    { value: 20, suffix: '+', label: 'Años de experiencia', desc: 'Trayectoria consolidada en el mercado financiero peruano' },
-    { value: 2, suffix: '', label: 'Empresas especializadas', desc: 'Advance Factoring y Advance Capital' },
-    { value: 3, suffix: '', label: 'Oficinas en el Perú', desc: 'Lima · Trujillo · Arequipa' },
-    { value: 6, suffix: '', label: 'Sectores atendidos', desc: 'De la minería a la tecnología' },
+    { value: 20, suffix: '+', label: 'Años de experiencia', desc: 'Trayectoria consolidada en el mercado financiero peruano.' },
+    { value: 2, suffix: '', label: 'Empresas especializadas', desc: 'Advance Factoring y Advance\u00A0Capital' },
+    { value: 3, suffix: '', label: 'Oficinas en el Perú', desc: 'Lima, Trujillo, Arequipa' },
+    { value: 6, suffix: '', label: 'Sectores atendidos', desc: 'De la minería a la tecnología.' },
   ];
 
   readonly companies: Company[] = [

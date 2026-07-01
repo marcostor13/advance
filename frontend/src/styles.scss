@@ -39,6 +39,17 @@
   --hairline:        rgba(0, 29, 58, 0.10);
   --hairline-light:  rgba(255, 255, 255, 0.12);
 
+  // Red "franja" divider — transparent left (reveals the image/bg behind)
+  // ramping to a solid muted red across the last ~20% (80/20 split).
+  --redbar-red:      #a90014;
+  --redbar-height:   1rem;
+  --redbar-gradient: linear-gradient(90deg,
+    rgba(169, 0, 20, 0) 0%,
+    rgba(169, 0, 20, 0.2) 44%,
+    rgba(169, 0, 20, 0.55) 66%,
+    var(--redbar-red) 80%,
+    var(--redbar-red) 100%);
+
   // Typography
   --font-display: 'Archivo', 'Helvetica Now Display', 'Helvetica Neue', system-ui, sans-serif;
   --font-body:    'Inter', system-ui, -apple-system, sans-serif;
@@ -473,6 +484,25 @@ ul, ol { list-style: none; }
 
 .hairline-top    { border-top: 1px solid var(--hairline); }
 .hairline-bottom { border-bottom: 1px solid var(--hairline); }
+
+// Red "franja" strip. Base = inline full-width strip. Add .redbar--bottom to
+// overlay the bottom edge of a positioned parent (e.g. an image/section), so
+// the transparent side reveals whatever sits behind it.
+.redbar {
+  height: var(--redbar-height);
+  width: 100%;
+  background: var(--redbar-gradient);
+}
+
+.redbar--bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  z-index: 1;
+  pointer-events: none;
+}
 
 // ============================================================
 // UTILITIES
