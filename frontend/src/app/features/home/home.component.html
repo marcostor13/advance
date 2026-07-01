@@ -1,6 +1,8 @@
 <!-- ======= 1. HERO — full-viewport editorial ======= -->
 <section class="hero">
   <div class="hero__deco" aria-hidden="true">
+    <img class="hero__photo" src="/img/hero-boardroom.webp" alt="" fetchpriority="high" />
+    <div class="hero__overlay"></div>
     <div class="hero__deco-glow" [appParallax]="-0.18"></div>
     <div class="hero__deco-grid"></div>
   </div>
@@ -100,6 +102,7 @@
 
 <!-- ======= 4. COUNTERS — navy band ======= -->
 <section class="stats">
+  <div class="stats__bg" aria-hidden="true"></div>
   <div class="container">
     <div class="stats__grid" [appParallax]="-0.05">
       @for (counter of counters; track counter.label; let i = $index) {
@@ -143,6 +146,7 @@
 
 <!-- ======= 6. CTA FINAL — giant editorial link ======= -->
 <section class="cta">
+  <div class="cta__bg" aria-hidden="true"></div>
   <div class="container">
     <div class="cta__inner">
       <span class="cta__eyebrow" appScrollAnimate animType="fade">Hablemos</span>
