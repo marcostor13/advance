@@ -1,8 +1,8 @@
 <!-- ======= 1. HERO — full-viewport editorial ======= -->
 <section class="hero">
   <div class="hero__deco" aria-hidden="true">
-    <div class="hero__deco-glow" [appParallax]="-0.18"></div>
-    <div class="hero__deco-grid"></div>
+    <!-- Complete baked hero background: photo + navy overlay + "A" watermark (matches design 1:1) -->
+    <img class="hero__photo" src="/img/hero-bg.webp" alt="" fetchpriority="high" />
   </div>
 
   <div class="container container--wide hero__inner">
@@ -100,6 +100,7 @@
 
 <!-- ======= 4. COUNTERS — navy band ======= -->
 <section class="stats">
+  <div class="stats__bg" aria-hidden="true"></div>
   <div class="container">
     <div class="stats__grid" [appParallax]="-0.05">
       @for (counter of counters; track counter.label; let i = $index) {
@@ -126,7 +127,8 @@
 
     <div class="deck">
       @for (pillar of pillars; track pillar.title; let i = $index) {
-        <article class="deck__card" [class.deck__card--dark]="i === 1">
+        <article class="deck__card" [class.deck__card--dark]="i === 1" [class.deck__card--beige]="i === 2">
+          <img class="deck__mark" [src]="'/img/pillar-a-' + (i + 1) + '.webp'" alt="" aria-hidden="true" />
           <div class="deck__top">
             <div class="deck__icon">
               <app-icon [name]="pillar.icon" [size]="22" />
@@ -143,6 +145,7 @@
 
 <!-- ======= 6. CTA FINAL — giant editorial link ======= -->
 <section class="cta">
+  <div class="cta__bg" aria-hidden="true"></div>
   <div class="container">
     <div class="cta__inner">
       <span class="cta__eyebrow" appScrollAnimate animType="fade">Hablemos</span>
@@ -160,5 +163,16 @@
         </a>
       </div>
     </div>
+
+    <a routerLink="/contacto" class="cta__talk" appScrollAnimate animType="up" animDelay="0.2s">
+      <span class="cta__talk-eyebrow">¿Tiene un proyecto en mente?</span>
+      <span class="cta__talk-heading display-xl">
+        Hablemos
+        <app-icon name="arrow-up-right" [size]="30" />
+      </span>
+    </a>
   </div>
+
+  <!-- Standard red "franja" overlaying the bottom edge of the CTA image -->
+  <div class="redbar redbar--bottom" aria-hidden="true"></div>
 </section>
