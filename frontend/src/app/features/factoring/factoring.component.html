@@ -1,28 +1,24 @@
 <!-- 1 · HERO -->
 <section class="af-hero">
   <div class="af-hero__bg" aria-hidden="true">
-    <div class="af-hero__glow" [appParallax]="-0.18"></div>
-    <div class="af-hero__grid"></div>
-    <div class="af-hero__visual" [appParallax]="0.08">
-      <img src="/12%20(4).png" alt="" aria-hidden="true" />
-    </div>
+    <img class="af-hero__image" src="/img/hero-factoring.png" alt="" aria-hidden="true" [appParallax]="0.06" />
   </div>
 
-  <div class="container af-hero__inner">
-    <div class="af-hero__top" appScrollAnimate animType="fade">
-      <div class="af-hero__badges">
+  <div class="container container--wide af-hero__inner">
+    <div class="af-hero__head">
+      <div class="af-hero__badges" appScrollAnimate animType="fade">
         <span class="badge badge--white">SBS N° 00029814</span>
         <span class="badge badge--white">CAVALI · Matriz 937</span>
       </div>
-    </div>
 
-    <h1 class="af-hero__title display-xl">
-      <span class="af-hero__line" appTextReveal>Sus facturas,</span>
-      <span class="af-hero__line" appTextReveal revealDelay="120ms">
-        <span class="outline-text">liquidez</span>
-      </span>
-      <span class="af-hero__line" appTextReveal revealDelay="240ms">inmediata.</span>
-    </h1>
+      <h1 class="af-hero__title display-xl">
+        <span class="af-hero__line" appTextReveal>Sus facturas,</span>
+        <span class="af-hero__line" appTextReveal revealDelay="120ms">
+          <span class="outline-text">liquidez</span>
+        </span>
+        <span class="af-hero__line" appTextReveal revealDelay="240ms">inmediata.</span>
+      </h1>
+    </div>
 
     <div class="af-hero__bottom" appScrollAnimate animType="up" animDelay="0.35s">
       <p class="af-hero__subtitle">
@@ -61,12 +57,11 @@
 
   <div class="af-hero__scroll" aria-hidden="true">
     <span class="af-hero__scroll-mouse"><span class="af-hero__scroll-dot"></span></span>
-    <span class="af-hero__scroll-label">Scroll</span>
   </div>
 </section>
 
 <!-- 2 · MARQUEE -->
-<app-marquee [dark]="true" [items]="marqueeItems" />
+<app-marquee [items]="marqueeItems" />
 
 <!-- 3 · SERVICES — editorial index -->
 <section class="af-services section">
@@ -117,12 +112,14 @@
 
 <!-- 4 · COUNTERS BAND -->
 <section class="af-counters">
+  <div class="af-counters__bg" aria-hidden="true"></div>
   <div class="container">
     <div class="af-counters__grid" [appParallax]="-0.05">
       @for (counter of counters; track counter.label) {
         <div class="af-counters__item" appScrollAnimate animType="up" [animDelay]="($index * 0.1) + 's'">
           <span class="af-counters__value" [appCountUp]="counter.value" [countSuffix]="counter.suffix"></span>
           <span class="af-counters__label">{{ counter.label }}</span>
+          <span class="af-counters__desc">{{ counter.desc }}</span>
         </div>
       }
     </div>
@@ -169,7 +166,7 @@
 <!-- 6 · SECTORS -->
 <section class="af-sectors section">
   <div class="container">
-    <div class="section-header section-header--light" appScrollAnimate animType="up">
+    <div class="section-header" appScrollAnimate animType="up">
       <span class="section-header__eyebrow">Sectores que atendemos</span>
       <h2 class="section-header__title">Presentes en los sectores clave de la economía peruana</h2>
     </div>
@@ -177,7 +174,7 @@
       @for (sector of sectors; track sector.name) {
         <div class="sector-card" appScrollAnimate animType="up" [animDelay]="($index * 0.08) + 's'">
           <span class="sector-card__icon">
-            <app-icon [name]="sector.icon" [size]="24" />
+            <app-icon [name]="sector.icon" [size]="20" />
           </span>
           <span class="sector-card__name">{{ sector.name }}</span>
         </div>
@@ -188,6 +185,7 @@
 
 <!-- VISION & MISSION -->
 <section class="af-vm section">
+  <img class="af-vm__mark" src="/img/pillar-a-2.webp" alt="" aria-hidden="true" />
   <div class="container">
     <div class="af-vm__grid">
       <article class="af-vm__panel" appScrollAnimate animType="left">
@@ -285,53 +283,34 @@
 
 <!-- 9 · FINAL CTA -->
 <section class="af-cta">
-  <div class="container af-cta__inner">
-    <span class="af-cta__eyebrow" appScrollAnimate animType="fade">Hablemos</span>
-    <a
-      href="mailto:contacto@advance-factoring.com"
-      class="af-cta__title display-xl"
-      appTextReveal
-      revealDelay="120ms"
-    >
-      Convierta sus facturas en liquidez
-    </a>
-
-    <div class="af-cta__contacts" appScrollAnimate animType="up" animDelay="0.15s">
-      <div class="af-cta__contact">
-        <span class="af-cta__contact-label">Correo</span>
-        <span class="af-cta__contact-value">
-          <app-icon name="mail" [size]="18" />
-          contacto&#64;advance-factoring.com
-        </span>
-      </div>
-      <div class="af-cta__contact">
-        <span class="af-cta__contact-label">Teléfono</span>
-        <span class="af-cta__contact-value">
-          <app-icon name="phone" [size]="18" />
-          +51 932 499 073
-        </span>
-      </div>
-      <div class="af-cta__contact">
-        <span class="af-cta__contact-label">WhatsApp</span>
-        <span class="af-cta__contact-value">
-          <app-icon name="message-circle" [size]="18" />
-          +51 952 493 810
-        </span>
-      </div>
-    </div>
-
-    <div class="af-cta__actions" appScrollAnimate animType="up" animDelay="0.25s">
-      <a href="mailto:contacto@advance-factoring.com" class="btn btn--white btn--lg" appMagnetic>Escríbanos</a>
-      <a
-        href="https://wa.me/51952493810"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn btn--outline btn--lg"
-        appMagnetic
-      >
-        WhatsApp
+  <div class="af-cta__bg" aria-hidden="true"></div>
+  <div class="container">
+    <div class="af-cta__inner">
+      <span class="af-cta__eyebrow" appScrollAnimate animType="fade">Hablemos</span>
+      <a href="mailto:contacto@advance-factoring.com" class="af-cta__link">
+        <h2 class="af-cta__title display-xl">
+          <span class="af-cta__line" appTextReveal>Convierta sus facturas</span>
+          <span class="af-cta__line" appTextReveal revealDelay="120ms">en liquidez</span>
+        </h2>
       </a>
+      <div class="af-cta__actions" appScrollAnimate animType="fade" animDelay="0.3s">
+        <a href="mailto:contacto@advance-factoring.com" class="btn btn--white btn--lg" appMagnetic>Escríbanos</a>
+        <a href="https://wa.me/51952493810" target="_blank" rel="noopener noreferrer" class="btn btn--outline btn--lg">
+          <app-icon name="message-circle" [size]="18" />
+          WhatsApp
+        </a>
+      </div>
     </div>
-    <p class="af-cta__schedule">Lun–Vie 9am–6pm · Sáb 8am–1pm</p>
+
+    <a href="mailto:contacto@advance-factoring.com" class="af-cta__talk" appScrollAnimate animType="up" animDelay="0.2s">
+      <span class="af-cta__talk-eyebrow">¿Tiene un proyecto en mente?</span>
+      <span class="af-cta__talk-heading display-xl">
+        Hablemos
+        <app-icon name="arrow-up-right" [size]="30" />
+      </span>
+    </a>
   </div>
+
+  <!-- Standard red "franja" overlaying the bottom edge of the CTA image -->
+  <div class="redbar redbar--bottom" aria-hidden="true"></div>
 </section>
