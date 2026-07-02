@@ -13,6 +13,24 @@
     inset: 0;
     pointer-events: none;
     overflow: hidden;
+
+    // Mobile-only legibility scrim. Desktop keeps the clean baked composite
+    // (no gradient); on portrait the wide image is cropped and the white text
+    // needs contrast, so we darken the top and bottom where the copy sits.
+    &::after {
+      @media (max-width: 768px) {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 29, 58, 0.6) 0%,
+          rgba(0, 29, 58, 0.22) 36%,
+          rgba(0, 29, 58, 0.4) 64%,
+          rgba(0, 29, 58, 0.88) 100%
+        );
+      }
+    }
   }
 
   &__image {
@@ -28,7 +46,7 @@
     user-select: none;
 
     @media (max-width: 768px) {
-      object-position: 72% center;
+      object-position: 68% center;
     }
   }
 
