@@ -7,7 +7,12 @@
   </div>
 </section>
 
-<section class="section">
+<section class="section contact-section">
+  <div class="contact-burst" aria-hidden="true">
+    @for (deg of burst; track deg) {
+      <img class="contact-burst__a" src="/img/a-mark-pink.webp" alt="" [style.--rot]="deg + 'deg'" />
+    }
+  </div>
   <div class="container contact-grid">
 
     <div class="contact-info">
@@ -133,5 +138,27 @@
         @if (status() === 'loading') { Enviando... } @else { Enviar mensaje }
       </button>
     </form>
+  </div>
+</section>
+
+<!-- HABLEMOS -->
+<section class="contact-cta">
+  <span class="redbar" aria-hidden="true"></span>
+  <div class="container contact-cta__inner">
+    <a
+      class="contact-cta__talk"
+      href="https://wa.me/51952493810"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="contact-cta__eyebrow">¿Tiene un proyecto en mente?</span>
+      <span class="contact-cta__heading">
+        Hablemos
+        <svg class="contact-cta__arrow" viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="7" y1="17" x2="17" y2="7" />
+          <polyline points="9 7 17 7 17 15" />
+        </svg>
+      </span>
+    </a>
   </div>
 </section>

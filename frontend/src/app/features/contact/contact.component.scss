@@ -20,7 +20,46 @@
   }
 }
 
+.contact-section {
+  position: relative;
+  overflow: hidden; // clip the rosette that bleeds off the right edge
+}
+
+// Radial "A" rosette decoration (matches design), faint pink, bleeding off right
+.contact-burst {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 50rem;
+  height: 50rem;
+  // Push most of the ring off-screen so only its left arc (~4 A's) shows
+  transform: translate(55%, -50%);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+
+  @media (max-width: 992px) {
+    opacity: 0.45;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+
+  &__a {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 13rem;
+    height: auto;
+    // Place each A on a ring (radius 16rem) and flip it to point inward
+    transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) translateY(-16rem) rotate(180deg);
+  }
+}
+
 .contact-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: var(--spacing-3xl);
@@ -225,5 +264,68 @@
     color: var(--gray-600);
     margin: 0;
     line-height: 1.6;
+  }
+}
+
+// ── HABLEMOS band ───────────────────────────────────────────────────────────
+.contact-cta {
+  position: relative;
+  background: var(--deep-blue);
+  overflow: hidden;
+
+  .redbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &__inner {
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+
+  &__talk {
+    display: inline-block;
+    text-decoration: none;
+
+    &:hover .contact-cta__heading { color: var(--beige); }
+    &:hover .contact-cta__arrow { transform: translate(4px, -4px); }
+  }
+
+  &__eyebrow {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--beige);
+    margin-bottom: 1.25rem;
+  }
+
+  &__heading {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.25rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 0.96;
+    color: var(--white);
+    font-size: clamp(3rem, 10vw, 7rem);
+    transition: color 0.4s ease;
+  }
+
+  &__arrow {
+    width: clamp(1.75rem, 4vw, 2.5rem);
+    height: clamp(1.75rem, 4vw, 2.5rem);
+    flex-shrink: 0;
+    color: var(--beige);
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform var(--t-base);
   }
 }
