@@ -2,21 +2,22 @@
 // Advance Capital — scroll-driven editorial, beige/gold accents
 // ============================================================
 
+// Contain any horizontal bleed so the page never scrolls sideways on mobile.
+// `clip` (not hidden) preserves the sticky positioning used across the page.
+:host {
+  display: block;
+  overflow-x: clip;
+}
+
 // ---------------------------------------------- 1. HERO
 .ac-hero {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   min-height: 100vh;
   margin-top: calc(-1 * var(--header-height));
   background: var(--deep-blue);
   overflow: hidden;
-  padding-block: calc(var(--header-height) + 4rem) 5rem;
-
-  @media (max-width: 768px) {
-    padding-block: calc(var(--header-height) + 3rem) 4rem;
-  }
 
   &__bg {
     position: absolute;
@@ -25,85 +26,66 @@
     overflow: hidden;
   }
 
-  &__grid {
+  &__image {
     position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-    background-size: 72px 72px;
-    mask-image: radial-gradient(ellipse at 50% 20%, black 0%, transparent 78%);
-  }
-
-  &__visual {
-    position: absolute;
-    right: -4%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 56%;
-    max-width: 700px;
-    opacity: 0.09;
-    pointer-events: none;
-    user-select: none;
+    left: 0;
+    right: 0;
+    top: -8%;
+    width: 100%;
+    height: 116%; // overscan so vertical parallax never reveals an edge
+    object-fit: cover;
+    object-position: right center;
     will-change: transform;
-    mask-image: radial-gradient(ellipse 80% 80% at 60% 50%, black 20%, transparent 80%);
-
-    img {
-      display: block;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      filter: blur(0.5px);
-    }
+    user-select: none;
 
     @media (max-width: 768px) {
-      width: 90%;
-      right: -10%;
-      opacity: 0.06;
+      object-position: 70% center;
     }
-  }
-
-  &__glow {
-    position: absolute;
-    top: -160px;
-    right: -140px;
-    width: 720px;
-    height: 720px;
-    border-radius: var(--radius-full);
-    background: radial-gradient(circle, rgba(252, 208, 149, 0.07) 0%, transparent 62%);
   }
 
   &__inner {
     position: relative;
-  }
-
-  &__brand {
+    width: 100%;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 1.25rem;
-    margin-bottom: 0.5rem;
-  }
+    justify-content: space-between;
+    padding-block: calc(var(--header-height) + 5.5rem) 6rem;
 
-  &__logo {
-    display: block;
-    height: clamp(80px, 10vw, 140px);
-    width: auto;
-    object-fit: contain;
-
-    @media (max-width: 480px) {
-      height: 68px;
+    @media (max-width: 768px) {
+      display: block;
+      padding-block: calc(var(--header-height) + 3rem) 5rem;
     }
   }
 
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.25rem, 3.5vh, 2rem);
+
+    @media (max-width: 768px) {
+      margin-bottom: 2.25rem;
+    }
+  }
+
+  &__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
   &__title {
-    font-size: clamp(2.75rem, 8.5vw, 7rem);
+    font-size: clamp(3rem, 9vw, 7.5rem);
     color: var(--white);
-    margin-top: 1.75rem;
+    margin: 0;
   }
 
   &__line {
     display: block;
+    // Give the text-reveal mask room for descenders (e.g. the "p" tail in "respaldo")
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
   }
 
   &__bottom {
@@ -112,16 +94,18 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 2rem 3rem;
-    margin-top: 3.5rem;
+    margin: 0;
 
     @media (max-width: 768px) {
-      margin-top: 2.5rem;
+      align-items: flex-start;
+      flex-direction: column;
+      margin-bottom: 2.5rem;
     }
   }
 
   &__lead {
     max-width: 440px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--white);
     font-size: 0.9375rem;
     line-height: 1.8;
   }
@@ -144,69 +128,85 @@
   }
 
   &__stats {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
-    gap: 2.75rem;
-    margin-top: 3.25rem;
-    padding-top: 1.75rem;
-    border-top: 1px solid var(--hairline-light);
+    row-gap: 1.25rem;
+    padding-top: 1.5rem;
 
-    @media (max-width: 540px) {
-      gap: 1.5rem 2rem;
-      margin-top: 2.5rem;
+    // Bright hairline that fades toward the photo on the right (matches design)
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0.45) 0%,
+        rgba(255, 255, 255, 0.28) 28%,
+        rgba(255, 255, 255, 0.08) 58%,
+        transparent 82%);
+    }
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    padding-inline: clamp(1.25rem, 3.5vw, 2rem);
+
+    &:first-child { padding-left: 0; }
+
+    &:not(:first-child) {
+      border-left: 1px solid var(--hairline-light);
+    }
+
+    @media (max-width: 400px) {
+      flex: 1 0 100%;
+      padding-inline: 0;
+
+      &:not(:first-child) { border-left: 0; }
     }
   }
 
   &__stat-value {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.625rem;
+    font-size: clamp(1.125rem, 4vw, 1.25rem);
     font-weight: 600;
     color: var(--white);
-    line-height: 1.1;
+    line-height: 1.2;
   }
 
   &__stat-label {
     display: block;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.12em;
+    color: var(--white);
     margin-top: 0.375rem;
   }
 
   &__scroll {
     position: absolute;
-    right: 2.5rem;
-    bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
+    bottom: 1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
 
     @media (max-width: 768px) {
       display: none;
     }
   }
 
-  &__scroll-label {
-    font-family: var(--font-display);
-    font-size: 0.625rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: rgba(255, 255, 255, 0.4);
-    writing-mode: vertical-rl;
-  }
-
   &__scroll-track {
     width: 22px;
-    height: 36px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    height: 34px;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
     border-radius: var(--radius-full);
     display: flex;
     justify-content: center;
-    padding-top: 7px;
+    padding-top: 6px;
   }
 
   &__scroll-dot {
@@ -266,18 +266,35 @@
     align-items: center;
     gap: 1.75rem;
     padding-block: 2.5rem;
+    padding-left: 1.75rem;
     border-bottom: 1px solid var(--hairline);
+    overflow: hidden; // keep the hover sweep from bleeding past the row
 
     // navy sweep on hover
     &::before {
       content: '';
       position: absolute;
-      inset: 0 -1.5rem;
+      inset: 0;
       background: var(--deep-blue);
       transform: scaleX(0);
       transform-origin: left center;
       transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     }
+
+    // colored accent bar on the left edge (gold / red / navy per row, matches design)
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: -1px;
+      width: 6px;
+      background: var(--beige-dark);
+      z-index: 1;
+    }
+
+    &:nth-child(2)::after { background: var(--crimson); }
+    &:nth-child(3)::after { background: var(--deep-blue); }
 
     > * {
       position: relative;
@@ -415,67 +432,31 @@
   }
 
   &__panel {
-    background: var(--deep-blue);
-    border: 1px solid var(--hairline-light);
+    background: rgba(252, 208, 149, 0.05); // transparent beige square (matches design)
     border-radius: var(--radius-xl);
-    padding: 3rem 2rem;
+    padding: clamp(2rem, 4vw, 3.5rem);
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  &__chip {
-    background: transparent;
-    border: 1px solid var(--hairline-light);
-    border-radius: var(--radius-md);
-    padding: 0.75rem 1.25rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      display: block;
-      width: auto;
-      object-fit: contain;
-    }
-
-    &--group img {
-      height: 56px;
-    }
-
-    &--child img {
-      height: 44px;
-    }
-
-    &--highlight {
-      border-color: var(--beige-dark);
-      box-shadow: 0 0 0 1px var(--beige-dark);
-    }
-  }
-
-  &__connector {
-    width: 1px;
-    height: 36px;
-    background: var(--hairline-light);
-    margin-block: 0.25rem;
-  }
-
-  &__children {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.25rem;
+  &__diagram {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    object-fit: contain;
   }
 
   &__caption {
-    color: rgba(255, 255, 255, 0.55);
+    color: var(--gray-600);
     font-size: 0.8125rem;
     text-align: center;
     line-height: 1.6;
-    margin-top: 2rem;
+    margin-top: 1.75rem;
 
     strong {
-      color: var(--beige);
+      color: var(--deep-blue);
       font-weight: 600;
     }
   }
@@ -493,10 +474,11 @@
 
   &__title {
     font-family: var(--font-display);
-    font-size: clamp(1.625rem, 3vw, 2.25rem);
-    font-weight: 700;
+    font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
     color: var(--deep-blue);
-    line-height: 1.2;
+    line-height: 1.15;
     margin-bottom: 1.25rem;
   }
 
@@ -505,6 +487,12 @@
     font-size: 0.9375rem;
     line-height: 1.8;
     margin-bottom: 1rem;
+
+    // Emphasize the brand names so the body copy isn't a flat block
+    strong {
+      color: var(--deep-blue);
+      font-weight: 600;
+    }
   }
 
   &__counters {
@@ -524,19 +512,19 @@
     &-value {
       display: block;
       font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-size: 1.75rem;
+      font-weight: 800;
       color: var(--deep-blue);
       line-height: 1.1;
     }
 
     &-label {
       display: block;
-      font-size: 0.75rem;
+      font-size: 0.6875rem;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--gray-600);
-      margin-top: 0.25rem;
+      letter-spacing: 0.1em;
+      color: var(--gray-400);
+      margin-top: 0.375rem;
     }
   }
 }
@@ -731,19 +719,30 @@
 
 // ---------------------------------------------- 7. FINAL CTA
 .ac-cta {
+  position: relative;
   background: var(--deep-blue);
   padding-block: 7rem;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     padding-block: 4.5rem;
   }
 
+  // Baked CTA background: photo + navy + network graphic (matches design 1:1)
+  &__bg {
+    position: absolute;
+    inset: 0;
+    background: url('/img/cta-capital.webp') center / cover no-repeat;
+  }
+
+  .container {
+    position: relative;
+  }
+
   &__inner {
-    max-width: 880px;
-    margin-inline: auto;
     text-align: center;
     border-top: 2px solid var(--beige);
-    padding-top: 3.5rem;
+    padding-top: 4rem;
   }
 
   &__eyebrow {
@@ -799,110 +798,131 @@
     }
   }
 
-  &__note {
-    color: rgba(255, 255, 255, 0.35);
-    font-size: 0.8125rem;
-    margin-top: 1.75rem;
+  // ---- Bottom editorial link: "¿Tiene un proyecto en mente? / Hablemos ↗" ----
+  &__talk {
+    display: block;
+    margin-top: 8rem;
+    text-align: left;
+    text-decoration: none;
+
+    @media (max-width: 768px) {
+      margin-top: 5rem;
+    }
+
+    &:hover .ac-cta__talk-heading {
+      color: var(--beige);
+    }
+
+    &:hover app-icon {
+      transform: translate(4px, -4px);
+    }
+  }
+
+  &__talk-eyebrow {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--beige);
+    margin-bottom: 1.25rem;
+  }
+
+  &__talk-heading {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.25rem;
+    color: var(--white);
+    font-size: clamp(2.75rem, 8vw, 6rem);
+    transition: color 0.4s ease;
+
+    app-icon {
+      color: var(--beige);
+      transition: transform var(--t-base);
+    }
   }
 }
 
 // ---------------------------------------------- VISIÓN & MISIÓN
 .ac-vm {
-  background: var(--deep-blue);
+  position: relative;
+  background: #fdf2e6; // soft cream (matches design)
+  overflow: hidden;
+
+  // Gold "A" isotype watermark, small and centered on the right (matches design)
+  &__mark {
+    position: absolute;
+    top: 50%;
+    right: 3%;
+    transform: translateY(-50%);
+    height: clamp(16rem, 30vw, 27rem);
+    width: auto;
+    opacity: 0.55;
+    pointer-events: none;
+    user-select: none;
+
+    @media (max-width: 768px) {
+      right: -8%;
+      opacity: 0.4;
+    }
+  }
+
+  .container {
+    position: relative;
+  }
 
   .section-header {
     margin-bottom: 3.5rem;
-  }
 
-  &__eyebrow-accent {
-    color: var(--beige) !important;
-  }
-
-  &__title-light {
-    color: var(--white) !important;
+    .section-header__eyebrow { color: var(--deep-blue); }
   }
 
   &__grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    align-items: start;
+    gap: 3rem 4.5rem;
+    max-width: 880px; // keep columns narrow so headings wrap like the design
+    margin-inline: auto;
 
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
+      gap: 2.5rem;
+      max-width: 34rem;
     }
-  }
-
-  &__card {
-    position: relative;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid var(--hairline-light);
-    border-radius: var(--radius-2xl);
-    padding: 3rem 2.75rem;
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    &--highlight {
-      &::before {
-        background: var(--beige);
-      }
-    }
-
-    @media (max-width: 768px) {
-      padding: 2.5rem 2rem;
-    }
-  }
-
-  &__card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.75rem;
-  }
-
-  &__num {
-    font-family: var(--font-display);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: rgba(255, 255, 255, 0.25);
-  }
-
-  &__icon {
-    width: 40px;
-    height: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--beige);
   }
 
   &__label {
-    display: block;
+    position: relative;
+    display: inline-block;
     font-family: var(--font-display);
-    font-size: 1.375rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--beige-dark);
-    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-transform: lowercase;
+    letter-spacing: 0.01em;
+    color: var(--deep-blue);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.75rem;
+
+    // gold underline
+    &::after {
+      content: '';
+      position: absolute;
+      left: -3px;
+      bottom: 3px;
+      width: 8rem;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--beige);
+    }
   }
 
   &__heading {
     font-family: var(--font-display);
-    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    font-size: clamp(1.5rem, 3vw, 2.125rem);
     font-weight: 700;
-    color: var(--white);
+    color: var(--deep-blue);
     line-height: 1.2;
     letter-spacing: -0.02em;
     margin-bottom: 1.25rem;
@@ -911,7 +931,8 @@
   &__text {
     font-size: 0.9375rem;
     line-height: 1.8;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--gray-600);
+    max-width: 46ch;
   }
 }
 

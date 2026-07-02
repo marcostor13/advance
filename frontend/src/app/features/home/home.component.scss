@@ -73,7 +73,7 @@
 
   &__subtitle {
     font-size: clamp(0.9375rem, 2vw, 1.0625rem);
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--white);
     line-height: 1.8;
     max-width: 440px;
     margin: 0;
@@ -151,7 +151,7 @@
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--white);
   }
 
   // ---- Scroll indicator ----
