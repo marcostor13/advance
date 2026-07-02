@@ -1,38 +1,37 @@
 <!-- 1. HERO — full-viewport editorial -->
 <section class="ac-hero">
   <div class="ac-hero__bg" aria-hidden="true">
-    <div class="ac-hero__grid"></div>
-    <div class="ac-hero__glow" [appParallax]="-0.18"></div>
-    <div class="ac-hero__visual" [appParallax]="0.08">
-      <img src="/12%20(3).png" alt="" aria-hidden="true" />
-    </div>
+    <img class="ac-hero__image" src="/img/hero-capital.png" alt="" aria-hidden="true" [appParallax]="0.06" />
   </div>
 
-  <div class="container ac-hero__inner">
-    <div class="ac-hero__brand" appScrollAnimate animType="fade">
-      <span class="badge badge--beige">Advance Capital · Inversiones</span>
-    </div>
+  <div class="container container--wide ac-hero__inner">
+    <div class="ac-hero__head">
+      <div class="ac-hero__badges" appScrollAnimate animType="fade">
+        <span class="badge badge--white">SBS N° 00029814</span>
+        <span class="badge badge--white">CAVALI · Matriz 937</span>
+      </div>
 
-    <h1 class="ac-hero__title display-xl">
-      <span class="ac-hero__line" appTextReveal>Haga crecer</span>
-      <span class="ac-hero__line" appTextReveal revealDelay="120ms">su <span class="outline-text">capital</span></span>
-      <span class="ac-hero__line" appTextReveal revealDelay="240ms">con respaldo.</span>
-    </h1>
+      <h1 class="ac-hero__title display-xl">
+        <span class="ac-hero__line" appTextReveal>Haga crecer</span>
+        <span class="ac-hero__line" appTextReveal revealDelay="120ms">su <span class="outline-text">capital</span></span>
+        <span class="ac-hero__line" appTextReveal revealDelay="240ms">con respaldo.</span>
+      </h1>
+    </div>
 
     <div class="ac-hero__bottom">
       <p class="ac-hero__lead" appScrollAnimate animType="up" animDelay="0.35s">
-        Inversiones en factoring, leasing y capital estructurado con más de 20 años de experiencia.
-        El brazo financiero de Advance Factoring.
+        +20 años convirtiendo facturas en capital de trabajo para empresas peruanas,
+        con operaciones de factoring y confirming reguladas por la SBS.
       </p>
       <div class="ac-hero__actions" appScrollAnimate animType="up" animDelay="0.45s">
-        <a href="#simulador" class="btn btn--warm btn--lg" appMagnetic (click)="goToSimulador($event)">Simular mi inversión</a>
+        <a href="https://calendly.com/marcostor13/new-meeting" target="_blank" rel="noopener noreferrer" class="btn btn--warm btn--lg" appMagnetic>Agenda una reunión</a>
         <a
           href="https://wa.me/51932499073"
           target="_blank"
           rel="noopener noreferrer"
           class="link-arrow link-arrow--light">
-          Hablar por WhatsApp
-          <app-icon name="arrow-up-right" [size]="16" />
+          Escríbanos por WhatsApp
+          <app-icon name="arrow-right" [size]="16" />
         </a>
       </div>
     </div>
@@ -40,27 +39,26 @@
     <div class="ac-hero__stats" appScrollAnimate animType="fade" animDelay="0.55s">
       <div class="ac-hero__stat">
         <span class="ac-hero__stat-value"><span [appCountUp]="20" countSuffix="+"></span></span>
-        <span class="ac-hero__stat-label">Años</span>
+        <span class="ac-hero__stat-label">Años de experiencia</span>
+      </div>
+      <div class="ac-hero__stat">
+        <span class="ac-hero__stat-value">2</span>
+        <span class="ac-hero__stat-label">Servicios</span>
       </div>
       <div class="ac-hero__stat">
         <span class="ac-hero__stat-value">3</span>
-        <span class="ac-hero__stat-label">Instrumentos</span>
-      </div>
-      <div class="ac-hero__stat">
-        <span class="ac-hero__stat-value"><span [appCountUp]="100" countSuffix="%"></span></span>
-        <span class="ac-hero__stat-label">Respaldo</span>
+        <span class="ac-hero__stat-label">Oficinas</span>
       </div>
     </div>
   </div>
 
   <div class="ac-hero__scroll" aria-hidden="true">
-    <span class="ac-hero__scroll-label">Scroll</span>
     <span class="ac-hero__scroll-track"><span class="ac-hero__scroll-dot"></span></span>
   </div>
 </section>
 
 <!-- 2. MARQUEE -->
-<app-marquee [dark]="true" [items]="marqueeItems" />
+<app-marquee [items]="marqueeItems" />
 
 <!-- 3. PRODUCTS — editorial index rows -->
 <section class="ac-products section">
@@ -115,27 +113,19 @@
     <div class="ac-about__grid">
       <div class="ac-about__visual" appScrollAnimate animType="left">
         <div class="ac-about__panel" [appParallax]="0.06">
-          <div class="ac-about__chip ac-about__chip--group">
-            <img src="/logo-group-white.png" alt="Advance Group" />
-          </div>
-          <div class="ac-about__connector" aria-hidden="true"></div>
-          <div class="ac-about__children">
-            <div class="ac-about__chip ac-about__chip--child">
-              <img src="/logo-factoring-white.png" alt="Advance Factoring" />
-            </div>
-            <div class="ac-about__chip ac-about__chip--child ac-about__chip--highlight">
-              <img src="/logo-capital-white.png" alt="Advance Capital" />
-            </div>
-          </div>
-          <p class="ac-about__caption">Brazo financiero de <strong>Advance Factoring</strong></p>
+          <img
+            class="ac-about__diagram"
+            src="/img/group-diagram.webp"
+            alt="Advance Group, con Advance Capital y Advance Factoring" />
+          <p class="ac-about__caption"><strong> Brazo financiero de Advance Factoring</strong></p>
         </div>
       </div>
 
       <div class="ac-about__content" appScrollAnimate animType="right" animDelay="0.15s">
         <span class="ac-about__eyebrow">Quiénes somos</span>
         <h2 class="ac-about__title">Respaldo de un grupo con trayectoria</h2>
-        <p class="ac-about__text">Advance Capital es el brazo de inversiones de Advance Group, impulsado por la experiencia y el respaldo regulatorio de Advance Factoring. Ofrecemos soluciones de inversión en factoring, leasing y capital estructurado.</p>
-        <p class="ac-about__text">Nuestro equipo tiene más de 20 años de experiencia en el mercado financiero peruano, lo que nos permite estructurar inversiones con retornos competitivos y riesgo controlado.</p>
+        <p class="ac-about__text"><strong>Advance Capital</strong> es el brazo de inversiones de <strong>Advance Group</strong>, impulsado por la experiencia y el respaldo regulatorio de <strong>Advance Factoring</strong>. Ofrecemos soluciones de inversión en factoring, leasing y capital estructurado.</p>
+        <p class="ac-about__text">Nuestro equipo tiene <strong>más de 20 años de experiencia</strong> en el mercado financiero peruano, lo que nos permite estructurar inversiones con retornos competitivos y riesgo controlado.</p>
         <div class="ac-about__counters">
           @for (stat of stats; track stat.label; let i = $index) {
             <div class="ac-about__mini-stat" appScrollAnimate animType="up" [animDelay]="(0.25 + i * 0.1) + 's'">
@@ -157,30 +147,19 @@
 
 <!-- VISION & MISSION -->
 <section class="ac-vm section">
+  <img class="ac-vm__mark" src="/img/pillar-a-3.webp" alt="" aria-hidden="true" />
   <div class="container">
     <div class="section-header" appScrollAnimate animType="up">
-      <span class="section-header__eyebrow ac-vm__eyebrow-accent">Nuestra identidad</span>
-      <h2 class="section-header__title ac-vm__title-light">El propósito que guía cada inversión</h2>
+      <span class="section-header__eyebrow">Nuestra identidad</span>
+      <h2 class="section-header__title">El propósito que guía cada inversión</h2>
     </div>
     <div class="ac-vm__grid">
-      <article class="ac-vm__card" appScrollAnimate animType="up" animDelay="0.1s">
-        <div class="ac-vm__card-top">
-          <span class="ac-vm__num" aria-hidden="true">01</span>
-          <div class="ac-vm__icon">
-            <app-icon name="eye" [size]="20" />
-          </div>
-        </div>
+      <article class="ac-vm__col" appScrollAnimate animType="up" animDelay="0.1s">
         <span class="ac-vm__label">Visión</span>
         <h3 class="ac-vm__heading">Consolidarnos como el principal vehículo de inversión en activos financieros del mercado peruano</h3>
         <p class="ac-vm__text">Aspiramos a ser la plataforma de inversión de referencia en el Perú, donde inversionistas institucionales y privados confíen en nosotros para hacer crecer su capital con instrumentos estructurados, riesgo controlado y retornos competitivos.</p>
       </article>
-      <article class="ac-vm__card ac-vm__card--highlight" appScrollAnimate animType="up" animDelay="0.2s">
-        <div class="ac-vm__card-top">
-          <span class="ac-vm__num" aria-hidden="true">02</span>
-          <div class="ac-vm__icon">
-            <app-icon name="target" [size]="20" />
-          </div>
-        </div>
+      <article class="ac-vm__col" appScrollAnimate animType="up" animDelay="0.2s">
         <span class="ac-vm__label">Misión</span>
         <h3 class="ac-vm__heading">Crear valor real para nuestros inversionistas a través de instrumentos financieros con respaldo sólido</h3>
         <p class="ac-vm__text">Ofrecemos oportunidades de inversión en factoring, leasing y capital estructurado, respaldadas por la experiencia de más de 20 años de Advance Group, con transparencia absoluta y acompañamiento cercano en cada etapa del proceso.</p>
@@ -250,6 +229,7 @@
 
 <!-- 7. FINAL CTA — giant editorial -->
 <section class="ac-cta">
+  <div class="ac-cta__bg" aria-hidden="true"></div>
   <div class="container">
     <div class="ac-cta__inner">
       <span class="ac-cta__eyebrow" appScrollAnimate animType="fade">Hablemos</span>
@@ -268,7 +248,17 @@
           WhatsApp
         </a>
       </div>
-      <p class="ac-cta__note">Lun–Vie: 9:00am – 6:00pm · Sáb: 8:00am – 1:00pm</p>
     </div>
+
+    <a routerLink="/contacto" class="ac-cta__talk" appScrollAnimate animType="up" animDelay="0.2s">
+      <span class="ac-cta__talk-eyebrow">¿Tiene un proyecto en mente?</span>
+      <span class="ac-cta__talk-heading display-xl">
+        Hablemos
+        <app-icon name="arrow-up-right" [size]="30" />
+      </span>
+    </a>
   </div>
+
+  <!-- Standard red "franja" overlaying the bottom edge of the CTA image -->
+  <div class="redbar redbar--bottom" aria-hidden="true"></div>
 </section>
