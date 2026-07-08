@@ -130,9 +130,9 @@ export class FactoringComponent {
   };
 
   readonly counters = [
-    { value: 20, suffix: '+', label: 'Años de experiencia' },
-    { value: 2, suffix: '', label: 'Servicios especializados' },
-    { value: 6, suffix: '', label: 'Sectores atendidos' },
-    { value: 3, suffix: '', label: 'Oficinas en Perú' },
+    { value: 20, suffix: '+', label: 'Años de experiencia', desc: 'Trayectoria consolidada en el mercado financiero peruano.' },
+    { value: 2, suffix: '', label: 'Empresas especializadas', desc: 'Advance Factoring y Advance Capital' },
+    { value: 3, suffix: '', label: 'Oficinas en el Perú', desc: 'Lima, Trujillo, Arequipa' },
+    { value: 6, suffix: '', label: 'Sectores atendidos', desc: 'De la minería a la tecnología.' },
   ];
 }

@@ -29,6 +29,9 @@ export class ContactComponent {
 
   protected readonly status = signal<FormStatus>('idle');
 
+  // Rotation angles for the radial "A" rosette decoration
+  protected readonly burst = Array.from({ length: 8 }, (_, i) => i * 45);
+
   protected readonly form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
