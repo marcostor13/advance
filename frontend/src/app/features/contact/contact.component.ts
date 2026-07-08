@@ -10,13 +10,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { ContactService } from '../../core/services/contact.service';
+import { ScrollAnimateDirective } from '../../core/directives/scroll-animate.directive';
+import { TextRevealDirective } from '../../core/directives/text-reveal.directive';
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ScrollAnimateDirective, TextRevealDirective],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

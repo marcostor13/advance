@@ -1,5 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ScrollAnimateDirective } from '../../core/directives/scroll-animate.directive';
+import { TextRevealDirective } from '../../core/directives/text-reveal.directive';
+import { MagneticDirective } from '../../core/directives/magnetic.directive';
 
 interface ServiceDetail {
   icon: string;
@@ -11,7 +14,7 @@ interface ServiceDetail {
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ScrollAnimateDirective, TextRevealDirective, MagneticDirective],
   templateUrl: './services.component.html',
   styleUrl: './services.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

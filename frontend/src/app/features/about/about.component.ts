@@ -1,5 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ScrollAnimateDirective } from '../../core/directives/scroll-animate.directive';
+import { TextRevealDirective } from '../../core/directives/text-reveal.directive';
+import { ParallaxDirective } from '../../core/directives/parallax.directive';
 
 interface TeamMember {
   name: string;
@@ -10,7 +13,7 @@ interface TeamMember {
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ScrollAnimateDirective, TextRevealDirective, ParallaxDirective],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

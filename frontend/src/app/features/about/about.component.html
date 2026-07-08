@@ -1,7 +1,7 @@
 <section class="page-hero section">
   <div class="container">
-    <h1 class="page-hero__title">Sobre Advance Group</h1>
-    <p class="page-hero__subtitle">
+    <h1 class="page-hero__title"><span appTextReveal>Sobre Advance Group</span></h1>
+    <p class="page-hero__subtitle" appScrollAnimate animType="fade" animDelay="0.2s">
       Somos un equipo de expertos apasionados por ayudar a las empresas a alcanzar su máximo potencial
     </p>
   </div>
@@ -9,7 +9,7 @@
 
 <section class="about-story section">
   <div class="container about-story__inner">
-    <div class="about-story__text">
+    <div class="about-story__text" appScrollAnimate animType="left">
       <h2>Nuestra historia</h2>
       <p>
         Advance Group nació con una misión clara: democratizar el acceso a consultoría y
@@ -22,18 +22,18 @@
       </p>
       <a routerLink="/contacto" class="btn btn--primary">Trabajar con nosotros</a>
     </div>
-    <div class="about-story__visual" aria-hidden="true">
-      <div class="about-story__blob"></div>
+    <div class="about-story__visual" aria-hidden="true" appScrollAnimate animType="right" animDelay="150ms">
+      <div class="about-story__blob" [appParallax]="0.1"></div>
     </div>
   </div>
 </section>
 
 <section class="values section">
   <div class="container">
-    <h2 class="section-title">Nuestros valores</h2>
+    <h2 class="section-title" appScrollAnimate animType="up">Nuestros valores</h2>
     <div class="values__grid">
-      @for (value of values; track value.title) {
-        <div class="value-card">
+      @for (value of values; track value.title; let i = $index) {
+        <div class="value-card" appScrollAnimate animType="up" [animDelay]="(i * 0.1) + 's'">
           <span class="value-card__icon" aria-hidden="true">{{ value.icon }}</span>
           <h3 class="value-card__title">{{ value.title }}</h3>
           <p class="value-card__description">{{ value.description }}</p>
@@ -45,10 +45,10 @@
 
 <section class="team section">
   <div class="container">
-    <h2 class="section-title">Nuestro equipo</h2>
+    <h2 class="section-title" appScrollAnimate animType="up">Nuestro equipo</h2>
     <div class="team__grid">
-      @for (member of team; track member.name) {
-        <div class="team-card">
+      @for (member of team; track member.name; let i = $index) {
+        <div class="team-card" appScrollAnimate animType="up" [animDelay]="(i * 0.1) + 's'">
           <div class="team-card__avatar" aria-hidden="true">{{ member.initials }}</div>
           <h3 class="team-card__name">{{ member.name }}</h3>
           <p class="team-card__role">{{ member.role }}</p>

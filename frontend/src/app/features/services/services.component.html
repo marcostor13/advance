@@ -1,7 +1,7 @@
 <section class="page-hero section">
   <div class="container">
-    <h1 class="page-hero__title">Nuestros Servicios</h1>
-    <p class="page-hero__subtitle">
+    <h1 class="page-hero__title"><span appTextReveal>Nuestros Servicios</span></h1>
+    <p class="page-hero__subtitle" appScrollAnimate animType="fade" animDelay="0.2s">
       Soluciones completas para impulsar el crecimiento y la competitividad de tu empresa
     </p>
   </div>
@@ -9,8 +9,8 @@
 
 <section class="section">
   <div class="container services-grid">
-    @for (service of services; track service.title) {
-      <article class="service-detail">
+    @for (service of services; track service.title; let i = $index) {
+      <article class="service-detail" appScrollAnimate animType="up" [animDelay]="(i * 0.08) + 's'">
         <span class="service-detail__icon" aria-hidden="true">{{ service.icon }}</span>
         <div class="service-detail__body">
           <h2 class="service-detail__title">{{ service.title }}</h2>
@@ -28,10 +28,10 @@
 
 <section class="section cta-banner">
   <div class="container cta-banner__inner">
-    <div>
+    <div appScrollAnimate animType="fade">
       <h2 class="cta-banner__title">¿Necesitas un servicio a medida?</h2>
       <p class="cta-banner__subtitle">Cuéntanos tu desafío y diseñamos la solución perfecta.</p>
     </div>
-    <a routerLink="/contacto" class="btn btn--primary cta-banner__btn">Contactar</a>
+    <a routerLink="/contacto" class="btn btn--primary cta-banner__btn" appMagnetic appScrollAnimate animType="fade" animDelay="0.15s">Contactar</a>
   </div>
 </section>
