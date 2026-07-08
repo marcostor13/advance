@@ -148,25 +148,32 @@
 // SCROLL ANIMATION SYSTEM — short distances, calm easing
 // ============================================================
 .anim-ready {
+  --ease-anim: cubic-bezier(0.16, 1, 0.3, 1);
   opacity: 0;
-  will-change: opacity, transform;
+  will-change: opacity, transform, filter;
 
-  &.anim-up    { transform: translateY(24px);  }
-  &.anim-left  { transform: translateX(-24px); }
-  &.anim-right { transform: translateX(24px);  }
-  &.anim-scale { transform: scale(0.975);      }
+  &.anim-up    { transform: translateY(46px);            }
+  &.anim-left  { transform: translateX(-52px);           }
+  &.anim-right { transform: translateX(52px);            }
+  &.anim-scale { transform: scale(0.92) translateY(24px); }
   &.anim-fade  { }
 
   &.anim-up, &.anim-left, &.anim-right, &.anim-scale {
-    transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+    filter: blur(8px);
+    transition:
+      opacity 0.9s var(--ease-anim),
+      transform 0.95s var(--ease-anim),
+      filter 0.9s var(--ease-anim);
   }
   &.anim-fade {
-    transition: opacity 0.65s var(--ease-out);
+    filter: blur(6px);
+    transition: opacity 1s var(--ease-out), filter 1s var(--ease-out);
   }
 
   &.anim-active {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 }
 
@@ -174,6 +181,7 @@
   .anim-ready {
     opacity: 1;
     transform: none;
+    filter: none;
     transition: none;
   }
 }
@@ -530,8 +538,8 @@ ul, ol { list-style: none; }
 
   .tr-inner {
     display: block;
-    transform: translateY(112%);
-    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1) var(--tr-delay, 0ms);
+    transform: translateY(115%);
+    transition: transform 1.15s cubic-bezier(0.16, 1, 0.3, 1) var(--tr-delay, 0ms);
     will-change: transform;
   }
 

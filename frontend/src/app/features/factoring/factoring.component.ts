@@ -50,24 +50,24 @@ export class FactoringComponent {
   readonly services = [
     {
       id: 'factoring',
-      title: 'Factoring',
-      tagline: 'Convierte tus facturas en efectivo de manera inmediata',
+      title: 'Factoring Comercial',
+      tagline: 'Financie su crecimiento adelantando el cobro de sus facturas, sin generar deuda tradicional.',
       icon: 'file-text',
       benefits: [
-        'Recupera tu capital de trabajo rápidamente',
-        'Mejora tus indicadores financieros sin aumentar deuda',
-        'Terceriza la gestión de cobranza',
+        'Efectivo inmediato de sus cuentas por cobrar',
+        'Sin aumentar su endeudamiento',
+        'Gestión de cobranza incluida',
       ],
     },
     {
       id: 'confirming',
-      title: 'Confirming',
-      tagline: 'Optimiza tus pagos y extiende plazos para mejorar la gestión financiera',
+      title: 'Confirming (Factoring Inverso)',
+      tagline: 'Centralice y simplifique el pago a sus proveedores, fortaleciendo su cadena de suministro.',
       icon: 'check-circle',
       benefits: [
-        'Simplificación y ahorro en procesos de pago',
-        'Beneficios para proveedores',
-        'Acceso a crédito con condiciones favorables',
+        'Pagos a proveedores optimizados',
+        'Plazos extendidos y mejor flujo de caja',
+        'Relaciones comerciales más sólidas',
       ],
     },
   ];

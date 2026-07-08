@@ -263,6 +263,79 @@
   }
 }
 
+// Gran diferencial — featured callout beneath the service index
+.af-highlight {
+  position: relative;
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2.25rem;
+  padding: 2.25rem 2rem;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--deep-blue-2), var(--deep-blue));
+  overflow: hidden;
+
+  // beige accent edge
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(var(--crimson), var(--beige));
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--beige);
+    background: rgba(252, 208, 149, 0.1);
+    border: 1px solid rgba(252, 208, 149, 0.22);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 0;
+  }
+
+  &__eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--beige-dark);
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--white);
+  }
+
+  &__text {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.75rem 1.5rem;
+  }
+}
+
 .service-row {
   position: relative;
   display: grid;

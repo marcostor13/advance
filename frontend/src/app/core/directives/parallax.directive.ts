@@ -14,9 +14,12 @@ export class ParallaxDirective implements OnInit, OnDestroy {
 
   constructor(private el: ElementRef<HTMLElement>, private zone: NgZone) {}
 
+  /** Global gain so tuned per-element factors read a bit stronger on scroll. */
+  private static readonly GAIN = 1.4;
+
   ngOnInit(): void {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const factor = typeof this.speed === 'number' ? this.speed : 0.12;
+    const factor = (typeof this.speed === 'number' ? this.speed : 0.12) * ParallaxDirective.GAIN;
 
     this.zone.runOutsideAngular(() => {
       const update = (): void => {

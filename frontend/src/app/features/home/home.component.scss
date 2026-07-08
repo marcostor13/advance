@@ -45,7 +45,9 @@
 
   &__title {
     color: var(--white);
-    font-size: clamp(3rem, 9vw, 7.5rem);
+    // Sized so the longest line ("Evolución financiera,") fits the wide
+    // container on one line without crowding the subtitle/stats below.
+    font-size: clamp(2.5rem, 6.6vw, 6rem);
     margin-bottom: 0; // spacing handled by space-between on desktop
 
     @media (max-width: 768px) { margin-bottom: 2.25rem; }
@@ -74,8 +76,8 @@
   &__subtitle {
     font-size: clamp(0.9375rem, 2vw, 1.0625rem);
     color: var(--white);
-    line-height: 1.8;
-    max-width: 440px;
+    line-height: 1.75;
+    max-width: 500px;
     margin: 0;
   }
 
