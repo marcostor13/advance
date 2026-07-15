@@ -1,0 +1,36 @@
+<header class="rp__head">
+  <span class="rp__eyebrow">Documentos</span>
+  <h1 class="rp__title">Reportes y Estados de Cuenta</h1>
+  <p class="rp__sub">Descarga tus reportes de rendimiento, estados de cuenta y documentos tributarios.</p>
+</header>
+
+@if (loading()) {
+  <div class="rp__loading">Cargando reportes…</div>
+} @else if (reports().length === 0) {
+  <div class="rp__empty">
+    <app-icon name="file-text" [size]="28" />
+    <p>Aún no tienes reportes disponibles.</p>
+  </div>
+} @else {
+  <ul class="rp__list">
+    @for (r of reports(); track r._id) {
+      <li class="rp__item">
+        <span class="rp__icon"><app-icon [name]="iconFor(r.type)" [size]="20" /></span>
+        <div class="rp__info">
+          <div class="rp__info-top">
+            <h2 class="rp__item-title">{{ r.title }}</h2>
+            <span class="rp__badge">{{ typeLabels[r.type] }}</span>
+          </div>
+          @if (r.summary) { <p class="rp__item-desc">{{ r.summary }}</p> }
+          <span class="rp__item-meta">
+            {{ r.period }} · PDF · {{ r.sizeKb }} KB · {{ r.publishedAt | date: 'd MMM y' }}
+          </span>
+        </div>
+        <button type="button" class="rp__download" title="Descargar">
+          <app-icon name="download" [size]="18" />
+          <span>Descargar</span>
+        </button>
+      </li>
+    }
+  </ul>
+}

@@ -1,0 +1,117 @@
+<header class="ov__head">
+  <div>
+    <span class="ov__eyebrow">Portal del Inversionista</span>
+    <h1 class="ov__greeting">Hola, {{ firstName() }}</h1>
+    <p class="ov__sub">Este es el estado actual de tu portafolio con Advance Capital.</p>
+  </div>
+  <a routerLink="/portal/inversiones" class="btn btn--primary btn--sm ov__head-cta">
+    Ver inversiones
+    <app-icon name="arrow-right" [size]="16" />
+  </a>
+</header>
+
+<!-- KPI cards -->
+@if (summary(); as s) {
+  <section class="ov__kpis">
+    <article class="ov__kpi ov__kpi--primary">
+      <span class="ov__kpi-label">Valor actual del portafolio</span>
+      <strong class="ov__kpi-value">{{ s.currentValue | money: s.currency }}</strong>
+      <span class="ov__kpi-foot">
+        <app-icon name="trending-up" [size]="14" />
+        {{ s.returnPct | number: '1.1-1' }}% de rentabilidad acumulada
+      </span>
+    </article>
+
+    <article class="ov__kpi">
+      <span class="ov__kpi-label">Capital invertido</span>
+      <strong class="ov__kpi-value">{{ s.totalInvested | money: s.currency }}</strong>
+      <span class="ov__kpi-foot ov__kpi-foot--muted">{{ s.activeCount }} inversiones activas</span>
+    </article>
+
+    <article class="ov__kpi">
+      <span class="ov__kpi-label">Rendimientos generados</span>
+      <strong class="ov__kpi-value ov__kpi-value--gain">+{{ s.totalReturns | money: s.currency }}</strong>
+      <span class="ov__kpi-foot ov__kpi-foot--muted">Intereses devengados a la fecha</span>
+    </article>
+
+    <article class="ov__kpi">
+      <span class="ov__kpi-label">Tasa promedio ponderada</span>
+      <strong class="ov__kpi-value">{{ s.weightedRate | number: '1.1-1' }}%</strong>
+      <span class="ov__kpi-foot ov__kpi-foot--muted">Anual sobre capital activo</span>
+    </article>
+  </section>
+}
+
+<div class="ov__grid">
+  <!-- Allocation -->
+  <section class="ov__panel">
+    <div class="ov__panel-head">
+      <h2 class="ov__panel-title"><app-icon name="pie-chart" [size]="18" /> Distribución del portafolio</h2>
+    </div>
+    @if (allocation().length) {
+      <ul class="ov__alloc">
+        @for (a of allocation(); track a.instrument) {
+          <li class="ov__alloc-row">
+            <div class="ov__alloc-top">
+              <span class="ov__alloc-name">{{ instrumentLabels[a.instrument] }}</span>
+              <span class="ov__alloc-pct">{{ a.pct }}%</span>
+            </div>
+            <div class="ov__alloc-bar">
+              <span class="ov__alloc-fill" [style.width.%]="a.pct" [attr.data-i]="$index"></span>
+            </div>
+            <span class="ov__alloc-value">{{ a.value | money: summary()?.currency ?? 'PEN' }}</span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="ov__empty">Sin inversiones activas para mostrar.</p>
+    }
+  </section>
+
+  <!-- Recent activity -->
+  <section class="ov__panel">
+    <div class="ov__panel-head">
+      <h2 class="ov__panel-title"><app-icon name="refresh-cw" [size]="18" /> Actividad reciente</h2>
+      <a routerLink="/portal/historial" class="ov__panel-link">Ver todo</a>
+    </div>
+    @if (recentMovements().length) {
+      <ul class="ov__activity">
+        @for (m of recentMovements(); track $index) {
+          <li class="ov__activity-row">
+            <span class="ov__activity-icon" [attr.data-type]="m.type">
+              <app-icon [name]="movementIcon(m.type)" [size]="16" />
+            </span>
+            <div class="ov__activity-body">
+              <span class="ov__activity-desc">{{ m.description }}</span>
+              <span class="ov__activity-meta">{{ m.product }} · {{ m.date | date: 'd MMM y' }}</span>
+            </div>
+            <span class="ov__activity-amount" [class.ov__activity-amount--gain]="m.type !== 'deposit'">
+              {{ m.amount | money: m.currency: 0 }}
+            </span>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="ov__empty">Aún no hay movimientos.</p>
+    }
+  </section>
+</div>
+
+<!-- News teaser -->
+<section class="ov__panel ov__panel--full">
+  <div class="ov__panel-head">
+    <h2 class="ov__panel-title"><app-icon name="newspaper" [size]="18" /> Noticias de Advance</h2>
+    <a routerLink="/portal/noticias" class="ov__panel-link">Ver todas</a>
+  </div>
+  <div class="ov__news">
+    @for (n of latestNews(); track n._id) {
+      <a routerLink="/portal/noticias" class="ov__news-card">
+        <div class="ov__news-img" [style.background-image]="'url(' + n.image + ')'"></div>
+        <div class="ov__news-body">
+          <span class="ov__news-date">{{ n.publishedAt | date: 'd MMM y' }}</span>
+          <h3 class="ov__news-title">{{ n.title }}</h3>
+        </div>
+      </a>
+    }
+  </div>
+</section>

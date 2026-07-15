@@ -2,3 +2,8 @@ main {
   min-height: calc(100vh - var(--header-height));
   padding-top: var(--header-height);
 }
+
+main.main--bare {
+  min-height: 100vh;
+  padding-top: 0;
+}

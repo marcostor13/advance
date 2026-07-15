@@ -1,0 +1,69 @@
+<header class="inv__head">
+  <div>
+    <span class="inv__eyebrow">Portafolio</span>
+    <h1 class="inv__title">Mis Inversiones</h1>
+    <p class="inv__sub">Estado y detalle de cada uno de tus instrumentos.</p>
+  </div>
+  <div class="inv__filters" role="tablist">
+    <button type="button" class="inv__filter" [class.inv__filter--active]="filter() === 'all'" (click)="setFilter('all')">Todas</button>
+    <button type="button" class="inv__filter" [class.inv__filter--active]="filter() === 'active'" (click)="setFilter('active')">Activas</button>
+    <button type="button" class="inv__filter" [class.inv__filter--active]="filter() === 'matured'" (click)="setFilter('matured')">Vencidas</button>
+  </div>
+</header>
+
+@if (loading()) {
+  <div class="inv__skeletons">
+    @for (i of [1,2,3]; track i) { <div class="inv__skeleton"></div> }
+  </div>
+} @else if (filtered().length === 0) {
+  <div class="inv__empty">
+    <app-icon name="briefcase" [size]="28" />
+    <p>No tienes inversiones en esta categoría.</p>
+  </div>
+} @else {
+  <div class="inv__list">
+    @for (inv of filtered(); track inv._id) {
+      <article class="inv__card">
+        <div class="inv__card-head">
+          <div class="inv__card-title-wrap">
+            <span class="inv__card-tag">{{ instrumentLabels[inv.instrument] }}</span>
+            <h2 class="inv__card-title">{{ inv.product }}</h2>
+          </div>
+          <span class="inv__pill" [class.is-active]="inv.status === 'active'" [class.is-matured]="inv.status === 'matured'" [class.is-pending]="inv.status === 'pending'" [class.is-cancelled]="inv.status === 'cancelled'">
+            {{ statusLabels[inv.status] }}
+          </span>
+        </div>
+
+        <div class="inv__figures">
+          <div class="inv__figure">
+            <span class="inv__figure-label">Capital invertido</span>
+            <strong class="inv__figure-value">{{ inv.principal | money: inv.currency: 0 }}</strong>
+          </div>
+          <div class="inv__figure">
+            <span class="inv__figure-label">Valor actual</span>
+            <strong class="inv__figure-value">{{ inv.currentValue | money: inv.currency: 0 }}</strong>
+          </div>
+          <div class="inv__figure">
+            <span class="inv__figure-label">Rendimiento</span>
+            <strong class="inv__figure-value inv__figure-value--gain">+{{ gain(inv) | money: inv.currency: 0 }}</strong>
+          </div>
+          <div class="inv__figure">
+            <span class="inv__figure-label">Tasa anual</span>
+            <strong class="inv__figure-value">{{ inv.annualRate * 100 | number: '1.1-1' }}%</strong>
+          </div>
+        </div>
+
+        <div class="inv__progress">
+          <div class="inv__progress-top">
+            <span><app-icon name="calendar" [size]="13" /> {{ inv.startDate | date: 'MMM y' }} — {{ inv.maturityDate | date: 'MMM y' }}</span>
+            <span class="inv__progress-pct">{{ progress(inv) }}% del plazo</span>
+          </div>
+          <div class="inv__progress-bar">
+            <span class="inv__progress-fill" [class.is-done]="inv.status === 'matured'" [style.width.%]="progress(inv)"></span>
+          </div>
+          <span class="inv__progress-term">Plazo: {{ inv.termMonths }} meses</span>
+        </div>
+      </article>
+    }
+  </div>
+}

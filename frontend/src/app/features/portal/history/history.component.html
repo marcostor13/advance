@@ -1,0 +1,34 @@
+<header class="hi__head">
+  <span class="hi__eyebrow">Movimientos</span>
+  <h1 class="hi__title">Historial de Inversiones</h1>
+  <p class="hi__sub">Registro cronológico de suscripciones, rendimientos y vencimientos.</p>
+</header>
+
+@if (loading()) {
+  <div class="hi__loading">Cargando historial…</div>
+} @else if (entries().length === 0) {
+  <div class="hi__empty">
+    <app-icon name="clock" [size]="28" />
+    <p>Todavía no hay movimientos registrados.</p>
+  </div>
+} @else {
+  <ol class="hi__timeline">
+    @for (e of entries(); track $index) {
+      <li class="hi__item">
+        <span class="hi__marker" [attr.data-type]="e.type">
+          <app-icon [name]="icon(e.type)" [size]="16" />
+        </span>
+        <div class="hi__content">
+          <div class="hi__row">
+            <span class="hi__type" [attr.data-type]="e.type">{{ movementLabels[e.type] }}</span>
+            <span class="hi__amount" [class.hi__amount--gain]="e.type !== 'deposit'">
+              {{ e.type === 'deposit' ? '−' : '+' }}{{ e.amount | money: e.currency }}
+            </span>
+          </div>
+          <p class="hi__desc">{{ e.description }}</p>
+          <span class="hi__meta">{{ e.product }} · {{ e.date | date: 'd \'de\' MMMM, y' }}</span>
+        </div>
+      </li>
+    }
+  </ol>
+}

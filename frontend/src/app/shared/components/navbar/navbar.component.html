@@ -41,11 +41,29 @@
           }
         </a>
       }
+      <!-- Client portal access (mobile, inside overlay) -->
+      <a [routerLink]="portalLink().path" class="navbar__link navbar__link--portal" (click)="closeMenu()">
+        <span class="navbar__link-label">{{ portalLink().label }}</span>
+      </a>
       <!-- Mobile-only CTA -->
       <a routerLink="/contacto" class="btn btn--primary navbar__cta-mobile" (click)="closeMenu()">
         Contáctanos
       </a>
     </nav>
+
+    <!-- Client portal access (desktop) -->
+    <a
+      [routerLink]="portalLink().path"
+      class="navbar__portal"
+      appMagnetic
+      (click)="closeMenu()"
+    >
+      <svg class="navbar__portal-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+      <span>{{ portalLink().label }}</span>
+    </a>
 
     <!-- Desktop CTA — switches between outline (transparent) and primary (scrolled) -->
     <a

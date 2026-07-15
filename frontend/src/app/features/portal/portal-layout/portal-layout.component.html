@@ -1,0 +1,66 @@
+<div class="portal" [class.portal--open]="sidebarOpen()">
+  <!-- Sidebar -->
+  <aside class="portal__sidebar">
+    <a routerLink="/" class="portal__brand">
+      <img src="/logo-group-white.png" alt="Advance Group" class="portal__brand-logo" />
+    </a>
+
+    <div class="portal__account">
+      <div class="portal__avatar">{{ initials() }}</div>
+      <div class="portal__account-info">
+        <span class="portal__account-name">{{ user()?.name }}</span>
+        <span class="portal__account-role">Inversionista</span>
+      </div>
+    </div>
+
+    <nav class="portal__nav">
+      @for (link of links; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="portal__nav-link--active"
+          [routerLinkActiveOptions]="{ exact: link.exact }"
+          class="portal__nav-link"
+          (click)="closeSidebar()"
+        >
+          <app-icon [name]="link.icon" [size]="18" />
+          <span>{{ link.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <div class="portal__sidebar-footer">
+      <button type="button" class="portal__logout" (click)="logout()">
+        <app-icon name="log-out" [size]="16" />
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Scrim (mobile) -->
+  <div class="portal__scrim" (click)="closeSidebar()"></div>
+
+  <!-- Main -->
+  <div class="portal__main">
+    <header class="portal__topbar">
+      <button
+        type="button"
+        class="portal__burger"
+        [attr.aria-label]="'Menú'"
+        (click)="toggleSidebar()"
+      >
+        <span></span><span></span><span></span>
+      </button>
+      <div class="portal__topbar-brand">
+        <img src="/logo-capital.png" alt="Advance Capital" class="portal__topbar-logo" />
+        <span class="portal__topbar-tag">Portal del Inversionista</span>
+      </div>
+      <a routerLink="/portal/reportes" class="portal__topbar-cta" title="Reportes">
+        <app-icon name="file-text" [size]="18" />
+      </a>
+    </header>
+
+    <main class="portal__content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

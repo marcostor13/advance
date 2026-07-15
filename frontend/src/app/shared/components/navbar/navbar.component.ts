@@ -11,6 +11,7 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/ro
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs/operators';
 import { MagneticDirective } from '../../../core/directives/magnetic.directive';
+import { AuthService } from '../../../core/services/auth.service';
 
 interface NavLink {
   label: string;
@@ -28,12 +29,19 @@ interface NavLink {
 })
 export class NavbarComponent implements OnDestroy {
   private readonly router = inject(Router);
+  private readonly auth = inject(AuthService);
 
   protected readonly links: NavLink[] = [
     { label: 'Inicio', path: '/' },
     { label: 'Factoring', path: '/factoring', logo: '/logo-factoring.png' },
     { label: 'Capital', path: '/capital', logo: '/logo-capital.png' },
   ];
+
+  protected readonly portalLink = computed(() =>
+    this.auth.isAuthenticated()
+      ? { path: '/portal', label: 'Mi cuenta' }
+      : { path: '/portal/acceso', label: 'Acceso clientes' },
+  );
 
   protected readonly isMenuOpen = signal(false);
 
