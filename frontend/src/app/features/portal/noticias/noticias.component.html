@@ -1,0 +1,72 @@
+<header class="pt-head">
+  <span class="pt-eyebrow">Actualidad</span>
+  <h1 class="pt-title">Noticias</h1>
+  <p class="pt-subtitle">Comunicados, análisis de mercado y novedades que compartimos contigo.</p>
+</header>
+
+<!-- Featured -->
+<article class="feat" (click)="open(featured)">
+  <div class="feat__media">
+    <img [src]="featured.image" [alt]="featured.title" />
+  </div>
+  <div class="feat__body">
+    <span class="news-cat">{{ featured.category }}</span>
+    <h2 class="feat__title">{{ featured.title }}</h2>
+    <p class="feat__excerpt">{{ featured.excerpt }}</p>
+    <span class="feat__more">Leer más <app-icon name="arrow-up-right" [size]="16" /></span>
+  </div>
+</article>
+
+<!-- Filters -->
+<div class="chips">
+  @for (c of categories; track c) {
+    <button
+      class="chip"
+      [class.chip--active]="activeCat() === c"
+      (click)="activeCat.set(c)"
+      type="button"
+    >{{ c }}</button>
+  }
+</div>
+
+<!-- Grid -->
+<div class="news-grid">
+  @for (n of filtered(); track n.id) {
+    <article class="news-card" (click)="open(n)">
+      <div class="news-card__media">
+        <img [src]="n.image" [alt]="n.title" />
+      </div>
+      <div class="news-card__body">
+        <span class="news-cat">{{ n.category }}</span>
+        <h3 class="news-card__title">{{ n.title }}</h3>
+        <p class="news-card__excerpt">{{ n.excerpt }}</p>
+        <span class="news-date">{{ n.date }}</span>
+      </div>
+    </article>
+  } @empty {
+    <p class="news-empty">No hay noticias en esta categoría.</p>
+  }
+</div>
+
+<!-- Modal -->
+@if (selected(); as n) {
+  <div class="modal" (click)="close()">
+    <div class="modal__card" (click)="$event.stopPropagation()">
+      <button class="modal__close" (click)="close()" type="button" aria-label="Cerrar">
+        <app-icon name="x" [size]="20" />
+      </button>
+      <div class="modal__media">
+        <img [src]="n.image" [alt]="n.title" />
+      </div>
+      <div class="modal__body">
+        <span class="news-cat">{{ n.category }}</span>
+        <h2 class="modal__title">{{ n.title }}</h2>
+        <p class="modal__meta">{{ n.author }} · {{ n.date }}</p>
+        @if (n.highlight) {
+          <blockquote class="modal__quote">{{ n.highlight }}</blockquote>
+        }
+        <p class="modal__text">{{ n.body }}</p>
+      </div>
+    </div>
+  </div>
+}

@@ -1,9 +1,13 @@
-<app-intro />
-<app-scroll-progress />
-<app-cursor />
-<app-navbar />
-<main>
+@if (!isBare()) {
+  <app-intro />
+  <app-scroll-progress />
+  <app-cursor />
+  <app-navbar />
+}
+<main [class.main--flush]="isBare()">
   <router-outlet />
 </main>
-<app-footer />
-<app-ai-chat />
+@if (!isBare()) {
+  <app-footer />
+  <app-ai-chat />
+}
