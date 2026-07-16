@@ -1,0 +1,25 @@
+<header class="pt-head">
+  <span class="pt-eyebrow">Movimientos</span>
+  <h1 class="pt-title">Historial de Inversiones</h1>
+  <p class="pt-subtitle">Registro cronológico de suscripciones, rendimientos y vencimientos.</p>
+</header>
+
+<ol class="tl">
+  @for (m of movements; track $index) {
+    <li class="tl__item">
+      <span class="tl__node" [class.tl__node--in]="m.positive">
+        <app-icon [name]="m.icon" [size]="16" />
+      </span>
+      <article class="tl__card">
+        <div class="tl__row">
+          <span class="tl__type" [class.tl__type--in]="m.positive">{{ m.type }}</span>
+          <span class="tl__amount" [class.tl__amount--in]="m.positive">
+            {{ m.positive ? '+' : '−' }}S/ {{ m.amount }}
+          </span>
+        </div>
+        <h3 class="tl__title">{{ m.title }}</h3>
+        <p class="tl__meta">{{ m.meta }}</p>
+      </article>
+    </li>
+  }
+</ol>

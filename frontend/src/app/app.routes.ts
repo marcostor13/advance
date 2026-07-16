@@ -40,6 +40,43 @@ export const routes: Routes = [
     title: 'Panel de Administración — Advance Group',
   },
   {
+    path: 'portal',
+    loadComponent: () =>
+      import('./features/portal/portal-layout.component').then((m) => m.PortalLayoutComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/portal/resumen/resumen.component').then((m) => m.ResumenComponent),
+        title: 'Resumen — Advance Group',
+      },
+      {
+        path: 'inversiones',
+        loadComponent: () =>
+          import('./features/portal/inversiones/inversiones.component').then((m) => m.InversionesComponent),
+        title: 'Mis Inversiones — Advance Group',
+      },
+      {
+        path: 'historial',
+        loadComponent: () =>
+          import('./features/portal/historial/historial.component').then((m) => m.HistorialComponent),
+        title: 'Historial — Advance Group',
+      },
+      {
+        path: 'reportes',
+        loadComponent: () =>
+          import('./features/portal/reportes/reportes.component').then((m) => m.ReportesComponent),
+        title: 'Reportes — Advance Group',
+      },
+      {
+        path: 'noticias',
+        loadComponent: () =>
+          import('./features/portal/noticias/noticias.component').then((m) => m.NoticiasComponent),
+        title: 'Noticias — Advance Group',
+      },
+    ],
+  },
+  {
     path: '**',
     loadComponent: () =>
       import('./features/not-found/not-found.component').then((m) => m.NotFoundComponent),

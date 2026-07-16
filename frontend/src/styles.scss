@@ -627,3 +627,86 @@ body::after {
 .bg-alt       { background: var(--off-white)   !important; }
 
 .font-display { font-family: var(--font-display) !important; }
+
+// ============================================================
+// PORTAL — Client panel (Resumen / Inversiones / Historial / Reportes / Noticias)
+// Shared design-system classes used across all portal views.
+// ============================================================
+:root {
+  --pt-green:     #159a5c;
+  --pt-green-bg:  rgba(21, 154, 92, 0.10);
+  --pt-bg:        #f4f6f8;
+  --pt-sidebar-w: 264px;
+}
+
+.pt-head { margin-bottom: 2.25rem; }
+.pt-eyebrow {
+  display: inline-block;
+  color: var(--crimson);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.pt-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 800;
+  color: var(--deep-blue);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin: 0.5rem 0 0;
+}
+.pt-subtitle {
+  color: var(--gray-600);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0.65rem 0 0;
+  max-width: 62ch;
+}
+
+.pt-card {
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.pt-card__title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--deep-blue);
+  margin: 0 0 1.1rem;
+}
+
+.pt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.65rem;
+  border-radius: var(--radius-full);
+  background: var(--pt-green-bg);
+  color: var(--pt-green);
+}
+
+.news-cat {
+  display: inline-block;
+  color: var(--crimson);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.news-date {
+  display: block;
+  color: var(--gray-400);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
