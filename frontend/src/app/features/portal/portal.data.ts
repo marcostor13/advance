@@ -7,9 +7,9 @@ export interface NavItem {
 }
 
 export const PORTAL_USER = {
-  name: 'Marco Torres',
+  name: 'Juan Pérez',
   role: 'Inversionista',
-  initials: 'MT',
+  initials: 'JP',
 } as const;
 
 export const PORTAL_NAV: NavItem[] = [
