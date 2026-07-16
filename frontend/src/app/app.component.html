@@ -1,9 +1,13 @@
-<app-intro />
-<app-scroll-progress />
-<app-cursor />
-<app-navbar />
-<main>
+@if (showChrome()) {
+  <app-intro />
+  <app-scroll-progress />
+  <app-cursor />
+  <app-navbar />
+}
+<main [class.main--bare]="!showChrome()">
   <router-outlet />
 </main>
-<app-footer />
-<app-ai-chat />
+@if (showChrome()) {
+  <app-footer />
+  <app-ai-chat />
+}

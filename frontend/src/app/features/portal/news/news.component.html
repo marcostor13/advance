@@ -1,0 +1,70 @@
+<header class="nw__head">
+  <span class="nw__eyebrow">Actualidad</span>
+  <h1 class="nw__title">Noticias de Advance</h1>
+  <p class="nw__sub">Comunicados, análisis de mercado y novedades que compartimos contigo.</p>
+</header>
+
+@if (loading()) {
+  <div class="nw__loading">Cargando noticias…</div>
+} @else {
+  <!-- Featured -->
+  @if (featured(); as f) {
+    <button type="button" class="nw__featured" (click)="open(f)">
+      <div class="nw__featured-img" [style.background-image]="'url(' + f.image + ')'">
+        <div class="redbar redbar--bottom"></div>
+      </div>
+      <div class="nw__featured-body">
+        <span class="nw__cat">{{ categoryLabels[f.category] }}</span>
+        <h2 class="nw__featured-title">{{ f.title }}</h2>
+        <p class="nw__featured-excerpt">{{ f.excerpt }}</p>
+        <span class="nw__featured-meta">{{ f.author }} · {{ f.publishedAt | date: 'd MMM y' }}</span>
+        <span class="link-arrow nw__read">Leer más <app-icon name="arrow-right" [size]="16" /></span>
+      </div>
+    </button>
+  }
+
+  <!-- Filters -->
+  <div class="nw__filters">
+    @for (c of categories; track c) {
+      <button type="button" class="nw__filter" [class.nw__filter--active]="activeCategory() === c" (click)="setCategory(c)">
+        {{ c === 'all' ? 'Todas' : categoryLabels[c] }}
+      </button>
+    }
+  </div>
+
+  <!-- Grid -->
+  @if (grid().length) {
+    <div class="nw__grid">
+      @for (n of grid(); track n._id) {
+        <button type="button" class="nw__card" (click)="open(n)">
+          <div class="nw__card-img" [style.background-image]="'url(' + n.image + ')'"></div>
+          <div class="nw__card-body">
+            <span class="nw__cat">{{ categoryLabels[n.category] }}</span>
+            <h3 class="nw__card-title">{{ n.title }}</h3>
+            <p class="nw__card-excerpt">{{ n.excerpt }}</p>
+            <span class="nw__card-meta">{{ n.publishedAt | date: 'd MMM y' }}</span>
+          </div>
+        </button>
+      }
+    </div>
+  } @else {
+    <p class="nw__none">No hay noticias en esta categoría.</p>
+  }
+}
+
+<!-- Detail overlay -->
+@if (selected(); as a) {
+  <div class="nw__overlay" (click)="close()">
+    <article class="nw__modal" (click)="$event.stopPropagation()">
+      <button type="button" class="nw__close" (click)="close()" aria-label="Cerrar">✕</button>
+      <div class="nw__modal-img" [style.background-image]="'url(' + a.image + ')'"></div>
+      <div class="nw__modal-body">
+        <span class="nw__cat">{{ categoryLabels[a.category] }}</span>
+        <h2 class="nw__modal-title">{{ a.title }}</h2>
+        <span class="nw__modal-meta">{{ a.author }} · {{ a.publishedAt | date: 'd \'de\' MMMM, y' }}</span>
+        <p class="nw__modal-lead">{{ a.excerpt }}</p>
+        <p class="nw__modal-text">{{ a.body }}</p>
+      </div>
+    </article>
+  </div>
+}

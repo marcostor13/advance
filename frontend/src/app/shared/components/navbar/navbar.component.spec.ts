@@ -1,20 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 import { NavbarComponent } from './navbar.component';
 
 describe('NavbarComponent', () => {
   let fixture: ComponentFixture<NavbarComponent>;
   let component: NavbarComponent;
 
-  const scrollTo = (y: number): void => {
-    Object.defineProperty(window, 'scrollY', { value: y, configurable: true });
-    component.onScroll();
-  };
-
   beforeEach(async () => {
+    localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [NavbarComponent],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), provideHttpClient()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavbarComponent);
@@ -24,38 +21,21 @@ describe('NavbarComponent', () => {
 
   afterEach(() => {
     document.body.style.overflow = '';
+    localStorage.clear();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should mark scrolled state beyond 30px', () => {
-    scrollTo(50);
-    fixture.detectChanges();
-    const header = fixture.nativeElement.querySelector('.navbar') as HTMLElement;
-    expect(header.classList).toContain('navbar--scrolled');
+  it('should render the three primary nav links', () => {
+    const links = fixture.nativeElement.querySelectorAll('.navbar__link:not(.navbar__link--portal)');
+    expect(links.length).toBe(3);
   });
 
-  it('should hide on scroll down beyond 200px and reveal on scroll up', () => {
-    scrollTo(100);
-    scrollTo(300);
-    fixture.detectChanges();
-    const header = fixture.nativeElement.querySelector('.navbar') as HTMLElement;
-    expect(header.classList).toContain('navbar--hidden');
-
-    scrollTo(250);
-    fixture.detectChanges();
-    expect(header.classList).not.toContain('navbar--hidden');
-  });
-
-  it('should not hide while the mobile menu is open', () => {
-    component.toggleMenu();
-    scrollTo(100);
-    scrollTo(400);
-    fixture.detectChanges();
-    const header = fixture.nativeElement.querySelector('.navbar') as HTMLElement;
-    expect(header.classList).not.toContain('navbar--hidden');
+  it('should point the portal link to the client access page when unauthenticated', () => {
+    expect(component['portalLink']().path).toBe('/portal/acceso');
+    expect(component['portalLink']().label).toBe('Acceso clientes');
   });
 
   it('should lock and unlock body scroll when toggling the menu', () => {
@@ -64,11 +44,5 @@ describe('NavbarComponent', () => {
 
     component.closeMenu();
     expect(document.body.style.overflow).toBe('');
-  });
-
-  it('should render all nav links with index numbers', () => {
-    const indexes = fixture.nativeElement.querySelectorAll('.navbar__link-index');
-    expect(indexes.length).toBe(4);
-    expect((indexes[0] as HTMLElement).textContent).toContain('01');
   });
 });

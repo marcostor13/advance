@@ -1,0 +1,54 @@
+// Shared building blocks for portal feature components.
+// @use this file inside each portal component's stylesheet.
+
+@mixin panel {
+  background: var(--white);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6) var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+@mixin eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--crimson);
+}
+
+@mixin page-title {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  color: var(--deep-blue);
+  letter-spacing: -0.02em;
+}
+
+@mixin status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: currentColor;
+  }
+
+  &.is-active { color: #0a7d43; background: rgba(10, 125, 67, 0.1); }
+  &.is-matured { color: var(--deep-blue-3); background: rgba(0, 51, 102, 0.09); }
+  &.is-pending { color: #a86400; background: rgba(217, 168, 102, 0.18); }
+  &.is-cancelled { color: var(--gray-600); background: var(--gray-100); }
+}
+
+// Palette for allocation / category accents by index
+$accents: var(--crimson), var(--deep-blue-3), var(--beige-dark), var(--gray-400);

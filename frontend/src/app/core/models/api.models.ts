@@ -115,3 +115,100 @@ export const INSTRUMENT_LABELS: Record<Instrument, string> = {
   leasing: 'Leasing Financiero',
   capital_estructurado: 'Capital Estructurado',
 };
+
+// ---- Portal: Investments ----
+export type InvestmentStatus = 'active' | 'matured' | 'pending' | 'cancelled';
+export type MovementType = 'deposit' | 'interest' | 'payout' | 'maturity';
+
+export interface Movement {
+  date: string;
+  type: MovementType;
+  amount: number;
+  description: string;
+}
+
+export interface Investment {
+  _id: string;
+  product: string;
+  instrument: Instrument;
+  currency: 'PEN' | 'USD';
+  principal: number;
+  annualRate: number;
+  termMonths: number;
+  startDate: string;
+  maturityDate: string;
+  currentValue: number;
+  interestAccrued: number;
+  status: InvestmentStatus;
+  movements: Movement[];
+  createdAt: string;
+}
+
+export interface PortfolioSummary {
+  currency: string;
+  totalInvested: number;
+  currentValue: number;
+  totalReturns: number;
+  returnPct: number;
+  activeCount: number;
+  maturedCount: number;
+  weightedRate: number;
+  byInstrument: { instrument: Instrument; value: number }[];
+}
+
+export const INVESTMENT_STATUS_LABELS: Record<InvestmentStatus, string> = {
+  active: 'Activa',
+  matured: 'Vencida',
+  pending: 'Pendiente',
+  cancelled: 'Cancelada',
+};
+
+export const MOVEMENT_LABELS: Record<MovementType, string> = {
+  deposit: 'Suscripción',
+  interest: 'Rendimiento',
+  payout: 'Pago',
+  maturity: 'Vencimiento',
+};
+
+// ---- Portal: Reports ----
+export type ReportType = 'monthly' | 'quarterly' | 'annual' | 'statement';
+
+export interface Report {
+  _id: string;
+  title: string;
+  type: ReportType;
+  period: string;
+  summary?: string;
+  fileUrl: string;
+  sizeKb: number;
+  publishedAt: string;
+}
+
+export const REPORT_TYPE_LABELS: Record<ReportType, string> = {
+  monthly: 'Mensual',
+  quarterly: 'Trimestral',
+  annual: 'Anual',
+  statement: 'Constancia',
+};
+
+// ---- Portal: News ----
+export type NewsCategory = 'mercado' | 'empresa' | 'producto' | 'educacion';
+
+export interface NewsArticle {
+  _id: string;
+  title: string;
+  excerpt: string;
+  body: string;
+  category: NewsCategory;
+  image: string;
+  author?: string;
+  featured: boolean;
+  publishedAt: string;
+}
+
+export const NEWS_CATEGORY_LABELS: Record<NewsCategory, string> = {
+  mercado: 'Mercado',
+  empresa: 'Empresa',
+  producto: 'Producto',
+  educacion: 'Educación',
+};
