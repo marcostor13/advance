@@ -166,10 +166,48 @@
 
   &__link-label--mobile { display: none; }
 
+  // ── Desktop login ─────────────────────────────────────────────────
+  &__login {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-inline-start: 0.5rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--radius-lg);
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(0, 29, 58, 0.7);
+    text-decoration: none;
+    transition: color 0.25s ease, background 0.25s ease;
+
+    &:hover { color: var(--deep-blue); background: rgba(0, 29, 58, 0.05); }
+
+    @media (max-width: 768px) { display: none; }
+  }
+
+  &--transparent &__login,
+  &--navy &__login {
+    color: rgba(255, 255, 255, 0.72);
+    &:hover { color: #fff; background: rgba(255, 255, 255, 0.09); }
+  }
+
   &__cta {
-    margin-inline-start: 0.75rem;
+    margin-inline-start: 0.5rem;
     font-size: 0.8125rem;
     @media (max-width: 768px) { display: none; }
+  }
+
+  &__login-mobile {
+    display: none;
+    @media (max-width: 768px) {
+      display: inline-flex;
+      justify-content: center;
+      width: 100%;
+    }
   }
 
   &__cta-mobile {
@@ -177,6 +215,7 @@
     @media (max-width: 768px) {
       display: inline-flex;
       justify-content: center;
+      width: 100%;
     }
   }
 
@@ -310,8 +349,15 @@
 
     &__link-logo { height: 44px; flex-shrink: 0; }
 
+    &__login-mobile {
+      margin-top: 2.5rem;
+      transform: translateY(28px);
+      opacity: 0;
+      transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
+    }
+
     &__cta-mobile {
-      margin-top: 2rem;
+      margin-top: 0.75rem;
       transform: translateY(28px);
       opacity: 0;
       transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
@@ -319,6 +365,7 @@
 
     &__nav--open {
       .navbar__link,
+      .navbar__login-mobile,
       .navbar__cta-mobile {
         transform: translateY(0);
         opacity: 1;

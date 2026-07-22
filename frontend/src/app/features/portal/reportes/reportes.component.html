@@ -1,0 +1,21 @@
+<header class="pt-head">
+  <span class="pt-eyebrow">Documentos</span>
+  <h1 class="pt-title">Reportes</h1>
+  <p class="pt-subtitle">Descarga tus estados de cuenta, certificados y reportes de rendimiento.</p>
+</header>
+
+<div class="rep pt-card">
+  @for (r of reports; track r.name) {
+    <div class="rep__row">
+      <span class="rep__icon"><app-icon name="file-text" [size]="20" /></span>
+      <div class="rep__info">
+        <span class="rep__name">{{ r.name }}</span>
+        <span class="rep__meta">{{ r.meta }} · {{ r.size }}</span>
+      </div>
+      <button class="rep__dl" type="button">
+        <app-icon name="download" [size]="16" />
+        <span>Descargar</span>
+      </button>
+    </div>
+  }
+</div>

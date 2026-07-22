@@ -1,0 +1,58 @@
+<div class="pt-shell">
+  <!-- Mobile top bar -->
+  <header class="pt-topbar">
+    <a routerLink="/" class="pt-topbar__brand" (click)="closeMenu()">
+      <img src="/logo-group-white.png" alt="Advance Group" />
+    </a>
+    <button
+      class="pt-burger"
+      [class.pt-burger--open]="isMenuOpen()"
+      [attr.aria-expanded]="isMenuOpen()"
+      [attr.aria-label]="isMenuOpen() ? 'Cerrar menú' : 'Abrir menú'"
+      (click)="toggleMenu()"
+      type="button"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <aside class="pt-sidebar" [class.pt-sidebar--open]="isMenuOpen()">
+    <a routerLink="/" class="pt-brand" (click)="closeMenu()">
+      <img src="/logo-group-white.png" alt="Advance Group" class="pt-brand__img" />
+    </a>
+
+    <div class="pt-user">
+      <span class="pt-user__avatar">{{ user.initials }}</span>
+      <span class="pt-user__info">
+        <span class="pt-user__name">{{ user.name }}</span>
+        <span class="pt-user__role">{{ user.role }}</span>
+      </span>
+    </div>
+
+    <nav class="pt-nav">
+      @for (item of nav; track item.path) {
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="pt-nav__link--active"
+          [routerLinkActiveOptions]="{ exact: item.path === '/portal' }"
+          class="pt-nav__link"
+          (click)="closeMenu()"
+        >
+          <app-icon [name]="item.icon" [size]="20" />
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+
+    <button class="pt-nav__logout" (click)="logout()" type="button">
+      <app-icon name="log-out" [size]="20" />
+      <span>Cerrar sesión</span>
+    </button>
+  </aside>
+
+  <main class="pt-main">
+    <router-outlet />
+  </main>
+</div>

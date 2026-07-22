@@ -1,0 +1,42 @@
+<header class="pt-head">
+  <span class="pt-eyebrow">Portafolio</span>
+  <h1 class="pt-title">Mis Inversiones</h1>
+  <p class="pt-subtitle">Instrumentos activos, su rendimiento devengado y fecha de vencimiento.</p>
+</header>
+
+<div class="inv">
+  @for (i of investments; track i.name) {
+    <article class="inv__card pt-card">
+      <div class="inv__top">
+        <h2 class="inv__name">{{ i.name }}</h2>
+        <span class="pt-badge">{{ i.status }}</span>
+      </div>
+
+      <div class="inv__stats">
+        <div class="inv__stat">
+          <span class="inv__stat-label">Capital</span>
+          <span class="inv__stat-value">{{ i.capital }}</span>
+        </div>
+        <div class="inv__stat">
+          <span class="inv__stat-label">Tasa</span>
+          <span class="inv__stat-value">{{ i.rate }}</span>
+        </div>
+        <div class="inv__stat">
+          <span class="inv__stat-label">Plazo</span>
+          <span class="inv__stat-value">{{ i.term }}</span>
+        </div>
+        <div class="inv__stat">
+          <span class="inv__stat-label">Rendimiento devengado</span>
+          <span class="inv__stat-value inv__stat-value--in">{{ i.earned }}</span>
+        </div>
+      </div>
+
+      <div class="inv__foot">
+        <div class="inv__progress">
+          <span class="inv__progress-fill" [style.width.%]="i.progress"></span>
+        </div>
+        <span class="inv__maturity">Vence: {{ i.maturity }}</span>
+      </div>
+    </article>
+  }
+</div>

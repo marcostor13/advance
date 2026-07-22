@@ -47,13 +47,14 @@ export class NavbarComponent implements OnDestroy {
   );
 
   private readonly transparentRoutes = ['/', '/factoring', '/capital'];
+  private readonly navyRoutes = ['/contacto', '/admin/login'];
 
   protected readonly isTransparent = computed(
     () => !this.isMenuOpen() && this.transparentRoutes.includes(this.currentUrl()),
   );
 
   protected readonly isNavyBg = computed(
-    () => !this.isMenuOpen() && this.currentUrl() === '/contacto',
+    () => !this.isMenuOpen() && this.navyRoutes.includes(this.currentUrl()),
   );
 
   @HostListener('document:keydown.escape')

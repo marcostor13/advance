@@ -1,0 +1,68 @@
+<header class="pt-head">
+  <span class="pt-eyebrow">Panel del inversionista</span>
+  <h1 class="pt-title">Hola, Juan</h1>
+  <p class="pt-subtitle">Una vista general de tu portafolio, rendimiento y actividad reciente.</p>
+</header>
+
+<!-- Stats -->
+<div class="stats">
+  @for (s of stats; track s.label) {
+    <div class="stat pt-card">
+      <span class="stat__icon" [class.stat__icon--accent]="s.accent">
+        <app-icon [name]="s.icon" [size]="20" />
+      </span>
+      <span class="stat__label">{{ s.label }}</span>
+      <span class="stat__value" [class.stat__value--accent]="s.accent">{{ s.value }}</span>
+    </div>
+  }
+</div>
+
+<div class="grid">
+  <!-- Distribution -->
+  <section class="pt-card panel">
+    <h2 class="pt-card__title">Distribución del portafolio</h2>
+    @for (a of allocations; track a.name) {
+      <div class="alloc">
+        <div class="alloc__row">
+          <span class="alloc__name">{{ a.name }}</span>
+          <span class="alloc__amount">{{ a.amount }}</span>
+        </div>
+        <div class="alloc__bar">
+          <span class="alloc__fill" [style.width.%]="a.pct"></span>
+        </div>
+        <span class="alloc__pct">{{ a.pct }}%</span>
+      </div>
+    }
+  </section>
+
+  <!-- Recent movements -->
+  <section class="pt-card panel">
+    <h2 class="pt-card__title">Movimientos recientes</h2>
+    <ul class="recent">
+      @for (m of recent; track $index) {
+        <li class="recent__item">
+          <span class="recent__icon" [class.recent__icon--in]="m.positive">
+            <app-icon [name]="m.icon" [size]="15" />
+          </span>
+          <span class="recent__info">
+            <span class="recent__title">{{ m.title }}</span>
+            <span class="recent__meta">{{ m.meta }}</span>
+          </span>
+          <span class="recent__amount" [class.recent__amount--in]="m.positive">
+            {{ m.positive ? '+' : '−' }}S/ {{ m.amount }}
+          </span>
+        </li>
+      }
+    </ul>
+  </section>
+</div>
+
+<!-- Next maturity -->
+<section class="next">
+  <div class="next__info">
+    <span class="next__label">Próximo vencimiento</span>
+    <span class="next__name">Pagaré Estructurado Serie A-24</span>
+    <span class="next__meta">Vence el 15 de noviembre, 2026 · capital + rendimientos</span>
+  </div>
+  <span class="next__amount">S/ 120,000.00</span>
+</section>

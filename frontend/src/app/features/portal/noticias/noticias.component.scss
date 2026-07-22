@@ -1,0 +1,239 @@
+// ── Featured ────────────────────────────────────────────────
+.feat {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 0;
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+  &:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+  &__media {
+    position: relative;
+    min-height: 260px;
+    img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  }
+
+  &__body {
+    padding: 2rem 2.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--deep-blue);
+    margin: 0.75rem 0 0;
+  }
+
+  &__excerpt {
+    color: var(--gray-600);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0.85rem 0 0;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
+    color: var(--crimson);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+}
+
+// ── Filter chips ────────────────────────────────────────────
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 2rem 0 1.5rem;
+}
+
+.chip {
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--hairline);
+  background: #fff;
+  color: var(--gray-600);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+
+  &:hover { border-color: rgba(0, 29, 58, 0.25); color: var(--deep-blue); }
+
+  &--active {
+    background: var(--crimson);
+    border-color: var(--crimson);
+    color: #fff;
+  }
+}
+
+// ── News grid ───────────────────────────────────────────────
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.news-card {
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+  &:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+
+  &__media {
+    height: 160px;
+    img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  }
+
+  &__body {
+    padding: 1.25rem 1.3rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: 1.02rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--deep-blue);
+    margin: 0.6rem 0 0;
+  }
+
+  &__excerpt {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0.6rem 0 1.1rem;
+    flex: 1;
+  }
+}
+
+.news-empty {
+  grid-column: 1 / -1;
+  color: var(--gray-600);
+  padding: 2rem 0;
+}
+
+// ── Modal ───────────────────────────────────────────────────
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgba(0, 15, 32, 0.62);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+
+  &__card {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-xl);
+    padding: 0;
+    animation: scaleIn 0.25s var(--ease-out);
+  }
+
+  &__close {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.9rem;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.85);
+    color: var(--deep-blue);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: background 0.18s ease;
+
+    &:hover { background: #fff; }
+  }
+
+  &__media {
+    img { width: 100%; height: 240px; object-fit: cover; display: block; }
+  }
+
+  &__body {
+    padding: 1.5rem 1.75rem 1.9rem;
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.18;
+    color: var(--deep-blue);
+    margin: 0.75rem 0 0;
+  }
+
+  &__meta {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+    margin: 0.6rem 0 0;
+  }
+
+  &__quote {
+    margin: 1.25rem 0 0;
+    padding: 0.85rem 1.1rem;
+    border-left: 3px solid var(--crimson);
+    background: rgba(183, 0, 22, 0.04);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    color: var(--deep-blue);
+    font-size: 0.98rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  &__text {
+    color: var(--gray-600);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 1.15rem 0 0;
+  }
+}
+
+// ── Responsive ─────────────────────────────────────────────
+@media (max-width: 900px) {
+  .feat { grid-template-columns: 1fr; }
+  .feat__media { min-height: 200px; }
+  .news-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 901px) and (max-width: 1200px) {
+  .news-grid { grid-template-columns: repeat(2, 1fr); }
+}
