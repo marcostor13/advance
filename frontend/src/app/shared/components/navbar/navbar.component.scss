@@ -162,6 +162,10 @@
     width: auto;
     object-fit: contain;
     flex-shrink: 0;
+
+    // Some logomarks carry more internal padding in their artwork than others;
+    // this compensates so every logo reads as the same visual size next to it.
+    &--boost { height: 69px; }
   }
 
   &__link-label--mobile { display: none; }
@@ -347,7 +351,11 @@
       transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s ease;
     }
 
-    &__link-logo { height: 44px; flex-shrink: 0; }
+    &__link-logo {
+      height: 44px;
+      flex-shrink: 0;
+      &--boost { height: 47px; }
+    }
 
     &__login-mobile {
       margin-top: 2.5rem;

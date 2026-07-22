@@ -34,6 +34,7 @@
               [src]="link.logo"
               [alt]="link.label"
               class="navbar__link-logo"
+              [class.navbar__link-logo--boost]="link.logoBoost"
             />
             <span class="navbar__link-label navbar__link-label--mobile">{{ link.label }}</span>
           } @else {

@@ -16,6 +16,8 @@ interface NavLink {
   label: string;
   path: string;
   logo?: string;
+  /** Compensates logomarks whose artwork has more internal padding, so all logos read as the same visual size. */
+  logoBoost?: boolean;
 }
 
 @Component({
@@ -32,7 +34,7 @@ export class NavbarComponent implements OnDestroy {
   protected readonly links: NavLink[] = [
     { label: 'Inicio', path: '/' },
     { label: 'Factoring', path: '/factoring', logo: '/logo-factoring.png' },
-    { label: 'Capital', path: '/capital', logo: '/logo-capital.png' },
+    { label: 'Capital', path: '/capital', logo: '/logo-capital.png', logoBoost: true },
   ];
 
   protected readonly isMenuOpen = signal(false);

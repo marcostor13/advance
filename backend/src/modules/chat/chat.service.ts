@@ -61,6 +61,8 @@ const CALENDLY_URL = 'https://calendly.com/marcostor13/new-meeting';
 
 const FACTORING_INVESTMENT_INTENT = /(inver(tir|si[oó]n(es)?|sionista)|opci[oó]n(es)?\s+de\s+factoring|rendimiento\s+anual|rentabilidad|renta\s+fija|tasa\s+de\s+inter[eé]s|bonos?\s+de\s+factoring)/i;
 
+const MEETING_REQUEST_INTENT = /(agend(ar|emos|e|ando)|programemos|programar\s+(una\s+)?(reuni[oó]n|cita)|quiero\s+(reunirme|una\s+reuni[oó]n|la\s+reuni[oó]n)|reservar\s+(una\s+)?reuni[oó]n|coordinar\s+(una\s+)?reuni[oó]n)/i;
+
 const GREETING_ONLY = /^(hola|hola\s*de\s*nuevo|hola\s*otra\s*vez|buen[oa]s?\s*(d[ií]as|tardes|noches)|buenas|qu[ée]\s*tal|hey|hi|hello)$/i;
 const ACK_ONLY = /^(ok(?:ay)?|vale|listo|entendido|gracias|muchas\s+gracias|perfecto|genial|de\s+acuerdo|excelente)$/i;
 
@@ -80,10 +82,19 @@ const NAME_PATTERNS = [
   /^soy\s+([A-ZÁÉÍÓÚÑ][\p{L}]+)/iu,
 ];
 
-const FACTORING_BROCHURE_ATTACHMENT = {
+const FACTORING_BROCHURE_ATTACHMENT: ChatAttachment = {
   name: 'Bonos de Factoring Titulizados - Advance Factoring.pdf',
   url: `/${encodeURIComponent('Bonos de Factoring Titulizados -ADVANCE FACTORING (1).pdf')}`,
+  type: 'file',
 };
+
+const MEETING_LINK_ATTACHMENT: ChatAttachment = {
+  name: 'Agendar reunión con Advance Group',
+  url: CALENDLY_URL,
+  type: 'link',
+};
+
+const MEETING_REPLY = `¡Perfecto! Le dejo el enlace para agendar su reunión con nuestro equipo:`;
 
 interface NvidiaMessage {
   role: 'system' | 'user' | 'assistant';
@@ -97,6 +108,7 @@ interface NvidiaChatResponse {
 export interface ChatAttachment {
   name: string;
   url: string;
+  type?: 'file' | 'link';
 }
 
 export interface ChatResult {
@@ -124,6 +136,9 @@ export class ChatService {
     }
     if (ACK_ONLY.test(normalized)) {
       return { reply: ACK_REPLY };
+    }
+    if (lastUserMessage && MEETING_REQUEST_INTENT.test(lastUserMessage.content)) {
+      return { reply: MEETING_REPLY, attachments: [MEETING_LINK_ATTACHMENT] };
     }
     if (lastUserMessage && FACTORING_INVESTMENT_INTENT.test(lastUserMessage.content)) {
       return this.buildFactoringBrochureReply(dto);
@@ -177,9 +192,9 @@ export class ChatService {
 💰 Pagos mensuales o trimestrales (tú eliges cómo recibir tus intereses).
 🔒 Seguridad: Respaldado por una cartera de facturas negociables y regulado ante la SBS, UIF y CAVALI.
 
-La inversión va desde los USD 30,000 o S/ 100,000, con plazos desde 18 meses. Le adjunto el PDF con el detalle de la estructura. Si desea aprovechar estas tasas, avíseme y coordinamos una reunión con nuestro equipo: ${CALENDLY_URL}`;
+La inversión va desde los USD 30,000 o S/ 100,000, con plazos desde 18 meses. Le adjunto el PDF con el detalle de la estructura. Si desea aprovechar estas tasas, avíseme y coordinamos una reunión con nuestro equipo.`;
 
-    return { reply, attachments: [FACTORING_BROCHURE_ATTACHMENT] };
+    return { reply, attachments: [FACTORING_BROCHURE_ATTACHMENT, MEETING_LINK_ATTACHMENT] };
   }
 
   private extractName(messages: { role: string; content: string }[]): string | null {

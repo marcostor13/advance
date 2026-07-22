@@ -15,6 +15,7 @@ import { ApiService } from '../../../core/services/api.service';
 interface ChatAttachment {
   name: string;
   url: string;
+  type?: 'file' | 'link';
 }
 
 interface ChatMessage {
@@ -83,6 +84,11 @@ export class AiChatComponent implements AfterViewChecked {
         ...m,
         { role: 'assistant', content: reply, ts: new Date(), attachments },
       ]);
+
+      const meetingLink = attachments?.find((a) => a.type === 'link');
+      if (meetingLink) {
+        window.open(meetingLink.url, '_blank', 'noopener');
+      }
     } catch {
       this.error.set('Error al conectar con el asistente. Inténtelo nuevamente.');
     } finally {
