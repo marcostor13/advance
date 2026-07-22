@@ -12,10 +12,16 @@ import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from '../../../core/services/api.service';
 
+interface ChatAttachment {
+  name: string;
+  url: string;
+}
+
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
   ts: Date;
+  attachments?: ChatAttachment[];
 }
 
 @Component({
@@ -70,10 +76,13 @@ export class AiChatComponent implements AfterViewChecked {
 
     try {
       const history = this.messages().map((m) => ({ role: m.role, content: m.content }));
-      const { reply } = await firstValueFrom(
-        this.api.post<{ reply: string }>('/chat', { messages: history }),
+      const { reply, attachments } = await firstValueFrom(
+        this.api.post<{ reply: string; attachments?: ChatAttachment[] }>('/chat', { messages: history }),
       );
-      this.messages.update((m) => [...m, { role: 'assistant', content: reply, ts: new Date() }]);
+      this.messages.update((m) => [
+        ...m,
+        { role: 'assistant', content: reply, ts: new Date(), attachments },
+      ]);
     } catch {
       this.error.set('Error al conectar con el asistente. Inténtelo nuevamente.');
     } finally {

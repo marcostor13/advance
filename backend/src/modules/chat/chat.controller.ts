@@ -1,5 +1,5 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { ChatService } from './chat.service';
+import { ChatService, ChatResult } from './chat.service';
 import { ChatRequestDto } from './dto/chat-request.dto';
 
 @Controller('chat')
@@ -8,7 +8,7 @@ export class ChatController {
 
   @Post()
   @HttpCode(HttpStatus.OK)
-  chat(@Body() dto: ChatRequestDto): Promise<{ reply: string }> {
+  chat(@Body() dto: ChatRequestDto): Promise<ChatResult> {
     return this.chatService.chat(dto);
   }
 }
