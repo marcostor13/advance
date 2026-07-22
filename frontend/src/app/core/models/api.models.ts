@@ -1,11 +1,28 @@
 // ---- Auth ----
+export type DocumentType = 'DNI' | 'CE' | 'RUC' | 'Pasaporte';
+export type RiskProfile = 'conservador' | 'moderado' | 'agresivo';
+
 export interface User {
   _id: string;
   name: string;
+  lastName?: string;
   email: string;
-  phone: string;
+  phone?: string;
   company?: string;
   role: 'client' | 'admin';
+  documentType?: DocumentType;
+  documentNumber?: string;
+  address?: string;
+  district?: string;
+  city?: string;
+  country?: string;
+  bank?: string;
+  accountNumber?: string;
+  cci?: string;
+  riskProfile?: RiskProfile;
+  birthDate?: string;
+  occupation?: string;
+  mustChangePassword?: boolean;
   createdAt: string;
 }
 
@@ -25,6 +42,122 @@ export interface RegisterPayload {
 export interface LoginPayload {
   email: string;
   password: string;
+}
+
+export interface CreateUserPayload {
+  name: string;
+  lastName?: string;
+  email: string;
+  phone?: string;
+  company?: string;
+  password?: string;
+  role?: 'client' | 'admin';
+  documentType?: DocumentType;
+  documentNumber?: string;
+  address?: string;
+  district?: string;
+  city?: string;
+  country?: string;
+  bank?: string;
+  accountNumber?: string;
+  cci?: string;
+  riskProfile?: RiskProfile;
+  birthDate?: string;
+  occupation?: string;
+}
+
+export type UpdateUserPayload = Partial<Omit<CreateUserPayload, 'password'>>;
+
+export interface CreatedUser extends User {
+  tempPassword?: string;
+}
+
+// ---- Products (fondos y bonos) ----
+export type ProductType = 'fondo' | 'bono';
+
+export interface Product {
+  _id: string;
+  name: string;
+  type: ProductType;
+  annualRate: number;
+  termMonths: number;
+  description?: string;
+  status: 'activo' | 'cerrado';
+  createdAt: string;
+}
+
+export interface ProductPayload {
+  name: string;
+  type: ProductType;
+  annualRate: number;
+  termMonths: number;
+  description?: string;
+}
+
+// ---- Movements (movimientos por producto) ----
+export type MovementType = 'SUSCRIPCIÓN' | 'RENDIMIENTO' | 'VENCIMIENTO';
+
+export interface Movement {
+  _id: string;
+  user: User | string;
+  product: Product | string;
+  type: MovementType;
+  amount: number;
+  date: string;
+  notes?: string;
+  createdAt: string;
+}
+
+export interface MovementPayload {
+  user: string;
+  product: string;
+  type: MovementType;
+  amount: number;
+  date: string;
+  notes?: string;
+}
+
+export interface Position {
+  product: { _id: string; name: string; type: ProductType; annualRate: number; termMonths: number };
+  capital: number;
+  earned: number;
+  firstSubscription: string | null;
+  maturity: string | null;
+  progress: number;
+}
+
+export interface PortalSummary {
+  capitalInvertido: number;
+  rendimientoAcumulado: number;
+  rentabilidadAnual: number;
+  inversionesActivas: number;
+  allocations: { name: string; amount: number; pct: number }[];
+}
+
+// ---- Import ----
+export interface ImportSummary {
+  usersCreated: number;
+  usersUpdated: number;
+  productsCreated: number;
+  productsUpdated: number;
+  movementsCreated: number;
+  tempPasswords: { email: string; documentNumber: string; tempPassword: string }[];
+  errors: { sheet: string; row: number; message: string }[];
+}
+
+// ---- Password recovery ----
+export interface ForgotPasswordPayload {
+  email: string;
+}
+
+export interface ResetPasswordPayload {
+  token: string;
+  newPassword: string;
+}
+
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
 }
 
 // ---- Quotes (factoring) ----
@@ -55,7 +188,7 @@ export interface Quote {
 }
 
 // ---- Simulations (capital) ----
-export type Instrument = 'factoring' | 'leasing' | 'capital_estructurado';
+export type Instrument = 'bono' | 'fondo';
 
 export interface SimulationRequest {
   instrument: Instrument;
@@ -111,7 +244,6 @@ export const LEAD_STATUSES: { value: LeadStatus; label: string }[] = [
 ];
 
 export const INSTRUMENT_LABELS: Record<Instrument, string> = {
-  factoring: 'Factoring de Inversión',
-  leasing: 'Leasing Financiero',
-  capital_estructurado: 'Capital Estructurado',
+  bono: 'Bono',
+  fondo: 'Fondo',
 };

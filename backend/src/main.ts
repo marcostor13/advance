@@ -21,9 +21,23 @@ async function bootstrap(): Promise<void> {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
 
+  const configuredOrigins = (process.env.FRONTEND_URL ?? '')
+    .split(',')
+    .map((o) => o.trim())
+    .filter(Boolean);
+  if (process.env.NODE_ENV !== 'production' && !configuredOrigins.includes('http://localhost:4200')) {
+    configuredOrigins.push('http://localhost:4200');
+  }
+
   app.enableCors({
-    origin: process.env.FRONTEND_URL ?? 'http://localhost:62759',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+      if (!origin || configuredOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Origin ${origin} not allowed by CORS`), false);
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   });
 

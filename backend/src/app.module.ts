@@ -11,6 +11,11 @@ import { QuotesModule } from './modules/quotes/quotes.module';
 import { SimulationsModule } from './modules/simulations/simulations.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { ProductsModule } from './modules/products/products.module';
+import { MovementsModule } from './modules/movements/movements.module';
+import { ImportModule } from './modules/import/import.module';
+import { MailModule } from './modules/mail/mail.module';
+import { PortalModule } from './modules/portal/portal.module';
 
 @Module({
   imports: [
@@ -28,6 +33,11 @@ import { ChatModule } from './modules/chat/chat.module';
     SimulationsModule,
     AdminModule,
     ChatModule,
+    ProductsModule,
+    MovementsModule,
+    MailModule,
+    ImportModule,
+    PortalModule,
   ],
 })
 export class AppModule {}

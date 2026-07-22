@@ -6,13 +6,14 @@ import {
   signal,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { extractErrorMessage } from '../../../core/utils/http-error';
 
 @Component({
   selector: 'app-admin-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './admin-login.component.html',
   styleUrl: './admin-login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,20 +46,20 @@ export class AdminLoginComponent implements OnInit {
     this.error.set('');
     this.auth.login(this.form.getRawValue() as { email: string; password: string }).subscribe({
       next: () => {
-        if (this.auth.isAdmin()) {
-          this.router.navigate(['/admin']);
-        } else {
+        if (!this.auth.isAdmin()) {
           this.auth.logout();
           this.error.set('Acceso denegado. Solo administradores.');
           this.loading.set(false);
+          return;
+        }
+        if (this.auth.mustChangePassword()) {
+          this.router.navigate(['/change-password']);
+        } else {
+          this.router.navigate(['/admin']);
         }
       },
       error: (err: unknown) => {
-        const msg =
-          err instanceof Object && 'message' in err
-            ? String((err as { message: unknown }).message)
-            : 'Error al iniciar sesión.';
-        this.error.set(msg);
+        this.error.set(extractErrorMessage(err, 'Error al iniciar sesión.'));
         this.loading.set(false);
       },
     });

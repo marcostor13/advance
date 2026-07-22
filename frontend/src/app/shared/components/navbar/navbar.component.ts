@@ -47,7 +47,7 @@ export class NavbarComponent implements OnDestroy {
   );
 
   private readonly transparentRoutes = ['/', '/factoring', '/capital'];
-  private readonly navyRoutes = ['/contacto', '/admin/login'];
+  private readonly navyRoutes = ['/contacto'];
 
   protected readonly isTransparent = computed(
     () => !this.isMenuOpen() && this.transparentRoutes.includes(this.currentUrl()),

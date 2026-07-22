@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, SchemaTypes, Types } from 'mongoose';
 
 export type QuoteDocument = Quote & Document;
 
 @Schema({ timestamps: true })
 export class Quote {
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true }) user: Types.ObjectId;
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'User', required: true }) user: Types.ObjectId;
   @Prop({ required: true, enum: ['PEN', 'USD'] }) currency: string;
   @Prop({ required: true }) amount: number;
   @Prop({ required: true }) termDays: number;

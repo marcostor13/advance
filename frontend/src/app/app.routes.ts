@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { adminGuard } from './core/guards/auth.guard';
+import { adminGuard, authGuard, portalGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -40,9 +40,35 @@ export const routes: Routes = [
     title: 'Panel de Administración — Advance Group',
   },
   {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('./features/auth/forgot-password/forgot-password.component').then((m) => m.ForgotPasswordComponent),
+    title: 'Recuperar contraseña — Advance Group',
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('./features/auth/reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
+    title: 'Restablecer contraseña — Advance Group',
+  },
+  {
+    path: 'change-password',
+    loadComponent: () =>
+      import('./features/auth/change-password/change-password.component').then((m) => m.ChangePasswordComponent),
+    canActivate: [authGuard],
+    title: 'Cambiar contraseña — Advance Group',
+  },
+  {
+    path: 'portal/login',
+    loadComponent: () =>
+      import('./features/portal/portal-login/portal-login.component').then((m) => m.PortalLoginComponent),
+    title: 'Portal de Inversionistas — Advance Group',
+  },
+  {
     path: 'portal',
     loadComponent: () =>
       import('./features/portal/portal-layout.component').then((m) => m.PortalLayoutComponent),
+    canActivate: [portalGuard],
     children: [
       {
         path: '',

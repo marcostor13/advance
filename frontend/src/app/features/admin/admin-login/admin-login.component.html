@@ -1,4 +1,7 @@
 <div class="al">
+  <a class="al__back" routerLink="/">
+    <span aria-hidden="true">←</span> Volver al inicio
+  </a>
   <div class="al__card">
     <div class="al__logo-wrap">
       <img src="/logo-group-white.png" alt="Advance Group" class="al__logo" height="48" />
@@ -52,6 +55,8 @@
       >
         @if (loading()) { Ingresando... } @else { Ingresar }
       </button>
+
+      <a class="al__link" routerLink="/forgot-password">¿Olvidaste tu contraseña?</a>
     </form>
   </div>
 </div>

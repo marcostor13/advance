@@ -1,25 +1,42 @@
 <header class="pt-head">
   <span class="pt-eyebrow">Movimientos</span>
   <h1 class="pt-title">Historial de Inversiones</h1>
-  <p class="pt-subtitle">Registro cronológico de suscripciones, rendimientos y vencimientos.</p>
+  <p class="pt-subtitle">Registro de suscripciones, rendimientos y vencimientos, agrupado por producto.</p>
 </header>
 
-<ol class="tl">
-  @for (m of movements; track $index) {
-    <li class="tl__item">
-      <span class="tl__node" [class.tl__node--in]="m.positive">
-        <app-icon [name]="m.icon" [size]="16" />
-      </span>
-      <article class="tl__card">
-        <div class="tl__row">
-          <span class="tl__type" [class.tl__type--in]="m.positive">{{ m.type }}</span>
-          <span class="tl__amount" [class.tl__amount--in]="m.positive">
-            {{ m.positive ? '+' : '−' }}S/ {{ m.amount }}
-          </span>
-        </div>
-        <h3 class="tl__title">{{ m.title }}</h3>
-        <p class="tl__meta">{{ m.meta }}</p>
-      </article>
-    </li>
+@if (loading()) {
+  <p class="pt-subtitle">Cargando movimientos...</p>
+} @else if (groups().length === 0) {
+  <p class="pt-subtitle">Aún no tienes movimientos registrados.</p>
+} @else {
+  @for (g of groups(); track g.product._id) {
+    <section class="tl-group">
+      <div class="tl-group__head">
+        <h2 class="tl-group__name">{{ g.product.name }}</h2>
+        <span class="pt-badge" [class.pt-badge--bono]="g.product.type === 'bono'">
+          {{ g.product.type === 'fondo' ? 'Fondo' : 'Bono' }}
+        </span>
+      </div>
+
+      <ol class="tl">
+        @for (m of g.movements; track m._id) {
+          <li class="tl__item">
+            <span class="tl__node" [class.tl__node--in]="isPositive(m.type)">
+              <app-icon [name]="iconFor(m.type)" [size]="16" />
+            </span>
+            <article class="tl__card">
+              <div class="tl__row">
+                <span class="tl__type" [class.tl__type--in]="isPositive(m.type)">{{ m.type }}</span>
+                <span class="tl__amount" [class.tl__amount--in]="isPositive(m.type)">
+                  {{ isPositive(m.type) ? '+' : '−' }}S/ {{ formatAmount(m.amount) }}
+                </span>
+              </div>
+              <h3 class="tl__title">{{ titleFor(m.type) }}</h3>
+              <p class="tl__meta">{{ formatDate(m.date) }}@if (m.notes) { · {{ m.notes }} }</p>
+            </article>
+          </li>
+        }
+      </ol>
+    </section>
   }
-</ol>
+}

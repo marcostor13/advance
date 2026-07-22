@@ -26,4 +26,12 @@ export class ApiService {
   delete<T>(path: string): Observable<T> {
     return this.http.delete<ApiWrapped<T>>(path).pipe(map((r) => r.data));
   }
+
+  postForm<T>(path: string, formData: FormData): Observable<T> {
+    return this.http.post<ApiWrapped<T>>(path, formData).pipe(map((r) => r.data));
+  }
+
+  getBlob(path: string): Observable<Blob> {
+    return this.http.get(path, { responseType: 'blob' });
+  }
 }

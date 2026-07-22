@@ -3,8 +3,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
-import { MagneticDirective } from '../../../core/directives/magnetic.directive';
-import { TextRevealDirective } from '../../../core/directives/text-reveal.directive';
 
 interface SocialLink {
   label: string;
@@ -16,7 +14,7 @@ interface SocialLink {
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink, MagneticDirective, TextRevealDirective],
+  imports: [RouterLink],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

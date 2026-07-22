@@ -45,17 +45,21 @@
                   [attr.aria-pressed]="instrument() === inst.value"
                 >
                   <span class="cs__instrument-icon">
-                    @if (inst.value === 'factoring') {
-                      <app-icon name="percent" [size]="22" />
+                    @if (inst.value === 'bono') {
+                      <app-icon name="award" [size]="22" />
                     }
-                    @if (inst.value === 'leasing') {
-                      <app-icon name="layers" [size]="22" />
-                    }
-                    @if (inst.value === 'capital_estructurado') {
+                    @if (inst.value === 'fondo') {
                       <app-icon name="trending-up" [size]="22" />
                     }
                   </span>
                   <span class="cs__instrument-label">{{ inst.label }}</span>
+                  <span class="cs__instrument-hint">
+                    @if (inst.value === 'bono') {
+                      Tasa fija
+                    } @else {
+                      Tasa variable
+                    }
+                  </span>
                 </button>
               }
             </div>
@@ -87,8 +91,12 @@
               </div>
             </div>
 
+            <div class="cs__amount-hint">
+              Monto mínimo: <strong>{{ currencySymbol() }} {{ formatPlain(minAmount()) }}</strong>
+            </div>
+
             <label class="cs__label" for="cs-amount">Monto a invertir</label>
-            <div class="cs__amount-input-wrap">
+            <div class="cs__amount-input-wrap" [class.cs__amount-input-wrap--error]="belowMinimum()">
               <span class="cs__amount-prefix">{{ currencySymbol() }}</span>
               <input
                 id="cs-amount"
@@ -101,10 +109,17 @@
                 aria-label="Monto a invertir"
               />
             </div>
+            @if (belowMinimum()) {
+              <p class="cs__amount-error">
+                El monto mínimo para {{ instrumentLabel(instrument()) }} en
+                {{ currency() === 'USD' ? 'dólares' : 'soles' }} es
+                {{ currencySymbol() }} {{ formatPlain(minAmount()) }}.
+              </p>
+            }
             <input
               class="cs__slider"
               type="range"
-              [min]="minAmount"
+              [min]="minAmount()"
               [max]="sliderMax"
               [step]="1000"
               [value]="sliderValue()"
@@ -112,7 +127,7 @@
               aria-label="Ajustar monto"
             />
             <div class="cs__slider-range">
-              <span>{{ currencySymbol() }} {{ formatPlain(minAmount) }}</span>
+              <span>{{ currencySymbol() }} {{ formatPlain(minAmount()) }}</span>
               <span>{{ currencySymbol() }} {{ formatPlain(sliderMax) }}</span>
             </div>
           </div>
@@ -183,6 +198,11 @@
               <span class="cs__preview-rate-value">{{ annualRate() }}%</span>
               <span class="cs__preview-rate-label">Tasa anual</span>
             </p>
+            @if (isVariableRate()) {
+              <p class="cs__preview-variable-note">
+                Tasa variable: puede oscilar ±{{ rateVariability() }} puntos porcentuales.
+              </p>
+            }
 
             <div class="cs__preview-divider"></div>
 
@@ -271,7 +291,10 @@
             </span>
             <span class="cs__meta-item">
               <span class="cs__meta-label">Tasa anual</span>
-              <span class="cs__meta-value">{{ sim.annualRate }}%</span>
+              <span class="cs__meta-value">
+                {{ sim.annualRate }}%
+                @if (sim.instrument === 'fondo') { (variable) }
+              </span>
             </span>
             <span class="cs__meta-item">
               <span class="cs__meta-label">Capitalización</span>

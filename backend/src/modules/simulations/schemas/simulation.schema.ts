@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, SchemaTypes, Types } from 'mongoose';
 
 export type SimulationDocument = Simulation & Document;
 
@@ -11,8 +11,8 @@ interface ScheduleEntry {
 
 @Schema({ timestamps: true })
 export class Simulation {
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true }) user: Types.ObjectId;
-  @Prop({ required: true, enum: ['factoring', 'leasing', 'capital_estructurado'] }) instrument: string;
+  @Prop({ type: SchemaTypes.ObjectId, ref: 'User', required: true }) user: Types.ObjectId;
+  @Prop({ required: true, enum: ['bono', 'fondo'] }) instrument: string;
   @Prop({ required: true, enum: ['PEN', 'USD'] }) currency: string;
   @Prop({ required: true }) amount: number;
   @Prop({ required: true }) termMonths: number;

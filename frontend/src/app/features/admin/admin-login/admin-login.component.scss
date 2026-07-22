@@ -6,6 +6,22 @@
   justify-content: center;
   padding: 2rem;
 
+  &__back {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover { color: #fff; }
+  }
+
   &__card {
     background: white;
     border-radius: var(--radius-xl);
@@ -77,6 +93,14 @@
   &__field-error {
     font-size: 0.75rem;
     color: var(--crimson);
+  }
+
+  &__link {
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--deep-blue);
+    text-decoration: underline;
+    margin-top: -0.5rem;
   }
 
   &__alert {

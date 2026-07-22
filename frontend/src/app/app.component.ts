@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs/operators';
@@ -36,6 +36,17 @@ export class AppComponent {
     { initialValue: this.router.url },
   );
 
-  // Full-screen views (own layout) — hide marketing chrome.
-  protected readonly isBare = computed(() => this.currentUrl().startsWith('/portal'));
+  // Full-screen views (own layout, own header) — hide marketing navbar/footer/etc.
+  protected readonly isBare = computed(
+    () => this.currentUrl().startsWith('/portal') || this.currentUrl().startsWith('/admin'),
+  );
+
+  // Only /portal swaps the custom animated cursor for the native system one.
+  protected readonly useNativeCursor = computed(() => this.currentUrl().startsWith('/portal'));
+
+  constructor() {
+    effect(() => {
+      document.body.classList.toggle('portal-route', this.useNativeCursor());
+    });
+  }
 }

@@ -1,8 +1,10 @@
 @if (!isBare()) {
   <app-intro />
   <app-scroll-progress />
-  <app-cursor />
   <app-navbar />
+}
+@if (!useNativeCursor()) {
+  <app-cursor />
 }
 <main [class.main--flush]="isBare()">
   <router-outlet />

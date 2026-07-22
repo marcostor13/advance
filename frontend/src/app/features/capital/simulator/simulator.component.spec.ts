@@ -11,28 +11,19 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 const MOCK_SIM: Simulation = {
   _id: 'abc123',
   user: 'user1',
-  instrument: 'factoring',
-  currency: 'PEN',
-  amount: 50_000,
+  instrument: 'bono',
+  currency: 'USD',
+  amount: 30_000,
   termMonths: 12,
-  annualRate: 12,
+  annualRate: 8,
   compound: false,
-  interestEarned: 6_000,
-  finalAmount: 56_000,
-  schedule: [
-    { month: 1, interest: 500, balance: 50_500 },
-    { month: 2, interest: 500, balance: 51_000 },
-    { month: 3, interest: 500, balance: 51_500 },
-    { month: 4, interest: 500, balance: 52_000 },
-    { month: 5, interest: 500, balance: 52_500 },
-    { month: 6, interest: 500, balance: 53_000 },
-    { month: 7, interest: 500, balance: 53_500 },
-    { month: 8, interest: 500, balance: 54_000 },
-    { month: 9, interest: 500, balance: 54_500 },
-    { month: 10, interest: 500, balance: 55_000 },
-    { month: 11, interest: 500, balance: 55_500 },
-    { month: 12, interest: 500, balance: 56_000 },
-  ],
+  interestEarned: 2_400,
+  finalAmount: 32_400,
+  schedule: Array.from({ length: 12 }, (_, i) => ({
+    month: i + 1,
+    interest: 200,
+    balance: 30_000 + (i + 1) * 200,
+  })),
   status: 'nueva',
   createdAt: new Date().toISOString(),
 };
@@ -72,37 +63,69 @@ describe('SimulatorComponent', () => {
     expect(component.step()).toBe(1);
   });
 
-  it('defaults to factoring instrument', () => {
-    expect(component.instrument()).toBe('factoring');
+  it('defaults to bono instrument in USD at the minimum amount', () => {
+    expect(component.instrument()).toBe('bono');
+    expect(component.currency()).toBe('USD');
+    expect(component.amount()).toBe(30_000);
   });
 
-  it('annualRate returns 12 for factoring', () => {
-    component.setInstrument('factoring');
-    expect(component.annualRate()).toBe(12);
-  });
-
-  it('annualRate returns 10 for leasing', () => {
-    component.setInstrument('leasing');
+  it('annualRate is 8% for bono/USD and 10% for bono/PEN', () => {
+    component.setInstrument('bono');
+    component.setCurrency('USD');
+    expect(component.annualRate()).toBe(8);
+    component.setCurrency('PEN');
     expect(component.annualRate()).toBe(10);
   });
 
-  it('annualRate returns 14 for capital_estructurado', () => {
-    component.setInstrument('capital_estructurado');
-    expect(component.annualRate()).toBe(14);
+  it('annualRate is 8% for fondo/USD and 10% for fondo/PEN, and marked variable', () => {
+    component.setInstrument('fondo');
+    component.setCurrency('USD');
+    expect(component.annualRate()).toBe(8);
+    expect(component.isVariableRate()).toBeTrue();
+    component.setCurrency('PEN');
+    expect(component.annualRate()).toBe(10);
+  });
+
+  it('bono is a fixed rate (not variable)', () => {
+    component.setInstrument('bono');
+    expect(component.isVariableRate()).toBeFalse();
+  });
+
+  it('minAmount reflects instrument + currency minimums', () => {
+    component.setInstrument('bono');
+    component.setCurrency('USD');
+    expect(component.minAmount()).toBe(30_000);
+    component.setCurrency('PEN');
+    expect(component.minAmount()).toBe(100_000);
+    component.setInstrument('fondo');
+    component.setCurrency('USD');
+    expect(component.minAmount()).toBe(10_000);
+    component.setCurrency('PEN');
+    expect(component.minAmount()).toBe(30_000);
+  });
+
+  it('switching instrument/currency bumps amount up to the new minimum', () => {
+    component.setInstrument('fondo');
+    component.setCurrency('USD'); // min 10,000
+    component['amount'].set(10_000);
+    component.setCurrency('PEN'); // min 30,000 — should bump up
+    expect(component.amount()).toBe(30_000);
   });
 
   it('interestPreview is amount * rate * term fraction', () => {
-    component['amount'].set(50_000);
-    component.setInstrument('factoring'); // 12%
+    component.setInstrument('bono');
+    component.setCurrency('USD');
+    component['amount'].set(30_000);
     component.setTerm(12);
-    expect(component.interestPreview()).toBe(6_000);
+    expect(component.interestPreview()).toBe(2_400);
   });
 
   it('finalPreview equals amount + interestPreview', () => {
-    component['amount'].set(50_000);
-    component.setInstrument('factoring');
+    component.setInstrument('bono');
+    component.setCurrency('USD');
+    component['amount'].set(30_000);
     component.setTerm(12);
-    expect(component.finalPreview()).toBe(56_000);
+    expect(component.finalPreview()).toBe(32_400);
   });
 
   it('setCurrency updates currency and currencySymbol', () => {
@@ -113,10 +136,22 @@ describe('SimulatorComponent', () => {
     expect(component.currencySymbol()).toBe('S/');
   });
 
-  it('requestSimulation moves to step 2 when not authenticated', () => {
+  it('requestSimulation blocks and sets an error when below the minimum amount', () => {
+    component.setInstrument('bono');
+    component.setCurrency('USD');
+    component['amount'].set(1_000); // below 30,000 minimum
+    component.requestSimulation();
+    expect(component.step()).toBe(1);
+    expect(component.error()).toContain('mínimo');
+  });
+
+  it('requestSimulation moves to step 2 when not authenticated and amount is valid', () => {
     Object.defineProperty(authServiceSpy, 'isAuthenticated', {
       get: () => (() => false),
     });
+    component.setInstrument('bono');
+    component.setCurrency('USD');
+    component['amount'].set(30_000);
     component.requestSimulation();
     expect(component.step()).toBe(2);
   });
@@ -174,8 +209,8 @@ describe('SimulatorComponent', () => {
       termMonths: 24,
       schedule: Array.from({ length: 24 }, (_, i) => ({
         month: i + 1,
-        interest: 500,
-        balance: 50_000 + (i + 1) * 500,
+        interest: 200,
+        balance: 30_000 + (i + 1) * 200,
       })),
     };
     component['simulation'].set(longSim);
@@ -186,12 +221,12 @@ describe('SimulatorComponent', () => {
 
   it('barWidth returns 0 when simulation is null', () => {
     component['simulation'].set(null);
-    expect(component.barWidth(50_000)).toBe(0);
+    expect(component.barWidth(30_000)).toBe(0);
   });
 
   it('barWidth returns correct percentage', () => {
     component['simulation'].set(MOCK_SIM);
-    expect(component.barWidth(28_000)).toBe(50); // 28000 / 56000 = 50%
+    expect(component.barWidth(16_200)).toBe(50); // 16200 / 32400 = 50%
   });
 
   it('format returns currency-formatted string', () => {
@@ -200,8 +235,7 @@ describe('SimulatorComponent', () => {
   });
 
   it('instrumentLabel returns label from INSTRUMENT_LABELS', () => {
-    expect(component.instrumentLabel('factoring')).toBe('Factoring de Inversión');
-    expect(component.instrumentLabel('leasing')).toBe('Leasing Financiero');
-    expect(component.instrumentLabel('capital_estructurado')).toBe('Capital Estructurado');
+    expect(component.instrumentLabel('bono')).toBe('Bono');
+    expect(component.instrumentLabel('fondo')).toBe('Fondo');
   });
 });

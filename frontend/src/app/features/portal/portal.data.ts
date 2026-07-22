@@ -6,84 +6,12 @@ export interface NavItem {
   icon: string;
 }
 
-export const PORTAL_USER = {
-  name: 'Juan Pérez',
-  role: 'Inversionista',
-  initials: 'JP',
-} as const;
-
 export const PORTAL_NAV: NavItem[] = [
   { path: '/portal', label: 'Resumen', icon: 'bar-chart' },
   { path: '/portal/inversiones', label: 'Mis Inversiones', icon: 'trending-up' },
   { path: '/portal/historial', label: 'Historial', icon: 'refresh-cw' },
   { path: '/portal/reportes', label: 'Reportes', icon: 'file-text' },
   { path: '/portal/noticias', label: 'Noticias', icon: 'globe' },
-];
-
-// ── Historial ──────────────────────────────────────────────
-export interface Movement {
-  type: 'RENDIMIENTO' | 'SUSCRIPCIÓN' | 'VENCIMIENTO';
-  positive: boolean;
-  icon: string;
-  amount: string;
-  title: string;
-  meta: string;
-}
-
-export const MOVEMENTS: Movement[] = [
-  { type: 'RENDIMIENTO', positive: true, icon: 'trending-up', amount: '1,400.00', title: 'Rendimiento devengado mes 8', meta: 'Pagaré Estructurado Serie A-24 · 15 de junio, 2026' },
-  { type: 'RENDIMIENTO', positive: true, icon: 'trending-up', amount: '650.00', title: 'Rendimiento devengado mes 5', meta: 'Fondo Factoring Corporativo · 15 de junio, 2026' },
-  { type: 'RENDIMIENTO', positive: true, icon: 'trending-up', amount: '400.00', title: 'Rendimiento devengado mes 1', meta: 'Leasing Financiero Flota 2025 · 15 de mayo, 2026' },
-  { type: 'SUSCRIPCIÓN', positive: false, icon: 'file-text', amount: '48,000.00', title: 'Suscripción inicial de capital', meta: 'Leasing Financiero Flota 2025 · 15 de abril, 2026' },
-  { type: 'VENCIMIENTO', positive: true, icon: 'check-circle', amount: '45,400.00', title: 'Vencimiento y liquidación de capital + rendimientos', meta: 'Pagaré Estructurado Serie B-23 · 15 de abril, 2026' },
-  { type: 'SUSCRIPCIÓN', positive: false, icon: 'file-text', amount: '65,000.00', title: 'Suscripción inicial de capital', meta: 'Fondo Factoring Corporativo · 15 de febrero, 2026' },
-  { type: 'SUSCRIPCIÓN', positive: false, icon: 'file-text', amount: '120,000.00', title: 'Suscripción inicial de capital', meta: 'Pagaré Estructurado Serie A-24 · 15 de noviembre, 2025' },
-  { type: 'SUSCRIPCIÓN', positive: false, icon: 'file-text', amount: '40,000.00', title: 'Suscripción inicial de capital', meta: 'Pagaré Estructurado Serie B-23 · 15 de abril, 2025' },
-];
-
-// ── Resumen ────────────────────────────────────────────────
-export interface Stat {
-  label: string;
-  value: string;
-  icon: string;
-  accent?: boolean;
-}
-
-export const RESUMEN_STATS: Stat[] = [
-  { label: 'Capital invertido', value: 'S/ 233,000.00', icon: 'briefcase' },
-  { label: 'Rendimiento acumulado', value: 'S/ 2,450.00', icon: 'trending-up', accent: true },
-  { label: 'Rentabilidad anual', value: '12.4%', icon: 'percent' },
-  { label: 'Inversiones activas', value: '3', icon: 'layers' },
-];
-
-export interface Allocation {
-  name: string;
-  amount: string;
-  pct: number;
-}
-
-export const ALLOCATIONS: Allocation[] = [
-  { name: 'Pagaré Estructurado Serie A-24', amount: 'S/ 120,000.00', pct: 52 },
-  { name: 'Fondo Factoring Corporativo', amount: 'S/ 65,000.00', pct: 28 },
-  { name: 'Leasing Financiero Flota 2025', amount: 'S/ 48,000.00', pct: 20 },
-];
-
-// ── Mis Inversiones ────────────────────────────────────────
-export interface Investment {
-  name: string;
-  status: string;
-  capital: string;
-  rate: string;
-  term: string;
-  earned: string;
-  maturity: string;
-  progress: number;
-}
-
-export const INVESTMENTS: Investment[] = [
-  { name: 'Pagaré Estructurado Serie A-24', status: 'Activo', capital: 'S/ 120,000.00', rate: '12.5% anual', term: '18 meses', earned: 'S/ 1,400.00', maturity: '15 de noviembre, 2026', progress: 45 },
-  { name: 'Fondo Factoring Corporativo', status: 'Activo', capital: 'S/ 65,000.00', rate: '11.0% anual', term: '12 meses', earned: 'S/ 650.00', maturity: '15 de febrero, 2027', progress: 40 },
-  { name: 'Leasing Financiero Flota 2025', status: 'Activo', capital: 'S/ 48,000.00', rate: '10.5% anual', term: '24 meses', earned: 'S/ 400.00', maturity: '15 de abril, 2028', progress: 8 },
 ];
 
 // ── Reportes ───────────────────────────────────────────────

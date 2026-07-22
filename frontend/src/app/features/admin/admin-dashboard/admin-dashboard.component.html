@@ -52,6 +52,30 @@
       (click)="loadTab('leads')"
       type="button"
     >Leads</button>
+    <button
+      class="ad__tab"
+      [class.ad__tab--active]="activeTab() === 'users'"
+      (click)="loadTab('users')"
+      type="button"
+    >Usuarios</button>
+    <button
+      class="ad__tab"
+      [class.ad__tab--active]="activeTab() === 'products'"
+      (click)="loadTab('products')"
+      type="button"
+    >Fondos y Bonos</button>
+    <button
+      class="ad__tab"
+      [class.ad__tab--active]="activeTab() === 'movements'"
+      (click)="loadTab('movements')"
+      type="button"
+    >Movimientos</button>
+    <button
+      class="ad__tab"
+      [class.ad__tab--active]="activeTab() === 'import'"
+      (click)="loadTab('import')"
+      type="button"
+    >Importar Excel</button>
   </div>
 
   <!-- Content -->
@@ -236,6 +260,395 @@
             }
           </tbody>
         </table>
+      </div>
+    }
+
+    <!-- ==================== Users ==================== -->
+    @if (activeTab() === 'users') {
+      <div class="ad__toolbar">
+        <input
+          class="ad__search"
+          type="text"
+          placeholder="Buscar por nombre, correo o documento..."
+          [value]="userSearch()"
+          (input)="searchUsers($any($event.target).value)"
+        />
+        <button class="ad__primary-btn" type="button" (click)="openCreateUser()">
+          <app-icon name="plus" [size]="16" /> Nuevo usuario
+        </button>
+      </div>
+
+      @if (lastCreatedTempPassword(); as t) {
+        <div class="ad__alert ad__alert--info">
+          Cuenta creada para <strong>{{ t.email }}</strong>. Contraseña temporal: <code>{{ t.tempPassword }}</code>
+          (deberá cambiarla al iniciar sesión).
+          <button class="ad__alert-close" type="button" (click)="lastCreatedTempPassword.set(null)">&times;</button>
+        </div>
+      }
+
+      @if (showUserForm()) {
+        <form class="ad__form" [formGroup]="userForm" (ngSubmit)="submitUserForm()">
+          <h3 class="ad__form-title">{{ editingUser() ? 'Editar usuario' : 'Nuevo usuario' }}</h3>
+          <div class="ad__form-grid">
+            <label class="ad__form-field">Nombre*
+              <input class="ad__input" formControlName="name" />
+            </label>
+            <label class="ad__form-field">Apellidos
+              <input class="ad__input" formControlName="lastName" />
+            </label>
+            <label class="ad__form-field">Correo*
+              <input class="ad__input" type="email" formControlName="email" />
+            </label>
+            <label class="ad__form-field">Teléfono
+              <input class="ad__input" formControlName="phone" />
+            </label>
+            <label class="ad__form-field">Rol
+              <select class="ad__input" formControlName="role">
+                <option value="client">Cliente / Inversionista</option>
+                <option value="admin">Administrador</option>
+              </select>
+            </label>
+            @if (!editingUser()) {
+              <label class="ad__form-field">Contraseña (vacío = generar temporal)
+                <input class="ad__input" type="text" formControlName="password" />
+              </label>
+            }
+            <label class="ad__form-field">Tipo de documento
+              <select class="ad__input" formControlName="documentType">
+                <option value="">—</option>
+                <option value="DNI">DNI</option>
+                <option value="CE">CE</option>
+                <option value="RUC">RUC</option>
+                <option value="Pasaporte">Pasaporte</option>
+              </select>
+            </label>
+            <label class="ad__form-field">Nº de documento
+              <input class="ad__input" formControlName="documentNumber" />
+            </label>
+            <label class="ad__form-field">Empresa
+              <input class="ad__input" formControlName="company" />
+            </label>
+            <label class="ad__form-field">Dirección
+              <input class="ad__input" formControlName="address" />
+            </label>
+            <label class="ad__form-field">Distrito
+              <input class="ad__input" formControlName="district" />
+            </label>
+            <label class="ad__form-field">Ciudad
+              <input class="ad__input" formControlName="city" />
+            </label>
+            <label class="ad__form-field">País
+              <input class="ad__input" formControlName="country" />
+            </label>
+            <label class="ad__form-field">Banco
+              <input class="ad__input" formControlName="bank" />
+            </label>
+            <label class="ad__form-field">Nº de cuenta
+              <input class="ad__input" formControlName="accountNumber" />
+            </label>
+            <label class="ad__form-field">CCI
+              <input class="ad__input" formControlName="cci" />
+            </label>
+            <label class="ad__form-field">Perfil de riesgo
+              <select class="ad__input" formControlName="riskProfile">
+                <option value="">—</option>
+                <option value="conservador">Conservador</option>
+                <option value="moderado">Moderado</option>
+                <option value="agresivo">Agresivo</option>
+              </select>
+            </label>
+            <label class="ad__form-field">Fecha de nacimiento
+              <input class="ad__input" type="date" formControlName="birthDate" />
+            </label>
+            <label class="ad__form-field">Ocupación
+              <input class="ad__input" formControlName="occupation" />
+            </label>
+          </div>
+
+          @if (userSaveError()) {
+            <div class="ad__alert">{{ userSaveError() }}</div>
+          }
+
+          <div class="ad__form-actions">
+            <button class="ad__secondary-btn" type="button" (click)="closeUserForm()">Cancelar</button>
+            <button class="ad__primary-btn" type="submit">Guardar</button>
+          </div>
+        </form>
+      }
+
+      @if (loading()) {
+        <div class="ad__loading">Cargando...</div>
+      } @else {
+        <div class="ad__table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Documento</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Perfil</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (u of users(); track u._id) {
+                <tr>
+                  <td>{{ u.name }} {{ u.lastName ?? '' }}</td>
+                  <td>{{ u.documentType ?? '' }} {{ u.documentNumber ?? '—' }}</td>
+                  <td>{{ u.email }}</td>
+                  <td>{{ u.phone ?? '—' }}</td>
+                  <td>{{ u.riskProfile ?? '—' }}</td>
+                  <td>
+                    <button class="ad__notes-btn" type="button" (click)="openEditUser(u)">Editar</button>
+                    <button class="ad__notes-btn" type="button" (click)="deleteUser(u)">Eliminar</button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr><td colspan="6" class="ad__empty">Sin usuarios registrados.</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+    <!-- ==================== Products ==================== -->
+    @if (activeTab() === 'products') {
+      <div class="ad__toolbar">
+        <div></div>
+        <button class="ad__primary-btn" type="button" (click)="openCreateProduct()">
+          <app-icon name="plus" [size]="16" /> Nuevo producto
+        </button>
+      </div>
+
+      @if (showProductForm()) {
+        <form class="ad__form" [formGroup]="productForm" (ngSubmit)="submitProductForm()">
+          <h3 class="ad__form-title">{{ editingProduct() ? 'Editar producto' : 'Nuevo producto' }}</h3>
+          <div class="ad__form-grid">
+            <label class="ad__form-field">Nombre*
+              <input class="ad__input" formControlName="name" />
+            </label>
+            <label class="ad__form-field">Tipo*
+              <select class="ad__input" formControlName="type">
+                <option value="fondo">Fondo</option>
+                <option value="bono">Bono</option>
+              </select>
+            </label>
+            <label class="ad__form-field">Tasa anual (%)*
+              <input class="ad__input" type="number" step="0.01" formControlName="annualRate" />
+            </label>
+            <label class="ad__form-field">Plazo (meses)*
+              <input class="ad__input" type="number" formControlName="termMonths" />
+            </label>
+            <label class="ad__form-field ad__form-field--wide">Descripción
+              <input class="ad__input" formControlName="description" />
+            </label>
+          </div>
+
+          @if (productSaveError()) {
+            <div class="ad__alert">{{ productSaveError() }}</div>
+          }
+
+          <div class="ad__form-actions">
+            <button class="ad__secondary-btn" type="button" (click)="closeProductForm()">Cancelar</button>
+            <button class="ad__primary-btn" type="submit">Guardar</button>
+          </div>
+        </form>
+      }
+
+      @if (loading()) {
+        <div class="ad__loading">Cargando...</div>
+      } @else {
+        <div class="ad__table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Tasa anual</th>
+                <th>Plazo</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of products(); track p._id) {
+                <tr>
+                  <td>{{ p.name }}</td>
+                  <td>{{ p.type === 'fondo' ? 'Fondo' : 'Bono' }}</td>
+                  <td>{{ p.annualRate }}%</td>
+                  <td>{{ p.termMonths }}m</td>
+                  <td>{{ p.status }}</td>
+                  <td>
+                    <button class="ad__notes-btn" type="button" (click)="openEditProduct(p)">Editar</button>
+                    <button class="ad__notes-btn" type="button" (click)="deleteProduct(p)">Eliminar</button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr><td colspan="6" class="ad__empty">Sin productos registrados.</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+    <!-- ==================== Movements ==================== -->
+    @if (activeTab() === 'movements') {
+      <div class="ad__toolbar">
+        <div class="ad__toolbar-filters">
+          <select class="ad__filter-select" [value]="movementUserFilter()" (change)="filterMovementsByUser($any($event.target).value)">
+            <option value="">Todos los usuarios</option>
+            @for (u of users(); track u._id) {
+              <option [value]="u._id">{{ u.name }} {{ u.lastName ?? '' }}</option>
+            }
+          </select>
+          <select class="ad__filter-select" [value]="movementProductFilter()" (change)="filterMovementsByProduct($any($event.target).value)">
+            <option value="">Todos los productos</option>
+            @for (p of products(); track p._id) {
+              <option [value]="p._id">{{ p.name }}</option>
+            }
+          </select>
+        </div>
+        <button class="ad__primary-btn" type="button" (click)="openCreateMovement()">
+          <app-icon name="plus" [size]="16" /> Nuevo movimiento
+        </button>
+      </div>
+
+      @if (showMovementForm()) {
+        <form class="ad__form" [formGroup]="movementForm" (ngSubmit)="submitMovementForm()">
+          <h3 class="ad__form-title">Nuevo movimiento</h3>
+          <div class="ad__form-grid">
+            <label class="ad__form-field">Usuario*
+              <select class="ad__input" formControlName="user">
+                <option value="" disabled>Seleccionar...</option>
+                @for (u of users(); track u._id) {
+                  <option [value]="u._id">{{ u.name }} {{ u.lastName ?? '' }} — {{ u.documentNumber ?? u.email }}</option>
+                }
+              </select>
+            </label>
+            <label class="ad__form-field">Producto*
+              <select class="ad__input" formControlName="product">
+                <option value="" disabled>Seleccionar...</option>
+                @for (p of products(); track p._id) {
+                  <option [value]="p._id">{{ p.name }}</option>
+                }
+              </select>
+            </label>
+            <label class="ad__form-field">Tipo*
+              <select class="ad__input" formControlName="type">
+                <option value="SUSCRIPCIÓN">Suscripción</option>
+                <option value="RENDIMIENTO">Rendimiento</option>
+                <option value="VENCIMIENTO">Vencimiento</option>
+              </select>
+            </label>
+            <label class="ad__form-field">Monto*
+              <input class="ad__input" type="number" step="0.01" formControlName="amount" />
+            </label>
+            <label class="ad__form-field">Fecha*
+              <input class="ad__input" type="date" formControlName="date" />
+            </label>
+            <label class="ad__form-field ad__form-field--wide">Notas
+              <input class="ad__input" formControlName="notes" />
+            </label>
+          </div>
+
+          @if (movementSaveError()) {
+            <div class="ad__alert">{{ movementSaveError() }}</div>
+          }
+
+          <div class="ad__form-actions">
+            <button class="ad__secondary-btn" type="button" (click)="closeMovementForm()">Cancelar</button>
+            <button class="ad__primary-btn" type="submit">Guardar</button>
+          </div>
+        </form>
+      }
+
+      @if (loading()) {
+        <div class="ad__loading">Cargando...</div>
+      } @else {
+        <div class="ad__table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Producto</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (m of movementsList(); track m._id) {
+                <tr>
+                  <td>{{ movementUserName(m.user) }}</td>
+                  <td>{{ movementProductName(m.product) }}</td>
+                  <td>{{ m.type }}</td>
+                  <td>S/ {{ m.amount | number : '1.2-2' }}</td>
+                  <td>{{ m.date | date : 'dd/MM/yyyy' }}</td>
+                  <td>
+                    <button class="ad__notes-btn" type="button" (click)="deleteMovement(m)">Eliminar</button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr><td colspan="6" class="ad__empty">Sin movimientos registrados.</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+    <!-- ==================== Import ==================== -->
+    @if (activeTab() === 'import') {
+      <div class="ad__import">
+        <p class="ad__import-help">
+          Descarga la plantilla, complétala con los datos de usuarios, productos y movimientos, y súbela aquí.
+          Los usuarios se identifican por número de documento: si no existen, se crean automáticamente con una
+          contraseña temporal que se les envía por correo.
+        </p>
+
+        <div class="ad__import-actions">
+          <button class="ad__secondary-btn" type="button" (click)="downloadTemplate()" [disabled]="downloadingTemplate()">
+            <app-icon name="download" [size]="16" /> Descargar plantilla
+          </button>
+          <input type="file" accept=".xlsx" (change)="onFileSelected($event)" />
+          <button class="ad__primary-btn" type="button" (click)="submitImport()" [disabled]="importing()">
+            @if (importing()) { Importando... } @else { Importar archivo }
+          </button>
+        </div>
+
+        @if (importSummary(); as summary) {
+          <div class="ad__import-summary">
+            <div class="ad__import-stats">
+              <span>Usuarios creados: <strong>{{ summary.usersCreated }}</strong></span>
+              <span>Usuarios actualizados: <strong>{{ summary.usersUpdated }}</strong></span>
+              <span>Productos creados: <strong>{{ summary.productsCreated }}</strong></span>
+              <span>Productos actualizados: <strong>{{ summary.productsUpdated }}</strong></span>
+              <span>Movimientos creados: <strong>{{ summary.movementsCreated }}</strong></span>
+            </div>
+
+            @if (summary.tempPasswords.length > 0) {
+              <h4>Contraseñas temporales generadas ({{ summary.tempPasswords.length }})</h4>
+              <ul class="ad__import-list">
+                @for (t of summary.tempPasswords; track t.email) {
+                  <li>{{ t.email }} ({{ t.documentNumber }}) — <code>{{ t.tempPassword }}</code></li>
+                }
+              </ul>
+            }
+
+            @if (summary.errors.length > 0) {
+              <h4>Errores ({{ summary.errors.length }})</h4>
+              <ul class="ad__import-list ad__import-list--error">
+                @for (e of summary.errors; track $index) {
+                  <li>[{{ e.sheet }} · fila {{ e.row }}] {{ e.message }}</li>
+                }
+              </ul>
+            }
+          </div>
+        }
       </div>
     }
   </div>

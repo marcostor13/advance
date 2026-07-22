@@ -585,12 +585,12 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-// Hide native cursor on fine pointers (custom cursor takes over)
+// Hide native cursor on fine pointers (custom cursor takes over) — not in /portal, which keeps the system cursor
 @media (hover: hover) and (pointer: fine) {
-  body,
-  a,
-  button,
-  [data-cursor] {
+  body:not(.portal-route),
+  body:not(.portal-route) a,
+  body:not(.portal-route) button,
+  body:not(.portal-route) [data-cursor] {
     cursor: none;
   }
 }
@@ -693,6 +693,11 @@ body::after {
   border-radius: var(--radius-full);
   background: var(--pt-green-bg);
   color: var(--pt-green);
+
+  &--bono {
+    background: rgba(30, 58, 95, 0.1);
+    color: var(--deep-blue);
+  }
 }
 
 .news-cat {

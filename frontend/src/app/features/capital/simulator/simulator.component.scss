@@ -152,10 +152,10 @@
 
   &__instruments {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.875rem;
 
-    @media (max-width: 600px) {
+    @media (max-width: 480px) {
       grid-template-columns: 1fr;
     }
   }
@@ -210,10 +210,34 @@
     transition: color var(--t-base);
   }
 
+  &__instrument-hint {
+    font-size: 0.75rem;
+    color: rgba(0, 29, 58, 0.55);
+    transition: color var(--t-base);
+  }
+
+  &__instrument-card--active &__instrument-hint {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
   // ── Currency + Amount ────────────────────────────────────────────────────
 
   &__amount-block {
     margin-bottom: 1.75rem;
+  }
+
+  &__amount-hint {
+    font-size: 0.8125rem;
+    color: var(--gray-600, #64748b);
+    margin-bottom: 0.5rem;
+
+    strong { color: var(--deep-blue); }
+  }
+
+  &__amount-error {
+    font-size: 0.8125rem;
+    color: var(--crimson);
+    margin: 0.5rem 0 0;
   }
 
   &__currency-row {
@@ -271,6 +295,10 @@
 
     &:focus-within {
       border-color: var(--deep-blue);
+    }
+
+    &--error {
+      border-color: var(--crimson);
     }
   }
 
@@ -485,6 +513,12 @@
   &__preview-rate-label {
     font-size: 0.8125rem;
     color: rgba(255, 255, 255, 0.5);
+  }
+
+  &__preview-variable-note {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.55);
+    margin: -1rem 0 1.5rem;
   }
 
   &__preview-divider {

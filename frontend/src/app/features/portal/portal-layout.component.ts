@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 import { AuthService } from '../../core/services/auth.service';
-import { PORTAL_NAV, PORTAL_USER } from './portal.data';
+import { PORTAL_NAV } from './portal.data';
 
 @Component({
   selector: 'app-portal-layout',
@@ -16,9 +16,22 @@ export class PortalLayoutComponent implements OnDestroy {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
-  protected readonly user = PORTAL_USER;
   protected readonly nav = PORTAL_NAV;
   protected readonly isMenuOpen = signal(false);
+
+  private readonly authUser = this.auth.user;
+  protected readonly user = computed(() => {
+    const u = this.authUser();
+    const name = u ? `${u.name} ${u.lastName ?? ''}`.trim() : 'Inversionista';
+    const initials = u
+      ? `${u.name.charAt(0)}${(u.lastName ?? '').charAt(0)}`.toUpperCase() || u.name.charAt(0).toUpperCase()
+      : 'IN';
+    return {
+      name,
+      initials,
+      role: u?.role === 'admin' ? 'Administrador' : 'Inversionista',
+    };
+  });
 
   toggleMenu(): void {
     this.isMenuOpen.update((v) => !v);
@@ -34,7 +47,7 @@ export class PortalLayoutComponent implements OnDestroy {
   logout(): void {
     this.closeMenu();
     this.auth.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(['/portal/login']);
   }
 
   @HostListener('document:keydown.escape')

@@ -20,13 +20,22 @@ import { IconComponent } from '../../../shared/components/icon/icon.component';
 type Currency = 'PEN' | 'USD';
 type TermMonths = 3 | 6 | 12 | 18 | 24 | 36;
 
-const ANNUAL_RATES: Record<Instrument, number> = {
-  factoring: 12,
-  leasing: 10,
-  capital_estructurado: 14,
+// Bono: tasa fija. Fondo: tasa variable (referencial), oscila ±2-3 puntos porcentuales.
+const ANNUAL_RATES: Record<Instrument, Record<Currency, number>> = {
+  bono: { USD: 8, PEN: 10 },
+  fondo: { USD: 8, PEN: 10 },
 };
 
-const MIN_AMOUNT = 1_000;
+const RATE_VARIABILITY: Record<Instrument, number> = {
+  bono: 0,
+  fondo: 2.5,
+};
+
+const MIN_AMOUNTS: Record<Instrument, Record<Currency, number>> = {
+  bono: { USD: 30_000, PEN: 100_000 },
+  fondo: { USD: 10_000, PEN: 30_000 },
+};
+
 const MAX_AMOUNT = 5_000_000;
 const SLIDER_MAX = 1_000_000;
 
@@ -42,7 +51,6 @@ export class SimulatorComponent {
   private readonly simulationService = inject(SimulationService);
   private readonly auth = inject(AuthService);
 
-  readonly minAmount = MIN_AMOUNT;
   readonly maxAmount = MAX_AMOUNT;
   readonly sliderMax = SLIDER_MAX;
   readonly terms: readonly TermMonths[] = [3, 6, 12, 18, 24, 36];
@@ -53,15 +61,14 @@ export class SimulatorComponent {
   ] as const;
 
   readonly instruments: { value: Instrument; label: string }[] = [
-    { value: 'factoring', label: INSTRUMENT_LABELS['factoring'] },
-    { value: 'leasing', label: INSTRUMENT_LABELS['leasing'] },
-    { value: 'capital_estructurado', label: INSTRUMENT_LABELS['capital_estructurado'] },
+    { value: 'bono', label: INSTRUMENT_LABELS['bono'] },
+    { value: 'fondo', label: INSTRUMENT_LABELS['fondo'] },
   ];
 
   readonly step = signal<1 | 2 | 3>(1);
-  readonly instrument = signal<Instrument>('factoring');
-  readonly currency = signal<Currency>('PEN');
-  readonly amount = signal(50_000);
+  readonly instrument = signal<Instrument>('bono');
+  readonly currency = signal<Currency>('USD');
+  readonly amount = signal(MIN_AMOUNTS['bono']['USD']);
   readonly termMonths = signal<TermMonths>(12);
   readonly compound = signal(false);
   readonly loading = signal(false);
@@ -69,7 +76,10 @@ export class SimulatorComponent {
   readonly simulation = signal<Simulation | null>(null);
   readonly showFullSchedule = signal(false);
 
-  readonly annualRate = computed(() => ANNUAL_RATES[this.instrument()]);
+  readonly minAmount = computed(() => MIN_AMOUNTS[this.instrument()][this.currency()]);
+  readonly isVariableRate = computed(() => RATE_VARIABILITY[this.instrument()] > 0);
+  readonly rateVariability = computed(() => RATE_VARIABILITY[this.instrument()]);
+  readonly annualRate = computed(() => ANNUAL_RATES[this.instrument()][this.currency()]);
   readonly monthlyRate = computed(() => this.annualRate() / 12);
   readonly interestPreview = computed(
     () => this.amount() * (this.annualRate() / 100) * (this.termMonths() / 12),
@@ -79,7 +89,10 @@ export class SimulatorComponent {
   readonly amountDisplay = computed(() =>
     this.amount() > 0 ? new Intl.NumberFormat('es-PE').format(this.amount()) : '',
   );
-  readonly sliderValue = computed(() => Math.min(Math.max(this.amount(), MIN_AMOUNT), SLIDER_MAX));
+  readonly belowMinimum = computed(() => this.amount() < this.minAmount());
+  readonly sliderValue = computed(() =>
+    Math.min(Math.max(this.amount(), this.minAmount()), SLIDER_MAX),
+  );
 
   readonly visibleSchedule = computed<ScheduleEntry[]>(() => {
     const sim = this.simulation();
@@ -93,10 +106,18 @@ export class SimulatorComponent {
 
   setInstrument(i: Instrument): void {
     this.instrument.set(i);
+    this.bumpToMinimum();
   }
 
   setCurrency(c: Currency): void {
     this.currency.set(c);
+    this.bumpToMinimum();
+  }
+
+  private bumpToMinimum(): void {
+    if (this.amount() < this.minAmount()) {
+      this.amount.set(this.minAmount());
+    }
   }
 
   setTerm(t: TermMonths): void {
@@ -118,6 +139,13 @@ export class SimulatorComponent {
 
   requestSimulation(): void {
     if (this.loading()) return;
+    if (this.belowMinimum()) {
+      this.error.set(
+        `El monto mínimo para ${this.instrumentLabel(this.instrument())} en ${this.currency() === 'USD' ? 'dólares' : 'soles'} es ${this.format(this.minAmount())}.`,
+      );
+      return;
+    }
+    this.error.set('');
     if (this.auth.isAuthenticated()) {
       this.submit();
     } else {

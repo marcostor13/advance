@@ -7,7 +7,6 @@ import { ParallaxDirective } from '../../core/directives/parallax.directive';
 import { MagneticDirective } from '../../core/directives/magnetic.directive';
 import { MarqueeComponent } from '../../shared/components/marquee/marquee.component';
 import { IconComponent } from '../../shared/components/icon/icon.component';
-import { QuoterComponent } from './quoter/quoter.component';
 
 @Component({
   selector: 'app-factoring',
@@ -21,7 +20,6 @@ import { QuoterComponent } from './quoter/quoter.component';
     MagneticDirective,
     MarqueeComponent,
     IconComponent,
-    QuoterComponent,
   ],
   templateUrl: './factoring.component.html',
   styleUrl: './factoring.component.scss',
