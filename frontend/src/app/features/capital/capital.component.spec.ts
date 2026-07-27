@@ -44,14 +44,14 @@ describe('CapitalComponent', () => {
     expect(component.marqueeItems).toContain('Respaldo Advance Factoring');
   });
 
-  it('should have product ids: factoring, leasing, capital-estructurado', () => {
+  it('should have product ids: factoring, bono-privado, capital-estructurado', () => {
     const ids = component.products.map(p => p.id);
-    expect(ids).toEqual(['factoring', 'leasing', 'capital-estructurado']);
+    expect(ids).toEqual(['factoring', 'bono-privado', 'capital-estructurado']);
   });
 
   it('should assign icon names to products', () => {
     const icons = component.products.map(p => p.icon);
-    expect(icons).toEqual(['trending-up', 'building', 'layers']);
+    expect(icons).toEqual(['trending-up', 'file-text', 'layers']);
   });
 
   it('should assign icon names to benefits', () => {
