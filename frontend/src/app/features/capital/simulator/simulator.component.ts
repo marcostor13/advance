@@ -18,7 +18,7 @@ import { AuthGateComponent } from '../../../shared/components/auth-gate/auth-gat
 import { IconComponent } from '../../../shared/components/icon/icon.component';
 
 type Currency = 'PEN' | 'USD';
-type TermMonths = 3 | 6 | 12 | 18 | 24 | 36;
+type TermMonths = 12 | 18 | 24;
 
 // Bono: tasa fija. Fondo: tasa variable (referencial), oscila ±2-3 puntos porcentuales.
 const ANNUAL_RATES: Record<Instrument, Record<Currency, number>> = {
@@ -53,7 +53,7 @@ export class SimulatorComponent {
 
   readonly maxAmount = MAX_AMOUNT;
   readonly sliderMax = SLIDER_MAX;
-  readonly terms: readonly TermMonths[] = [3, 6, 12, 18, 24, 36];
+  readonly terms: readonly TermMonths[] = [12, 18, 24];
   readonly stepsMeta = [
     { num: '01', label: 'Parámetros' },
     { num: '02', label: 'Sus datos' },
