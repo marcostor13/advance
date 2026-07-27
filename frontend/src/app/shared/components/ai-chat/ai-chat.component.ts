@@ -18,6 +18,12 @@ interface ChatAttachment {
   type?: 'file' | 'link';
 }
 
+interface ChatResponse {
+  reply: string;
+  attachments?: ChatAttachment[];
+  openMeetingLink?: boolean;
+}
+
 interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
@@ -77,16 +83,17 @@ export class AiChatComponent implements AfterViewChecked {
 
     try {
       const history = this.messages().map((m) => ({ role: m.role, content: m.content }));
-      const { reply, attachments } = await firstValueFrom(
-        this.api.post<{ reply: string; attachments?: ChatAttachment[] }>('/chat', { messages: history }),
+      const { reply, attachments, openMeetingLink } = await firstValueFrom(
+        this.api.post<ChatResponse>('/chat', { messages: history }),
       );
       this.messages.update((m) => [
         ...m,
         { role: 'assistant', content: reply, ts: new Date(), attachments },
       ]);
 
+      // Solo se abre el calendario si el usuario pidió agendar; si no, queda como enlace en el chat.
       const meetingLink = attachments?.find((a) => a.type === 'link');
-      if (meetingLink) {
+      if (openMeetingLink && meetingLink) {
         window.open(meetingLink.url, '_blank', 'noopener');
       }
     } catch {

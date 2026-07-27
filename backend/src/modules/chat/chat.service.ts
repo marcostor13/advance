@@ -61,7 +61,10 @@ const CALENDLY_URL = 'https://calendly.com/marcostor13/new-meeting';
 
 const FACTORING_INVESTMENT_INTENT = /(inver(tir|si[oó]n(es)?|sionista)|opci[oó]n(es)?\s+de\s+factoring|rendimiento\s+anual|rentabilidad|renta\s+fija|tasa\s+de\s+inter[eé]s|bonos?\s+de\s+factoring)/i;
 
-const MEETING_REQUEST_INTENT = /(agend(ar|emos|e|ando)|programemos|programar\s+(una\s+)?(reuni[oó]n|cita)|quiero\s+(reunirme|una\s+reuni[oó]n|la\s+reuni[oó]n)|reservar\s+(una\s+)?reuni[oó]n|coordinar\s+(una\s+)?reuni[oó]n)/i;
+const MEETING_REQUEST_INTENT = /(agend(ar|emos|e|ando)|programemos|programar\s+(una\s+)?(reuni[oó]n|cita)|(quiero|quisiera|deseo|necesito|me\s+gustar[ií]a)\s+(reunirme|una\s+reuni[oó]n|la\s+reuni[oó]n|una\s+cita)|reservar\s+(una\s+)?reuni[oó]n|coordinar\s+(una\s+)?reuni[oó]n)/i;
+
+// El usuario rechaza o pospone la reunión: no debe abrirse el calendario.
+const MEETING_DECLINED = /\b(no|todav[ií]a\s+no|a[uú]n\s+no|m[aá]s\s+adelante|luego|despu[eé]s)\b[^.?!]{0,40}\b(agend|reunirme|reuni[oó]n|cita|programar|coordinar|reservar)/i;
 
 const GREETING_ONLY = /^(hola|hola\s*de\s*nuevo|hola\s*otra\s*vez|buen[oa]s?\s*(d[ií]as|tardes|noches)|buenas|qu[ée]\s*tal|hey|hi|hello)$/i;
 const ACK_ONLY = /^(ok(?:ay)?|vale|listo|entendido|gracias|muchas\s+gracias|perfecto|genial|de\s+acuerdo|excelente)$/i;
@@ -114,6 +117,8 @@ export interface ChatAttachment {
 export interface ChatResult {
   reply: string;
   attachments?: ChatAttachment[];
+  /** Solo true cuando el usuario pidió explícitamente agendar: autoriza al cliente a abrir el calendario. */
+  openMeetingLink?: boolean;
 }
 
 @Injectable()
@@ -137,8 +142,16 @@ export class ChatService {
     if (ACK_ONLY.test(normalized)) {
       return { reply: ACK_REPLY };
     }
-    if (lastUserMessage && MEETING_REQUEST_INTENT.test(lastUserMessage.content)) {
-      return { reply: MEETING_REPLY, attachments: [MEETING_LINK_ATTACHMENT] };
+    if (
+      lastUserMessage &&
+      MEETING_REQUEST_INTENT.test(lastUserMessage.content) &&
+      !MEETING_DECLINED.test(lastUserMessage.content)
+    ) {
+      return {
+        reply: MEETING_REPLY,
+        attachments: [MEETING_LINK_ATTACHMENT],
+        openMeetingLink: true,
+      };
     }
     if (lastUserMessage && FACTORING_INVESTMENT_INTENT.test(lastUserMessage.content)) {
       return this.buildFactoringBrochureReply(dto);
@@ -194,7 +207,7 @@ export class ChatService {
 
 La inversión va desde los USD 30,000 o S/ 100,000, con plazos desde 18 meses. Le adjunto el PDF con el detalle de la estructura. Si desea aprovechar estas tasas, avíseme y coordinamos una reunión con nuestro equipo.`;
 
-    return { reply, attachments: [FACTORING_BROCHURE_ATTACHMENT, MEETING_LINK_ATTACHMENT] };
+    return { reply, attachments: [FACTORING_BROCHURE_ATTACHMENT] };
   }
 
   private extractName(messages: { role: string; content: string }[]): string | null {
