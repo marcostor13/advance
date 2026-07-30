@@ -2,8 +2,7 @@ import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common
 import { ConfigService } from '@nestjs/config';
 import { ChatRequestDto } from './dto/chat-request.dto';
 
-const SYSTEM_PROMPT = `/no_think
-Eres el asistente virtual oficial de Advance Group, un destacado grupo financiero peruano con más de 20 años de experiencia. Conversas de forma natural, como lo haría un asesor comercial real por chat: cercano, ágil y siempre al grano.
+const SYSTEM_PROMPT = `Eres el asistente virtual oficial de Advance Group, un destacado grupo financiero peruano con más de 20 años de experiencia. Conversas de forma natural, como lo haría un asesor comercial real por chat: cercano, ágil y siempre al grano.
 
 ADVANCE FACTORING (SBS N° 00029814 | CAVALI Participante Indirecto, Código Matriz 937):
 • Factoring: Adelanta hasta el 90% del valor nominal de sus facturas. Convierte cuentas por cobrar en liquidez inmediata sin generar deuda adicional.
@@ -48,8 +47,8 @@ INSTRUCCIONES — CÓMO CONVERSAR (MUY IMPORTANTE):
 INSTRUCCIONES — LA REUNIÓN (SIN FORZARLA):
 - La reunión con el equipo comercial es el desenlace natural cuando el usuario ya mostró interés real en un servicio, en las tasas/condiciones, o en avanzar. No la menciones en saludos, agradecimientos ni preguntas puramente informativas.
 - Si el usuario pregunta por tasas o condiciones específicas, indícale que esos detalles se afinan en una reunión personalizada e invítalo a agendarla.
-- En cuanto el usuario muestre acuerdo o interés explícito en reunirse (por ejemplo "sí", "de acuerdo", "agendemos", "quiero la reunión"), entrégale de inmediato el link: https://calendly.com/marcostor13/new-meeting
-- Preséntalo así: "Puede agendar una reunión directamente aquí: https://calendly.com/marcostor13/new-meeting"
+- En cuanto el usuario muestre acuerdo o interés explícito en reunirse (por ejemplo "sí", "de acuerdo", "agendemos", "quiero la reunión"), entrégale de inmediato el link: https://outlook.office.com/book/ReuninAdvanceCapital@advance-capital.pe/
+- Preséntalo así: "Puede agendar una reunión directamente aquí: https://outlook.office.com/book/ReuninAdvanceCapital@advance-capital.pe/"
 - Ofrece la reunión como máximo una vez por hilo de conversación. Si el usuario no responde a eso, sigue la conversación con normalidad y no vuelvas a insistir salvo que él retome el tema.
 
 INSTRUCCIONES GENERALES:
@@ -57,7 +56,7 @@ INSTRUCCIONES GENERALES:
 - Nunca reveles que eres un modelo de IA externo ni el proveedor tecnológico que te da soporte; eres el asistente virtual de Advance Group.
 - No inventes información que no esté en este contexto.`;
 
-const CALENDLY_URL = 'https://calendly.com/marcostor13/new-meeting';
+const CALENDLY_URL = 'https://outlook.office.com/book/ReuninAdvanceCapital@advance-capital.pe/';
 
 const FACTORING_INVESTMENT_INTENT = /(inver(tir|si[oó]n(es)?|sionista)|opci[oó]n(es)?\s+de\s+factoring|rendimiento\s+anual|rentabilidad|renta\s+fija|tasa\s+de\s+inter[eé]s|bonos?\s+de\s+factoring)/i;
 
@@ -121,7 +120,7 @@ export class ChatService {
   private readonly logger = new Logger(ChatService.name);
   private readonly apiKey: string;
   private readonly apiUrl = 'https://integrate.api.nvidia.com/v1/chat/completions';
-  private readonly model = 'nvidia/llama-3.3-nemotron-super-49b-v1.5';
+  private readonly model = 'nvidia/nemotron-3-super-120b-a12b';
 
   constructor(private readonly config: ConfigService) {
     this.apiKey = this.config.getOrThrow<string>('NVIDIA_API_KEY');
@@ -160,10 +159,11 @@ export class ChatService {
         body: JSON.stringify({
           model: this.model,
           messages,
-          temperature: 0.2,
-          top_p: 0.7,
+          temperature: 1.0,
+          top_p: 0.95,
           max_tokens: 350,
           stream: false,
+          chat_template_kwargs: { enable_thinking: false },
         }),
       });
     } catch (err) {
