@@ -64,7 +64,7 @@ export class CapitalComponent {
 
   readonly marqueeItems: string[] = [
     'Factoring de Inversión',
-    'Leasing Financiero',
+    'Bono Privado',
     'Capital Estructurado',
     '+20 años de experiencia',
     'Respaldo Advance Factoring',
@@ -75,49 +75,52 @@ export class CapitalComponent {
       id: 'factoring',
       title: 'Factoring de Inversión',
       icon: 'trending-up',
-      tagline: 'Invierta en facturas de empresas sólidas y obtenga retornos competitivos.',
+      tagline:
+        'Acceda a oportunidades de inversión respaldadas por facturas de empresas de primer nivel, combinando liquidez, diversificación y una gestión especializada.',
       description:
-        'Acceda a inversiones en factoring respaldadas por facturas de empresas de primer nivel. Rentabilidad atractiva con plazos cortos y alta liquidez.',
+        'Acceda a oportunidades de inversión respaldadas por facturas de empresas de primer nivel, combinando liquidez, diversificación y una gestión especializada.',
       highlights: [
-        'Plazos desde 30 a 180 días',
-        'Respaldo en facturas reales',
-        'Retornos competitivos',
-        'Diversificación por sector',
+        'Respaldo en activos reales',
+        'Plazos de corto y mediano plazo',
+        'Riesgo controlado',
+        'Administración profesional',
       ],
     },
     {
-      id: 'leasing',
-      title: 'Leasing Financiero',
-      icon: 'building',
-      tagline: 'Financie activos productivos y optimice la estructura financiera de su empresa.',
+      id: 'bono-privado',
+      title: 'Bono Privado',
+      icon: 'file-text',
+      tagline:
+        'Participe en emisiones de deuda privada estructuradas para ofrecer estabilidad, flujos periódicos y rendimientos competitivos.',
       description:
-        'Acceda a bienes productivos sin afectar su capital de trabajo. Beneficios tributarios y flexibilidad en el plazo de pago.',
+        'Participe en emisiones de deuda privada estructuradas para ofrecer estabilidad, flujos periódicos y rendimientos competitivos.',
       highlights: [
-        'Bienes muebles e inmuebles',
-        'Beneficios tributarios',
-        'Cuotas fijas programadas',
-        'Opción de compra al final',
+        'Instrumentos de renta fija',
+        'Pagos programados',
+        'Respaldo fiduciario',
+        'Estructuración especializada',
       ],
     },
     {
       id: 'capital-estructurado',
       title: 'Capital Estructurado',
       icon: 'layers',
-      tagline: 'Soluciones financieras a medida para proyectos de inversión complejos.',
+      tagline:
+        'Financiamiento diseñado para proyectos empresariales que requieren soluciones a medida y estructuras financieras eficientes.',
       description:
-        'Estructuramos financiamientos personalizados para proyectos de gran escala. Combinamos múltiples instrumentos para optimizar costo y plazo.',
+        'Financiamiento diseñado para proyectos empresariales que requieren soluciones a medida y estructuras financieras eficientes.',
       highlights: [
-        'Financiamiento a medida',
-        'Instrumentos combinados',
-        'Acompañamiento experto',
-        'Proyectos de gran escala',
+        'Estructuras personalizadas',
+        'Financiamiento estratégico',
+        'Proyectos de crecimiento',
+        'Equipo experto',
       ],
     },
   ];
 
   readonly stats: readonly CapitalStat[] = [
     { value: '20+', label: 'Años de experiencia', desc: 'Trayectoria en el mercado financiero peruano', count: 20, suffix: '+' },
-    { value: '3', label: 'Productos', desc: 'Factoring, Leasing y Capital Estructurado', count: 3, suffix: '' },
+    { value: '3', label: 'Productos', desc: 'Factoring, Bono Privado y Capital Estructurado', count: 3, suffix: '' },
     { value: '100%', label: 'Respaldo', desc: 'Brazo financiero de Advance Factoring', count: 100, suffix: '%' },
     { value: 'SBS', label: 'Regulado', desc: 'Grupo inscrito bajo regulación SBS' },
   ];
