@@ -1,0 +1,235 @@
+.page-hero {
+  background: var(--deep-blue);
+  text-align: center;
+  margin-top: calc(-1 * var(--header-height));
+  padding-top: calc(var(--header-height) + var(--space-16)) !important;
+
+  &__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--spacing-md);
+    color: var(--white);
+  }
+
+  &__subtitle {
+    font-size: 1.0625rem;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 62ch;
+    margin-inline: auto;
+  }
+}
+
+.lr {
+  &__container {
+    max-width: 900px;
+  }
+
+  &__notice {
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--crimson);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  &__notice-title {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__notice-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--spacing-md);
+    font-size: 0.9375rem;
+  }
+
+  &__notice-text {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xl);
+  }
+
+  &__alert {
+    padding: var(--spacing-md);
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    border-radius: var(--radius-md);
+    color: #991b1b;
+    font-weight: 500;
+  }
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__block-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    padding: 0;
+    margin-bottom: var(--spacing-sm);
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: var(--radius-sm);
+      background: var(--crimson);
+      color: var(--white);
+      font-size: 0.875rem;
+      flex-shrink: 0;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__col-2 {
+    grid-column: 1 / -1;
+  }
+
+  &__radios {
+    display: flex;
+    gap: var(--spacing-lg);
+    flex-wrap: wrap;
+  }
+
+  &__radio,
+  &__check {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    font-size: 0.9375rem;
+    cursor: pointer;
+
+    input {
+      accent-color: var(--crimson);
+      width: 1rem;
+      height: 1rem;
+      margin-top: 0.15rem;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+  }
+
+  &__check--consent {
+    line-height: 1.6;
+    color: var(--color-text-light);
+  }
+
+  &__check--error span {
+    color: #ef4444;
+  }
+
+  &__hint {
+    font-size: 0.8125rem;
+    color: var(--color-text-light);
+    margin: 0;
+  }
+
+  &__submit {
+    align-self: flex-start;
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+
+  &__receipt {
+    border: 1px solid #6ee7b7;
+    background: #d1fae5;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xl);
+    color: #065f46;
+    text-align: center;
+  }
+
+  &__receipt-title {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  &__receipt-code {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+// Shares the visual language of the contact form
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-size: 0.9375rem;
+    font-family: inherit;
+    background: var(--white);
+    transition: border-color var(--transition-fast);
+    resize: vertical;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+  }
+
+  &--error {
+    input,
+    select,
+    textarea {
+      border-color: #ef4444;
+    }
+  }
+}
+
+.form-error {
+  font-size: 0.8125rem;
+  color: #ef4444;
+}

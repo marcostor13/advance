@@ -1,0 +1,252 @@
+<section class="page-hero section">
+  <div class="container">
+    <h1 class="page-hero__title"><span appTextReveal>Libro de Reclamaciones</span></h1>
+    <p class="page-hero__subtitle" appScrollAnimate animType="fade" animDelay="0.2s">
+      Conforme al Código de Protección y Defensa del Consumidor (Ley N° 29571), ponemos a su
+      disposición nuestro Libro de Reclamaciones virtual.
+    </p>
+  </div>
+</section>
+
+<section class="section lr">
+  <div class="container lr__container">
+
+    <aside class="lr__notice" appScrollAnimate animType="up">
+      <h2 class="lr__notice-title">Antes de registrar su hoja</h2>
+      <ul class="lr__notice-list">
+        <li><strong>Razón social:</strong> Advance Group</li>
+        <li><strong>Domicilio:</strong> Av. El Derby 055, Torre 2, Oficina 703, Santiago de Surco 15023</li>
+        <li><strong>Fecha del registro:</strong> {{ today | date: 'dd/MM/yyyy' }}</li>
+      </ul>
+      <p class="lr__notice-text">
+        La formulación del reclamo no impide acudir a otras vías de solución de controversias ni
+        es requisito previo para denunciar ante el INDECOPI. Atenderemos su hoja en un plazo no
+        mayor a <strong>15 días hábiles</strong>.
+      </p>
+    </aside>
+
+    @if (status() === 'success') {
+      <div class="lr__receipt" role="alert" appScrollAnimate animType="up">
+        <h2 class="lr__receipt-title">Su hoja fue registrada</h2>
+        <p class="lr__receipt-code">{{ code() }}</p>
+        <p>
+          Enviamos una copia a su correo electrónico como constancia. Conserve este código para
+          hacer seguimiento a su solicitud.
+        </p>
+      </div>
+    } @else {
+
+      <form
+        class="lr__form"
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+        novalidate
+        appScrollAnimate
+        animType="up"
+        animDelay="100ms"
+      >
+
+        @if (status() === 'error') {
+          <div class="lr__alert" role="alert">
+            No pudimos registrar su hoja. Por favor intente nuevamente o escríbanos a
+            contacto&#64;advance-factoring.com
+          </div>
+        }
+
+        <!-- 1. Identificación del consumidor -->
+        <fieldset class="lr__block">
+          <legend class="lr__block-title"><span>1</span> Identificación del consumidor reclamante</legend>
+
+          <div class="lr__grid">
+            <div class="form-group lr__col-2" [class.form-group--error]="isFieldInvalid('fullName')">
+              <label for="lr-fullName">Nombre completo *</label>
+              <input id="lr-fullName" type="text" formControlName="fullName" placeholder="Nombres y apellidos" />
+              @if (isFieldInvalid('fullName')) {
+                <span class="form-error">Ingrese su nombre completo</span>
+              }
+            </div>
+
+            <div class="form-group" [class.form-group--error]="isFieldInvalid('documentType')">
+              <label for="lr-documentType">Tipo de documento *</label>
+              <select id="lr-documentType" formControlName="documentType">
+                @for (type of documentTypes; track type) {
+                  <option [value]="type">{{ type }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="form-group" [class.form-group--error]="isFieldInvalid('documentNumber')">
+              <label for="lr-documentNumber">N° de documento *</label>
+              <input id="lr-documentNumber" type="text" formControlName="documentNumber" placeholder="12345678" />
+              @if (isFieldInvalid('documentNumber')) {
+                <span class="form-error">Ingrese su número de documento</span>
+              }
+            </div>
+
+            <div class="form-group" [class.form-group--error]="isFieldInvalid('email')">
+              <label for="lr-email">Correo electrónico *</label>
+              <input id="lr-email" type="email" formControlName="email" placeholder="usted@correo.com" />
+              @if (isFieldInvalid('email')) {
+                <span class="form-error">Ingrese un correo válido</span>
+              }
+            </div>
+
+            <div class="form-group" [class.form-group--error]="isFieldInvalid('phone')">
+              <label for="lr-phone">Teléfono *</label>
+              <input id="lr-phone" type="tel" formControlName="phone" placeholder="999 999 999" />
+              @if (isFieldInvalid('phone')) {
+                <span class="form-error">Ingrese un teléfono de contacto</span>
+              }
+            </div>
+
+            <div class="form-group lr__col-2" [class.form-group--error]="isFieldInvalid('address')">
+              <label for="lr-address">Domicilio *</label>
+              <input id="lr-address" type="text" formControlName="address" placeholder="Av. / Calle, número" />
+              @if (isFieldInvalid('address')) {
+                <span class="form-error">Ingrese su domicilio</span>
+              }
+            </div>
+
+            <div class="form-group" [class.form-group--error]="isFieldInvalid('district')">
+              <label for="lr-district">Distrito *</label>
+              <input id="lr-district" type="text" formControlName="district" />
+              @if (isFieldInvalid('district')) {
+                <span class="form-error">Ingrese el distrito</span>
+              }
+            </div>
+
+            <div class="form-group" [class.form-group--error]="isFieldInvalid('province')">
+              <label for="lr-province">Provincia *</label>
+              <input id="lr-province" type="text" formControlName="province" />
+              @if (isFieldInvalid('province')) {
+                <span class="form-error">Ingrese la provincia</span>
+              }
+            </div>
+
+            <div class="form-group" [class.form-group--error]="isFieldInvalid('department')">
+              <label for="lr-department">Departamento *</label>
+              <input id="lr-department" type="text" formControlName="department" />
+              @if (isFieldInvalid('department')) {
+                <span class="form-error">Ingrese el departamento</span>
+              }
+            </div>
+          </div>
+
+          <label class="lr__check">
+            <input type="checkbox" formControlName="isMinor" />
+            <span>El consumidor es menor de edad</span>
+          </label>
+
+          @if (isMinor()) {
+            <div class="form-group" [class.form-group--error]="isFieldInvalid('guardianName')">
+              <label for="lr-guardianName">Nombre del padre, madre o apoderado *</label>
+              <input id="lr-guardianName" type="text" formControlName="guardianName" />
+              @if (isFieldInvalid('guardianName')) {
+                <span class="form-error">Indique al padre, madre o apoderado</span>
+              }
+            </div>
+          }
+        </fieldset>
+
+        <!-- 2. Bien contratado -->
+        <fieldset class="lr__block">
+          <legend class="lr__block-title"><span>2</span> Identificación del bien contratado</legend>
+
+          <div class="lr__radios" role="radiogroup" aria-label="Tipo de bien contratado">
+            <label class="lr__radio">
+              <input type="radio" formControlName="itemType" value="producto" />
+              <span>Producto</span>
+            </label>
+            <label class="lr__radio">
+              <input type="radio" formControlName="itemType" value="servicio" />
+              <span>Servicio</span>
+            </label>
+          </div>
+
+          <div class="lr__grid">
+            <div class="form-group lr__col-2" [class.form-group--error]="isFieldInvalid('itemDescription')">
+              <label for="lr-itemDescription">Descripción del producto o servicio *</label>
+              <input
+                id="lr-itemDescription"
+                type="text"
+                formControlName="itemDescription"
+                placeholder="Ej. Operación de factoring N° 000123"
+              />
+              @if (isFieldInvalid('itemDescription')) {
+                <span class="form-error">Describa el producto o servicio contratado</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="lr-currency">Moneda</label>
+              <select id="lr-currency" formControlName="currency">
+                <option value="PEN">S/ Soles</option>
+                <option value="USD">$ Dólares</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="lr-claimedAmount">Monto reclamado (opcional)</label>
+              <input id="lr-claimedAmount" type="number" min="0" step="0.01" formControlName="claimedAmount" />
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 3. Detalle de la reclamación -->
+        <fieldset class="lr__block">
+          <legend class="lr__block-title"><span>3</span> Detalle de la reclamación y pedido del consumidor</legend>
+
+          <div class="lr__radios" role="radiogroup" aria-label="Tipo de reclamación">
+            <label class="lr__radio">
+              <input type="radio" formControlName="claimType" value="reclamo" />
+              <span>Reclamo</span>
+            </label>
+            <label class="lr__radio">
+              <input type="radio" formControlName="claimType" value="queja" />
+              <span>Queja</span>
+            </label>
+          </div>
+          <p class="lr__hint">{{ claimTypeHint() }}</p>
+
+          <div class="form-group" [class.form-group--error]="isFieldInvalid('detail')">
+            <label for="lr-detail">Detalle *</label>
+            <textarea
+              id="lr-detail"
+              rows="5"
+              formControlName="detail"
+              placeholder="Describa con el mayor detalle posible lo ocurrido"
+            ></textarea>
+            @if (isFieldInvalid('detail')) {
+              <span class="form-error">El detalle debe tener al menos 20 caracteres</span>
+            }
+          </div>
+
+          <div class="form-group" [class.form-group--error]="isFieldInvalid('request')">
+            <label for="lr-request">Pedido del consumidor *</label>
+            <textarea
+              id="lr-request"
+              rows="3"
+              formControlName="request"
+              placeholder="Indique qué solución solicita"
+            ></textarea>
+            @if (isFieldInvalid('request')) {
+              <span class="form-error">El pedido debe tener al menos 10 caracteres</span>
+            }
+          </div>
+        </fieldset>
+
+        <label class="lr__check lr__check--consent" [class.lr__check--error]="isFieldInvalid('accepted')">
+          <input type="checkbox" formControlName="accepted" />
+          <span>
+            Declaro que la información brindada es veraz y autorizo el tratamiento de mis datos
+            personales para la atención de esta hoja de reclamación. *
+          </span>
+        </label>
+
+        <button type="submit" class="btn btn--primary lr__submit" [disabled]="status() === 'loading'">
+          @if (status() === 'loading') { Registrando... } @else { Registrar mi hoja }
+        </button>
+      </form>
+    }
+  </div>
+</section>
