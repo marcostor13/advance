@@ -27,7 +27,7 @@ CONTACTO:
 • Horario: Lun–Vie 9:00 am–6:00 pm | Sáb 8:00 am–1:00 pm
 
 OFICINAS:
-• Lima (Sede principal): Av. El Polo 695, Piso 8, Santiago de Surco
+• Lima (Sede principal): Av. El Derby 055, Torre 2, Oficina 703, Santiago de Surco 15023
 • Trujillo: Urb. Las Flores del Golf 252, Ofic. 204, Víctor Larco
 • Arequipa: City Center Torre Norte, Ofic. 1709, Cerro Colorado
 
