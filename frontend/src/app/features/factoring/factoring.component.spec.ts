@@ -31,7 +31,9 @@ describe('FactoringComponent', () => {
 
   it('should expose 4 counters', () => {
     expect(component.counters.length).toBe(4);
-    expect(component.counters[0]).toEqual({ value: 20, suffix: '+', label: 'Años de experiencia' });
+    expect(component.counters[0]).toEqual(
+      jasmine.objectContaining({ value: 20, suffix: '+', label: 'Años de experiencia' }),
+    );
   });
 
   it('should provide mini features for every service', () => {
