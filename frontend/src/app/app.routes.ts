@@ -27,6 +27,14 @@ export const routes: Routes = [
     title: 'Contacto — Advance Group',
   },
   {
+    path: 'libro-de-reclamaciones',
+    loadComponent: () =>
+      import('./features/complaints-book/complaints-book.component').then(
+        (m) => m.ComplaintsBookComponent,
+      ),
+    title: 'Libro de Reclamaciones — Advance Group',
+  },
+  {
     path: 'admin/login',
     loadComponent: () =>
       import('./features/admin/admin-login/admin-login.component').then((m) => m.AdminLoginComponent),

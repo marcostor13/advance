@@ -5,6 +5,7 @@ import { TerminusModule } from '@nestjs/terminus';
 import { databaseConfig } from './config/database.config';
 import { HealthModule } from './modules/health/health.module';
 import { ContactModule } from './modules/contact/contact.module';
+import { ComplaintsModule } from './modules/complaints/complaints.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { QuotesModule } from './modules/quotes/quotes.module';
@@ -27,6 +28,7 @@ import { PortalModule } from './modules/portal/portal.module';
     TerminusModule,
     HealthModule,
     ContactModule,
+    ComplaintsModule,
     UsersModule,
     AuthModule,
     QuotesModule,

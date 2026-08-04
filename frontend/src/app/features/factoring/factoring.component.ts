@@ -117,7 +117,7 @@ export class FactoringComponent {
   ];
 
   readonly offices = [
-    { city: 'Lima', address: 'Av. El Polo 695, Piso 8', district: 'Santiago de Surco', isMain: true },
+    { city: 'Lima', address: 'Av. El Derby 055, Torre 2, Oficina 703', district: 'Santiago de Surco 15023', isMain: true },
     { city: 'Trujillo', address: 'Urb. Las Flores del Golf 252, Ofic. 204', district: 'Víctor Larco', isMain: false },
     { city: 'Arequipa', address: 'City Center Torre Norte, Ofic. 1709', district: 'Cerro Colorado', isMain: false },
   ];

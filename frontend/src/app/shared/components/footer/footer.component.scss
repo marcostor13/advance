@@ -217,6 +217,36 @@
     }
   }
 
+  // Official-style badge for the virtual complaints book
+  &__book {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgba(252, 208, 149, 0.45);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--beige);
+    transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+
+    svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    &:hover {
+      background: var(--crimson);
+      border-color: var(--crimson);
+      color: var(--white);
+    }
+  }
+
   // Regulatory bar
   &__regulatory {
     border-top: 1px solid rgba(255, 255, 255, 0.06);
