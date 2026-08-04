@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from '../auth/auth.module';
 import { MailModule } from '../mail/mail.module';
 import { ComplaintsController } from './complaints.controller';
 import { ComplaintsService } from './complaints.service';
@@ -11,6 +12,7 @@ import { Complaint, ComplaintSchema } from './schemas/complaint.schema';
       { name: Complaint.name, schema: ComplaintSchema },
     ]),
     MailModule,
+    AuthModule,
   ],
   controllers: [ComplaintsController],
   providers: [ComplaintsService],

@@ -134,6 +134,22 @@ Luego commit y push para que el CI/CD tome el cambio.
 
 ## 5. Frontend en Coolify
 
+> ⚠️ **El frontend es una aplicación NUEVA y SEPARADA en Coolify.**
+> No reutilices ni reconfigures la aplicación del backend. Son dos aplicaciones que
+> apuntan al mismo repositorio pero con distinto `Base Directory`, distinto puerto y
+> distinto dominio:
+>
+> | | Backend | Frontend |
+> |---|---|---|
+> | Base Directory | `/backend` | `/frontend` |
+> | Puerto | `3000` | `80` |
+> | Healthcheck | `/api/health` | `/healthz` |
+> | Dominio | `apiadvance.…` | el del sitio público |
+>
+> Si le cambias el `Base Directory` a la app del backend, el contenedor pasa a ser
+> nginx en el puerto 80 mientras Coolify sigue enrutando al 3000 → el proxy responde
+> **503 `no available server`** y el backend queda caído.
+
 El frontend se sirve como imagen Docker: se compila con Angular CLI y el resultado
 estático lo sirve **nginx**. La configuración vive en el repo:
 
