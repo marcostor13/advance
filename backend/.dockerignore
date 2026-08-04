@@ -1,0 +1,15 @@
+node_modules
+dist
+coverage
+.git
+.github
+.vscode
+.idea
+*.log
+# Secrets live in Coolify env vars — never bake them into the image
+.env
+.env.local
+.env.*.local
+Dockerfile
+.dockerignore
+README.md

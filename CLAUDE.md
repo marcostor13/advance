@@ -8,8 +8,8 @@
 - One short comment max per code block; no multi-line docstrings
 
 ## Stack
-- **Frontend**: Angular 21 (standalone, signals, new control flow) → Netlify
-- **Backend**: NestJS 11 + MongoDB Atlas (Mongoose) → Coolify
+- **Frontend**: Angular 21 (standalone, signals, new control flow) → Coolify (Docker + nginx)
+- **Backend**: NestJS 11 + MongoDB Atlas (Mongoose) → Coolify (Docker)
 - **CI/CD**: GitHub Actions
 - **Language**: TypeScript strict mode everywhere
 
@@ -48,7 +48,7 @@
 - `nestjs-expert` — NestJS modules, controllers, providers, pipes
 - `mongodb-expert` — Mongoose schemas, queries, aggregations, Atlas
 - `testing-expert` — Unit & E2E tests for both frontend and backend
-- `devops-expert` — CI/CD, Docker, Netlify, Coolify, GitHub Actions
+- `devops-expert` — CI/CD, Docker, nginx, Coolify, GitHub Actions
 
 ## Available skills (`.claude/commands/`)
 | Command | Purpose |
