@@ -59,6 +59,26 @@ export class NavbarComponent implements OnDestroy {
     () => !this.isMenuOpen() && this.navyRoutes.includes(this.currentUrl()),
   );
 
+  /** Advance Capital y sus subrutas — único lugar donde se ofrece el acceso de clientes. */
+  protected readonly isCapital = computed(() => this.isUnderRoute('/capital'));
+
+  private readonly isFactoring = computed(() => this.isUnderRoute('/factoring'));
+
+  /**
+   * Dentro de una unidad de negocio la navbar no muestra marcas ajenas: ni el logo
+   * corporativo de Group ni el logo de la otra unidad.
+   */
+  protected readonly isUnitPage = computed(() => this.isCapital() || this.isFactoring());
+
+  protected readonly visibleLinks = computed(() =>
+    this.isUnitPage() ? this.links.filter((l) => !l.logo) : this.links,
+  );
+
+  private isUnderRoute(base: string): boolean {
+    const url = this.currentUrl().split(/[?#]/)[0];
+    return url === base || url.startsWith(`${base}/`);
+  }
+
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.closeMenu();

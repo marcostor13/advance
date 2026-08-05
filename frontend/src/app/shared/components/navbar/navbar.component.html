@@ -3,20 +3,23 @@
   [class.navbar--menu-open]="isMenuOpen()"
   [class.navbar--transparent]="isTransparent()"
   [class.navbar--navy]="isNavyBg()"
+  [class.navbar--unit]="isUnitPage()"
 >
   <div class="container container--wide navbar__inner">
-    <!-- Logo mark -->
-    <a routerLink="/" class="navbar__logo" (click)="closeMenu()">
-      <img
-        src="/logo-advance.png"
-        alt="Advance Group"
-        class="navbar__logo-img"
-      />
-    </a>
+    <!-- Logo mark — oculto dentro de una unidad para no mezclar marcas (TCK-8015) -->
+    @if (!isUnitPage()) {
+      <a routerLink="/" class="navbar__logo" (click)="closeMenu()">
+        <img
+          src="/logo-advance.png"
+          alt="Advance Group"
+          class="navbar__logo-img"
+        />
+      </a>
+    }
 
     <!-- Desktop nav / full-screen mobile overlay -->
     <nav class="navbar__nav" [class.navbar__nav--open]="isMenuOpen()">
-      @for (link of links; track link.path; let i = $index) {
+      @for (link of visibleLinks(); track link.path; let i = $index) {
         <a
           [routerLink]="link.path"
           routerLinkActive="navbar__link--active"
@@ -42,10 +45,12 @@
           }
         </a>
       }
-      <!-- Mobile-only login -->
-      <a routerLink="/portal" class="btn btn--outline navbar__login-mobile" (click)="closeMenu()">
-        Iniciar sesión
-      </a>
+      <!-- Mobile-only login — sólo en Advance Capital (TCK-8014) -->
+      @if (isCapital()) {
+        <a routerLink="/portal" class="btn btn--outline navbar__login-mobile" (click)="closeMenu()">
+          Iniciar sesión clientes
+        </a>
+      }
 
       <!-- Mobile-only CTA -->
       <a routerLink="/contacto" class="btn btn--primary navbar__cta-mobile" (click)="closeMenu()">
@@ -53,15 +58,17 @@
       </a>
     </nav>
 
-    <!-- Desktop login -->
-    <a
-      routerLink="/portal"
-      class="navbar__login"
-      appMagnetic
-      (click)="closeMenu()"
-    >
-      Iniciar sesión
-    </a>
+    <!-- Desktop login — sólo en Advance Capital (TCK-8014) -->
+    @if (isCapital()) {
+      <a
+        routerLink="/portal"
+        class="navbar__login"
+        appMagnetic
+        (click)="closeMenu()"
+      >
+        Iniciar sesión clientes
+      </a>
+    }
 
     <!-- Desktop CTA — switches between outline (transparent) and primary (scrolled) -->
     <a

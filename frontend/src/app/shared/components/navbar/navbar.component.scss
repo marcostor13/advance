@@ -56,6 +56,15 @@
     .navbar__hamburger span { background: #fff; }
   }
 
+  // ── Unit state — Factoring / Capital, sin marca a la izquierda (TCK-8015) ─
+  // El nav deja de empujarse a la derecha para no dejar el lado izquierdo vacío.
+  &--unit &__nav {
+    margin-inline-start: 0;
+    margin-inline-end: auto;
+
+    @media (max-width: 768px) { margin-inline: 0; }
+  }
+
   // Backdrop-filter creates a stacking context — must be removed for mobile overlay
   &--menu-open {
     backdrop-filter: none;
