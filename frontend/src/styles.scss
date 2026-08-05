@@ -396,6 +396,15 @@ ul, ol { list-style: none; }
   &:hover &__arrow { transform: translateX(3px); }
 }
 
+// Par de CTAs: sólo uno puede estar en rojo a la vez — el relleno sigue al cursor
+.cta-pair {
+  &:has(> :nth-child(2):hover) > :first-child {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.35);
+    color: var(--white);
+  }
+}
+
 // Text link with arrow — elegant alternative to buttons
 .link-arrow {
   display: inline-flex;

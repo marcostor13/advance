@@ -137,6 +137,16 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 1.75rem;
+
+    @media (max-width: 480px) {
+      width: 100%;
+      gap: 1.25rem;
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
   }
 
   &__stats {

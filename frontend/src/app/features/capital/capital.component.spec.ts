@@ -180,4 +180,15 @@ describe('CapitalComponent', () => {
     const note = fixture.nativeElement.querySelector('.ac-cta__note');
     expect(note.textContent).toContain('Lun–Vie');
   });
+
+  // TCK-8016: el relleno rojo sigue al cursor, nunca hay dos recuadros rojos
+  it('should pair the hero CTAs so only one is filled at a time', () => {
+    const pair = fixture.nativeElement.querySelector('.ac-hero__actions.cta-pair');
+    expect(pair).toBeTruthy();
+
+    const ctas = pair.querySelectorAll(':scope > a.btn');
+    expect(ctas.length).toBe(2);
+    expect(ctas[0].classList.contains('btn--primary')).toBeTrue();
+    expect(ctas[1].classList.contains('btn--outline')).toBeTrue();
+  });
 });

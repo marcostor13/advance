@@ -66,4 +66,15 @@ describe('HomeComponent', () => {
     const link = fixture.nativeElement.querySelector('a[href="https://wa.me/51932499073"]');
     expect(link).toBeTruthy();
   });
+
+  // TCK-8013: sólo un CTA del hero puede estar relleno; el par lo resuelve `.cta-pair`
+  it('should pair the hero CTAs so only one is filled at a time', () => {
+    const pair = fixture.nativeElement.querySelector('.hero__actions.cta-pair');
+    expect(pair).toBeTruthy();
+
+    const ctas = pair.querySelectorAll(':scope > a.btn');
+    expect(ctas.length).toBe(2);
+    expect(ctas[0].classList.contains('btn--primary')).toBeTrue();
+    expect(ctas[1].classList.contains('btn--outline')).toBeTrue();
+  });
 });
