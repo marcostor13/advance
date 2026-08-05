@@ -6,16 +6,15 @@
   [class.navbar--unit]="isUnitPage()"
 >
   <div class="container container--wide navbar__inner">
-    <!-- Logo mark — oculto dentro de una unidad para no mezclar marcas (TCK-8015) -->
-    @if (!isUnitPage()) {
-      <a routerLink="/" class="navbar__logo" (click)="closeMenu()">
-        <img
-          src="/logo-advance.png"
-          alt="Advance Group"
-          class="navbar__logo-img"
-        />
-      </a>
-    }
+    <!-- Logo mark — swaps to the unit's own brand inside /factoring or /capital (TCK-8015) -->
+    <a routerLink="/" class="navbar__logo" (click)="closeMenu()">
+      <img
+        [src]="headerLogo().src"
+        [alt]="headerLogo().alt"
+        class="navbar__logo-img"
+        [class.navbar__logo-img--boost]="headerLogo().boost"
+      />
+    </a>
 
     <!-- Desktop nav / full-screen mobile overlay -->
     <nav class="navbar__nav" [class.navbar__nav--open]="isMenuOpen()">

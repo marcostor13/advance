@@ -74,6 +74,15 @@ export class NavbarComponent implements OnDestroy {
     this.isUnitPage() ? this.links.filter((l) => !l.logo) : this.links,
   );
 
+  /** Header brand mark — swaps to the current unit's own logo inside /factoring or /capital. */
+  protected readonly headerLogo = computed(() => {
+    const unitPath = this.isFactoring() ? '/factoring' : this.isCapital() ? '/capital' : null;
+    const unitLink = unitPath ? this.links.find((l) => l.path === unitPath) : undefined;
+    return unitLink
+      ? { src: unitLink.logo!, alt: unitLink.label, boost: !!unitLink.logoBoost }
+      : { src: '/logo-advance.png', alt: 'Advance Group', boost: false };
+  });
+
   private isUnderRoute(base: string): boolean {
     const url = this.currentUrl().split(/[?#]/)[0];
     return url === base || url.startsWith(`${base}/`);
