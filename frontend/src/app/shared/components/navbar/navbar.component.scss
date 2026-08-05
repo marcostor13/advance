@@ -94,6 +94,9 @@
     width: auto;
     object-fit: contain;
     display: block;
+
+    // Compensates logomarks whose artwork carries more internal padding (e.g. Capital)
+    &--boost { height: 129px; }
   }
 
   // ── Desktop nav ───────────────────────────────────────────────────
