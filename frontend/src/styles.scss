@@ -200,6 +200,11 @@ html {
   font-size: 16px;
 }
 
+// El navbar es fijo: sin este margen el ancla queda tapada bajo la cabecera.
+[id] {
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+}
+
 body {
   font-family: var(--font-body);
   color: var(--color-text);

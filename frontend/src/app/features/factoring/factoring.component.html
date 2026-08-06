@@ -87,6 +87,7 @@
       <div class="af-services__index">
         @for (service of services; track service.id) {
           <a
+            [id]="service.id"
             routerLink="/contacto"
             class="service-row"
             data-cursor
@@ -183,7 +184,7 @@
 </section>
 
 <!-- 6 · SECTORS -->
-<section class="af-sectors section">
+<section id="sectores" class="af-sectors section">
   <div class="container">
     <div class="section-header" appScrollAnimate animType="up">
       <span class="section-header__eyebrow">Sectores que atendemos</span>
@@ -233,7 +234,7 @@
 </section>
 
 <!-- 7 · TEAM -->
-<section class="af-team section">
+<section id="equipo" class="af-team section">
   <div class="container">
     <div class="af-team__header" appScrollAnimate animType="up">
       <div class="section-header section-header--left">

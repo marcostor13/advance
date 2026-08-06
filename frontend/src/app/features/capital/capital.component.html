@@ -80,6 +80,7 @@
       <div class="ac-products__list">
         @for (product of products; track product.id; let i = $index) {
           <a
+            [id]="product.id"
             routerLink="/contacto"
             class="ac-products__row"
             appScrollAnimate
