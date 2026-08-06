@@ -76,7 +76,7 @@ describe('ChatService', () => {
     });
   });
 
-  describe('without NVIDIA_API_KEY', () => {
+  describe('without OPENAI_API_KEY', () => {
     let degraded: ChatService;
 
     beforeEach(() => {

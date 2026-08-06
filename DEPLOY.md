@@ -26,7 +26,7 @@ Monorepo con frontend Angular 21 y backend NestJS 11, ambos en **Coolify** (Dock
 | [GitHub](https://github.com) | Repositorio + CI/CD |
 | [Coolify](https://coolify.io) | Hosting frontend (nginx) y backend (Docker) |
 | [MongoDB Atlas](https://mongodb.com/atlas) | Base de datos en la nube |
-| [DeepSeek](https://platform.deepseek.com) | API del asistente virtual |
+| [OpenAI](https://platform.openai.com) | API del asistente virtual |
 
 ---
 
@@ -102,7 +102,7 @@ JWT_SECRET=<cadena_aleatoria_larga_y_segura>
 JWT_EXPIRES=7d
 ADMIN_EMAIL=admin@advancegroup.pe
 ADMIN_PASSWORD=<contraseña_admin_segura>
-NVIDIA_API_KEY=<tu_clave_de_build.nvidia.com>   # asistente IA del chat flotante
+OPENAI_API_KEY=sk-...   # asistente IA del chat flotante
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=<cuenta_gmail>
@@ -286,8 +286,8 @@ JWT_EXPIRES=7d
 ADMIN_EMAIL=admin@advancegroup.pe
 ADMIN_PASSWORD=<contraseña_segura>
 
-# NVIDIA API (build.nvidia.com) — asistente IA del chat
-NVIDIA_API_KEY=nvapi-...
+# OpenAI API — asistente IA del chat
+OPENAI_API_KEY=sk-...
 
 # SMTP (Gmail) — contacto, recuperación de contraseña y libro de reclamaciones
 SMTP_HOST=smtp.gmail.com

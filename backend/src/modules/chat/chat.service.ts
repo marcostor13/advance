@@ -103,12 +103,12 @@ const MEETING_LINK_ATTACHMENT: ChatAttachment = {
 
 const MEETING_REPLY = `¡Perfecto! Le dejo el enlace para agendar su reunión con nuestro equipo:`;
 
-interface NvidiaMessage {
+interface OpenAiMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
 }
 
-interface NvidiaChatResponse {
+interface OpenAiChatResponse {
   choices: { message: { content: string } }[];
 }
 
@@ -129,14 +129,14 @@ export interface ChatResult {
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
   private readonly apiKey: string | undefined;
-  private readonly apiUrl = 'https://integrate.api.nvidia.com/v1/chat/completions';
-  private readonly model = 'nvidia/nemotron-3-super-120b-a12b';
+  private readonly apiUrl = 'https://api.openai.com/v1/chat/completions';
+  private readonly model = 'gpt-5.6-luna';
 
   // Sin clave el chat degrada a 503; nunca debe impedir el arranque de la API.
   constructor(private readonly config: ConfigService) {
-    this.apiKey = this.config.get<string>('NVIDIA_API_KEY');
+    this.apiKey = this.config.get<string>('OPENAI_API_KEY');
     if (!this.apiKey) {
-      this.logger.error('NVIDIA_API_KEY no configurada: el asistente IA responderá 503.');
+      this.logger.error('OPENAI_API_KEY no configurada: el asistente IA responderá 503.');
     }
   }
 
@@ -169,7 +169,7 @@ export class ChatService {
       throw new ServiceUnavailableException('El asistente no está disponible en este momento.');
     }
 
-    const messages: NvidiaMessage[] = [
+    const messages: OpenAiMessage[] = [
       { role: 'system', content: SYSTEM_PROMPT },
       ...dto.messages,
     ];
@@ -185,24 +185,21 @@ export class ChatService {
         body: JSON.stringify({
           model: this.model,
           messages,
-          temperature: 1.0,
-          top_p: 0.95,
-          max_tokens: 350,
+          max_completion_tokens: 350,
           stream: false,
-          chat_template_kwargs: { enable_thinking: false },
         }),
       });
     } catch (err) {
-      this.logger.error('NVIDIA API network error', err);
+      this.logger.error('OpenAI API network error', err);
       throw new InternalServerErrorException('Error al conectar con el asistente');
     }
 
     if (!res.ok) {
-      this.logger.error(`NVIDIA API error: ${res.status}`);
+      this.logger.error(`OpenAI API error: ${res.status} ${await res.text().catch(() => '')}`);
       throw new InternalServerErrorException('Error al obtener respuesta del asistente');
     }
 
-    const data = (await res.json()) as NvidiaChatResponse;
+    const data = (await res.json()) as OpenAiChatResponse;
     const raw = data.choices?.[0]?.message?.content ?? 'No se pudo obtener respuesta.';
     return { reply: this.stripThinking(raw) };
   }
