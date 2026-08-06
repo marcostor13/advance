@@ -1,3 +1,4 @@
+import { ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ChatService } from './chat.service';
 import { ChatRequestDto } from './dto/chat-request.dto';
@@ -13,7 +14,7 @@ function req(...contents: string[]): ChatRequestDto {
 
 describe('ChatService', () => {
   let service: ChatService;
-  const config = { getOrThrow: () => 'test-key' } as unknown as ConfigService;
+  const config = { get: () => 'test-key' } as unknown as ConfigService;
 
   beforeEach(() => {
     service = new ChatService(config);
@@ -72,6 +73,33 @@ describe('ChatService', () => {
       });
       const result = await service.chat(req('¿Qué es el confirming?'));
       expect(result).toEqual({ reply: 'Claro que sí.' });
+    });
+  });
+
+  describe('without NVIDIA_API_KEY', () => {
+    let degraded: ChatService;
+
+    beforeEach(() => {
+      degraded = new ChatService({ get: () => undefined } as unknown as ConfigService);
+    });
+
+    it('instantiates instead of crashing the bootstrap', () => {
+      expect(degraded).toBeInstanceOf(ChatService);
+    });
+
+    it('still answers the deterministic paths', async () => {
+      await expect(degraded.chat(req('Hola'))).resolves.toEqual({
+        reply: '¡Hola! ¿En qué puedo ayudarle?',
+      });
+      const meeting = await degraded.chat(req('Quiero agendar una reunión'));
+      expect(meeting.openMeetingLink).toBe(true);
+    });
+
+    it('returns 503 for the paths that need the model', async () => {
+      await expect(degraded.chat(req('¿Qué es el confirming?'))).rejects.toBeInstanceOf(
+        ServiceUnavailableException,
+      );
+      expect(global.fetch).not.toHaveBeenCalled();
     });
   });
 });

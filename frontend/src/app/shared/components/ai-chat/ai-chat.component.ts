@@ -8,9 +8,28 @@ import {
   signal,
   computed,
 } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from '../../../core/services/api.service';
+
+/** Límites del ChatRequestDto del backend, con margen para el turno en curso. */
+const MAX_HISTORY = 28;
+const MAX_CONTENT = 2000;
+
+function describeChatError(err: unknown): string {
+  const status = err instanceof HttpErrorResponse ? err.status : -1;
+  switch (status) {
+    case 0:
+      return 'No se pudo contactar al servidor (red o CORS). Inténtelo nuevamente.';
+    case 400:
+      return 'La conversación es demasiado larga. Recargue la página para empezar de nuevo.';
+    case 503:
+      return 'El asistente no está disponible en este momento. Inténtelo más tarde.';
+    default:
+      return `Error al conectar con el asistente (${status}). Inténtelo nuevamente.`;
+  }
+}
 
 interface ChatAttachment {
   name: string;
@@ -82,7 +101,10 @@ export class AiChatComponent implements AfterViewChecked {
     this.needsScroll = true;
 
     try {
-      const history = this.messages().map((m) => ({ role: m.role, content: m.content }));
+      // El backend valida ArrayMaxSize(30)/MaxLength(2000): recortar antes de enviar.
+      const history = this.messages()
+        .slice(-MAX_HISTORY)
+        .map((m) => ({ role: m.role, content: m.content.slice(0, MAX_CONTENT) }));
       const { reply, attachments, openMeetingLink } = await firstValueFrom(
         this.api.post<ChatResponse>('/chat', { messages: history }),
       );
@@ -96,8 +118,8 @@ export class AiChatComponent implements AfterViewChecked {
       if (openMeetingLink && meetingLink) {
         window.open(meetingLink.url, '_blank', 'noopener');
       }
-    } catch {
-      this.error.set('Error al conectar con el asistente. Inténtelo nuevamente.');
+    } catch (err) {
+      this.error.set(describeChatError(err));
     } finally {
       this.loading.set(false);
       this.needsScroll = true;

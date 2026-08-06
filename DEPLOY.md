@@ -102,8 +102,16 @@ JWT_SECRET=<cadena_aleatoria_larga_y_segura>
 JWT_EXPIRES=7d
 ADMIN_EMAIL=admin@advancegroup.pe
 ADMIN_PASSWORD=<contraseña_admin_segura>
-DEEPSEEK_API_KEY=<tu_clave_deepseek>
+NVIDIA_API_KEY=<tu_clave_de_build.nvidia.com>   # asistente IA del chat flotante
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=<cuenta_gmail>
+SMTP_PASS=<app_password_de_16_caracteres>       # requiere 2FA, NO la contraseña normal
+MAIL_FROM="Advance Group <cuenta_gmail>"
+COMPLAINTS_EMAIL=contacto@advance-factoring.com
 ```
+
+> `FRONTEND_URL` se compara de forma **exacta** contra el `Origin` del navegador (`main.ts`). Debe coincidir en esquema, host y `www`, y sin barra final: `https://advance.com` ≠ `https://www.advance.com` ≠ `https://advance.com/`. Si no coincide, el navegador bloquea la respuesta y el chat muestra "No se pudo contactar al servidor". Para varios dominios, sepáralos con comas.
 
 ### 4.4 Obtener el webhook de Coolify
 
@@ -278,8 +286,16 @@ JWT_EXPIRES=7d
 ADMIN_EMAIL=admin@advancegroup.pe
 ADMIN_PASSWORD=<contraseña_segura>
 
-# DeepSeek AI
-DEEPSEEK_API_KEY=sk-...
+# NVIDIA API (build.nvidia.com) — asistente IA del chat
+NVIDIA_API_KEY=nvapi-...
+
+# SMTP (Gmail) — contacto, recuperación de contraseña y libro de reclamaciones
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=<cuenta_gmail>
+SMTP_PASS=<app_password_de_16_caracteres>
+MAIL_FROM="Advance Group <cuenta_gmail>"
+COMPLAINTS_EMAIL=contacto@advance-factoring.com
 ```
 
 ### Frontend

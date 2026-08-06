@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ChatRequestDto } from './dto/chat-request.dto';
 
@@ -123,12 +128,16 @@ export interface ChatResult {
 @Injectable()
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
-  private readonly apiKey: string;
+  private readonly apiKey: string | undefined;
   private readonly apiUrl = 'https://integrate.api.nvidia.com/v1/chat/completions';
   private readonly model = 'nvidia/nemotron-3-super-120b-a12b';
 
+  // Sin clave el chat degrada a 503; nunca debe impedir el arranque de la API.
   constructor(private readonly config: ConfigService) {
-    this.apiKey = this.config.getOrThrow<string>('NVIDIA_API_KEY');
+    this.apiKey = this.config.get<string>('NVIDIA_API_KEY');
+    if (!this.apiKey) {
+      this.logger.error('NVIDIA_API_KEY no configurada: el asistente IA responderá 503.');
+    }
   }
 
   async chat(dto: ChatRequestDto): Promise<ChatResult> {
@@ -154,6 +163,10 @@ export class ChatService {
     }
     if (lastUserMessage && FACTORING_INVESTMENT_INTENT.test(lastUserMessage.content)) {
       return this.buildFactoringBrochureReply(dto);
+    }
+
+    if (!this.apiKey) {
+      throw new ServiceUnavailableException('El asistente no está disponible en este momento.');
     }
 
     const messages: NvidiaMessage[] = [
