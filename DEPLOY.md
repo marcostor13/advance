@@ -111,7 +111,7 @@ MAIL_FROM="Advance Group <cuenta_gmail>"
 COMPLAINTS_EMAIL=contacto@advance-factoring.com
 ```
 
-> `FRONTEND_URL` se compara de forma **exacta** contra el `Origin` del navegador (`main.ts`). Debe coincidir en esquema, host y `www`, y sin barra final: `https://advance.com` ≠ `https://www.advance.com` ≠ `https://advance.com/`. Si no coincide, el navegador bloquea la respuesta y el chat muestra "No se pudo contactar al servidor". Para varios dominios, sepáralos con comas.
+> **CORS**: `main.ts` ya permite por defecto `https://advance-group.pe` y `https://www.advance-group.pe`, así que el sitio público funciona aunque falte `FRONTEND_URL`. La variable **suma** dominios extra (staging, previews), separados por comas. La comparación ignora mayúsculas y barra final, pero **no** el esquema ni el `www`: `https://advance-group.pe` ≠ `https://www.advance-group.pe`, ambos deben estar listados. Un origen no permitido se registra como `WARN` en los logs y el navegador bloquea la respuesta; el chat lo muestra como "No se pudo contactar al servidor".
 
 ### 4.4 Obtener el webhook de Coolify
 

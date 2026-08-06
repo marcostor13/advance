@@ -1,11 +1,20 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
+/** Dominios públicos del sitio: permitidos aunque falte FRONTEND_URL en el entorno. */
+const DEFAULT_ORIGINS = ['https://advance-group.pe', 'https://www.advance-group.pe'];
+
+/** El Origin del navegador nunca trae barra final ni mayúsculas; el env sí puede. */
+function normalizeOrigin(value: string): string {
+  return value.trim().replace(/\/+$/, '').toLowerCase();
+}
+
 async function bootstrap(): Promise<void> {
+  const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
@@ -21,21 +30,27 @@ async function bootstrap(): Promise<void> {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
 
-  const configuredOrigins = (process.env.FRONTEND_URL ?? '')
-    .split(',')
-    .map((o) => o.trim())
-    .filter(Boolean);
-  if (process.env.NODE_ENV !== 'production' && !configuredOrigins.includes('http://localhost:4200')) {
-    configuredOrigins.push('http://localhost:4200');
+  const allowedOrigins = new Set(
+    [...DEFAULT_ORIGINS, ...(process.env.FRONTEND_URL ?? '').split(',')]
+      .map(normalizeOrigin)
+      .filter(Boolean),
+  );
+  if (process.env.NODE_ENV !== 'production') {
+    allowedOrigins.add('http://localhost:4200');
   }
+  logger.log(`CORS habilitado para: ${[...allowedOrigins].join(', ')}`);
 
   app.enableCors({
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-      if (!origin || configuredOrigins.includes(origin)) {
+      // Sin Origin = petición no-navegador (curl, healthcheck, server-to-server).
+      if (!origin || allowedOrigins.has(normalizeOrigin(origin))) {
         callback(null, true);
-      } else {
-        callback(new Error(`Origin ${origin} not allowed by CORS`), false);
+        return;
       }
+      // Rechazar sin lanzar: el navegador ya bloquea por falta de cabecera y
+      // el preflight responde limpio en vez de un 500 con stack trace.
+      logger.warn(`CORS: origen no permitido → ${origin}. Revisar FRONTEND_URL.`);
+      callback(null, false);
     },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
