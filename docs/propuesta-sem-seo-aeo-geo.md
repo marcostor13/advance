@@ -159,3 +159,43 @@ Con metas realistas y verificables — el SEO no es inmediato, el SEM sí.
 El GEO está en el mismo punto en el que estaba el SEO en 2005: **el costo de entrar es bajo y la ventaja del primero es duradera**. Ninguna financiera peruana mediana está optimizando hoy para motores generativos. En 12 meses, cuando lo hagan todas, el costo de aparecer será varias veces mayor.
 
 Y hay un punto más simple: **hoy Advance no mide un solo lead**. Cada semana que pasa sin medición es una semana de decisiones tomadas a ciegas.
+
+---
+
+## Anexo — Entregables verificables
+
+### Fase 1 (11 entregables)
+
+| # | Entregable | Formato | Criterio de aceptación |
+|---|---|---|---|
+| 1 | Prerender de 6 rutas públicas en producción | Rama + PR + despliegue en Coolify | Cada ruta devuelve el HTML completo sin ejecutar JavaScript |
+| 2 | Metadatos únicos por ruta | Código + hoja de control | Validado en Sharing Debugger; vista previa correcta en WhatsApp |
+| 3 | JSON-LD (5 tipos) | Código en el HTML renderizado | Rich Results Test sin errores en las 6 rutas, con captura |
+| 4 | `robots.txt`, `sitemap.xml`, `llms.txt`, `llms-full.txt` | Archivos en la raíz | Sitemap aceptado por Search Console y Bing |
+| 5 | Corrección del soft 404 | nginx + ruta 404 | Una URL inexistente devuelve HTTP 404, no 200 |
+| 6 | GA4 + GTM instalados | Contenedor publicado + doc de configuración | DebugView registra los 5 eventos, probados uno por uno |
+| 7 | Search Console y Bing verificados | Propiedades activas con sitemap | Verificadas y con acceso de propietario para Advance |
+| 8 | 3 fichas de Google Business Profile | Fichas publicadas y verificadas | Las 3 oficinas visibles en Maps con datos completos |
+| 9 | Informe técnico antes / después | PDF de 8–10 páginas | Lighthouse comparado + prueba de rastreo + checklist de 20 puntos |
+| 10 | Documento de accesos y titularidad | PDF | **Todas las cuentas a nombre de Advance Group** |
+| 11 | Sesión de traspaso | Reunión de 45 min, grabada | El equipo sabe leer sus reportes y dónde ver sus leads |
+
+### Fase 2 (11 entregables)
+
+| # | Entregable | Formato / cantidad | Criterio de aceptación |
+|---|---|---|---|
+| 1 | Documento de estrategia de búsqueda | PDF de 15–20 páginas | 60+ keywords con volumen, dificultad e intención; 5 competidores; mapa keyword→URL |
+| 2 | Calendario editorial | Hoja de cálculo, 3 meses | Cada pieza con keyword, formato, fecha y responsable |
+| 3 | 6 artículos publicados | 1,200–1,800 palabras c/u | Respuesta directa + tabla comparativa + FAQ + JSON-LD + enlazado interno |
+| 4 | Sección `/recursos` | Nueva sección en el sitio | Indexada y enlazada desde el menú |
+| 5 | Landings Factoring y Capital optimizadas | 2 páginas reescritas | Keywords aplicadas + 8 FAQs por servicio con FAQPage |
+| 6 | Cuenta de Google Ads construida | 3 campañas + remarketing, 6 grupos, 15 anuncios | Conversiones importadas de GA4; 100+ negativas |
+| 7 | Presencia GEO construida | NAP homogéneo en 10+ directorios | Datos idénticos en todas las fuentes, verificados |
+| 8 | Informe de citaciones en IA | 15 prompts × 3 motores × 2 mediciones = 90 consultas | Captura de cada respuesta con posición de Advance |
+| 9 | Dashboard Looker Studio | 5 bloques, acceso permanente | Tráfico, posiciones, leads, CPL y citaciones, autoactualizado |
+| 10 | 2 reportes mensuales | PDF + reunión de 45 min c/u | Cada reporte cierra con 3 decisiones para el mes siguiente |
+| 11 | Manual de operación | PDF de 6–8 páginas | El equipo puede publicar un artículo optimizado sin ayuda externa |
+
+### Versiones de este documento
+- `docs/propuestas/Propuesta-SEM-SEO-AEO-GEO-Advance-Group.docx` — propuesta para el cliente
+- `docs/propuestas/Analisis-de-Precio-y-Tarifa-Recomendada.docx` — análisis interno de precio (no enviar al cliente)
