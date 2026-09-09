@@ -3,7 +3,7 @@
 **Cliente:** Advance Group (Advance Factoring · Advance Capital)
 **Sitio:** advance-group.pe
 **Fecha:** Setiembre 2026
-**Inversión total:** S/ 4,500 (dos fases)
+**Inversión total:** S/ 6,500 (dos fases)
 
 ---
 
@@ -77,7 +77,7 @@ Auto-hospedaje de fuentes, `preload` del LCP, revisión de INP y CLS. Meta: **Li
 ### Entregables Fase 1
 ✅ Código en producción (rama, PR y despliegue en Coolify) · ✅ GA4 + GTM + GSC + Bing configurados y verificados · ✅ Informe "antes / después" con Lighthouse y prueba de rastreo · ✅ Accesos entregados al cliente (todas las cuentas quedan a nombre de Advance).
 
-**Plazo:** 3 semanas · **Inversión:** **S/ 2,400** (pago único)
+**Plazo:** 3 semanas · **Inversión:** **S/ 2,900** (pago único)
 
 ---
 
@@ -119,7 +119,7 @@ Los LLMs no citan sitios web: citan **consensos entre fuentes**. El trabajo es c
 ### Entregables Fase 2
 ✅ Documento de estrategia con keywords, mapa de intención y calendario · ✅ 6 artículos publicados y optimizados · ✅ Landings optimizadas + FAQs con schema · ✅ Cuenta de Google Ads construida y activa · ✅ Dashboard Looker Studio · ✅ 2 reportes mensuales con reunión de revisión.
 
-**Plazo:** 8 semanas · **Inversión:** **S/ 2,100**
+**Plazo:** 8 semanas · **Inversión:** **S/ 3,600**
 
 ---
 
@@ -142,9 +142,9 @@ Con metas realistas y verificables — el SEO no es inmediato, el SEM sí.
 
 | Fase | Descripción | Plazo | Inversión |
 |---|---|---|---|
-| **Fase 1** | Implementación técnica: SSR/prerender, SEO on-page, datos estructurados, `llms.txt`, analítica y medición, Core Web Vitals | 3 semanas | **S/ 2,400** |
-| **Fase 2** | Estrategia: keywords, contenido SEO+AEO, GEO, Google Ads, dashboard y 2 reportes | 8 semanas | **S/ 2,100** |
-| | | **TOTAL** | **S/ 4,500** |
+| **Fase 1** | Implementación técnica: SSR/prerender, SEO on-page, datos estructurados, `llms.txt`, analítica y medición, Core Web Vitals | 3 semanas | **S/ 2,900** |
+| **Fase 2** | Estrategia: keywords, contenido SEO+AEO, GEO, Google Ads, dashboard y 2 reportes | 8 semanas | **S/ 3,600** |
+| | | **TOTAL** | **S/ 6,500** |
 
 **Forma de pago:** 50% al inicio de cada fase, 50% contra entrega.
 **Incluye:** todo el trabajo técnico, de contenido y de configuración descrito. Herramientas usadas: GA4, GTM, Search Console, Bing Webmaster, Looker Studio y Google Business Profile (**todas sin costo de licencia**).
