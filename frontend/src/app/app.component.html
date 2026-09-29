@@ -3,9 +3,6 @@
   <app-scroll-progress />
   <app-navbar />
 }
-@if (!useNativeCursor()) {
-  <app-cursor />
-}
 <main [class.main--flush]="isBare()">
   <router-outlet />
 </main>

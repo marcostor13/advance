@@ -544,7 +544,7 @@ ul, ol { list-style: none; }
 }
 
 // ============================================================
-// AWWWARDS LAYER — text reveals, grain, display type, cursor
+// AWWWARDS LAYER — text reveals, grain, display type
 // ============================================================
 
 // Masked line reveal (TextRevealDirective)
@@ -599,16 +599,6 @@ body::after {
   pointer-events: none;
   opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-// Hide native cursor on fine pointers (custom cursor takes over) — not in /portal, which keeps the system cursor
-@media (hover: hover) and (pointer: fine) {
-  body:not(.portal-route),
-  body:not(.portal-route) a,
-  body:not(.portal-route) button,
-  body:not(.portal-route) [data-cursor] {
-    cursor: none;
-  }
 }
 
 // Route change transitions (withViewTransitions)
